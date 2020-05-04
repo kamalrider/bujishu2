@@ -2,6 +2,7 @@ import 'package:bujishu2/home/customer_home/nav_drawer.dart';
 import 'package:bujishu2/product_and_category/model/category.dart';
 import 'package:bujishu2/product_and_category/model/productlist.dart';
 import 'package:bujishu2/product_and_category/view/product_by_category.dart';
+import 'package:bujishu2/product_and_category/view/product_by_categoryqwer.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -420,6 +421,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                                     item.name,
                                     style: TextStyle(
                                       color: Color(0xffD4AF37),
+                                      fontSize: 21,
+                                      fontFamily: 'Tangerine'
                                     ),
                                   )
                                 ],
@@ -427,7 +430,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                               onPressed: () {
                                 var route = new MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      new ProductCategoryHome(
+                                      new ProductCategoryHomeAPI(
                                           value: item),
                                 );
                                 Navigator.of(context).push(route);

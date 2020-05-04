@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Future<List<Modelt>> fetchAlbum() async {
-  final response = await http.get('https://demo3.bujishu.com/api/category/1');
+Future<List<Modelt>> fetchAlbum(String id) async {
+  final response = await http.get('https://demo3.bujishu.com/api/category/'+id);
 
 //  if (response.statusCode == 200) {
 ////    // If the server did return a 200 OK response,
@@ -49,15 +49,15 @@ Future<List<Modelt>> fetchimage() async {
       .toList();
 }
 
-Future<List<Modelt>> fetchWhichAPI() async {
-  String value;
-  value = 'b';
-  if (value == 'a') {
-    return fetchAlbum();
-  } else {
-    return fetchimage();
-  }
-}
+//Future<List<Modelt>> fetchWhichAPI() async {
+//  String value;
+//  value = 'b';
+//  if (value == 'a') {
+//    return fetchAlbum();
+//  } else {
+//    return fetchimage();
+//  }
+//}
 
 class Modelt {
   final int id;
@@ -65,7 +65,7 @@ class Modelt {
   final String slug;
   final int parent_category_id;
   final String created_at;
-  final String updated_at;
+//  final String updated_at;
 
   Modelt(
       {this.id,
@@ -73,7 +73,8 @@ class Modelt {
       this.slug,
       this.parent_category_id,
       this.created_at,
-      this.updated_at});
+//      this.updated_at
+      });
 
   factory Modelt.fromJson(Map<String, dynamic> json) {
     return new Modelt(
@@ -82,7 +83,7 @@ class Modelt {
       slug: json['slug'],
       parent_category_id: json['parent_category_id'],
       created_at: json['created_at'],
-      updated_at: json['updated_at'],
+//      updated_at: json['updated_at'],
     );
   }
 }
@@ -99,34 +100,36 @@ class ProductCategory extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProductCategoryHome(),
+      home: ProductCategoryHomeAPI(),
     );
   }
 }
 
-class ProductCategoryHome extends StatefulWidget {
-//  final Category value;
-//
-//  ProductCategoryHome({Key key, this.value}) : super(key: key);
+class ProductCategoryHomeAPI extends StatefulWidget {
+  final Category value;
+
+  ProductCategoryHomeAPI({Key key, this.value}) : super(key: key);
 
   @override
   _ProductCategoryHomeState createState() => _ProductCategoryHomeState();
 }
 
-class _ProductCategoryHomeState extends State<ProductCategoryHome> {
+class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
   List<String> _locations = ['All CAtegories (VVIP)']; // Option 2
   String _selectedLocation; // Option 2
 
   Future<List<Modelt>> futureAlbum;
 
   String value;
+  int w = 0;
 
   @override
   void initState() {
     super.initState();
 
-    value = 'k';
-    futureAlbum = fetchAlbum();
+
+
+
   }
 
 //  @override
@@ -343,7 +346,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHome> {
                                               //onTap: () {}
                                             ),
                                           ),
-                                          Text('lala'),
+                                          Text(' / '+ widget.value.name),
                                         ],
                                       )),
                                 ),
@@ -355,7 +358,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHome> {
                                   padding: EdgeInsets.only(left: 20),
                                   width: MediaQuery.of(context).size.width,
                                   child: Text(
-                                    'lala',
+                                    widget.value.name,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 30,
@@ -399,45 +402,51 @@ class _ProductCategoryHomeState extends State<ProductCategoryHome> {
                         ),
                       ]),
                     ),
-//                    SliverGrid(
-//                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                        crossAxisCount: 2,
-//                      ),
-//                      delegate: SliverChildBuilderDelegate(
-//                          (BuildContext context, int index) {
-//                        return FutureBuilder<List<Modelt>>(
-//                          future: fetchWhichAPI(),
-//                          builder: (context, snapshot) {
-//                            if (snapshot.hasData) {
-//                              return Text(snapshot.data[index].name);
-//                            } else {
-//                              return CircularProgressIndicator();
-//                            }
-//                          },
-//                        );
-//                      }, childCount: 3,
-//                      ),
-//                    ),
-                    FutureBuilder<List<Modelt>>(
-                      future: fetchWhichAPI(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return SliverGrid(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                            ),
-                            delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                                return Text(snapshot.data[index].name);
-                              },
-                              childCount: snapshot.data.length,
-                            ),
-                          );
-                        } else
-                          return CircularProgressIndicator();
+                    SliverGrid(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                        return FutureBuilder<List<Modelt>>(
+                          future: fetchAlbum(widget.value.APIid),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: getImages(snapshot.data[index]),
+                              );
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          },
+                        );
                       },
+//                        childCount: w,
+                      ),
                     ),
+                  
+                  
+//                    FutureBuilder<List<Modelt>>(
+//                      future: fetchWhichAPI(),
+//                      builder: (context, snapshot) {
+//                        if (snapshot.hasData) {
+//                          return SliverGrid(
+//                            gridDelegate:
+//                                SliverGridDelegateWithFixedCrossAxisCount(
+//                              crossAxisCount: 2,
+//                            ),
+//                            delegate: SliverChildBuilderDelegate(
+//                              (BuildContext context, int index) {
+//                                return Text(snapshot.data[index].name);
+//                              },
+//                              childCount: snapshot.data.length,
+//                            ),
+//                          );
+//                        } else
+//                          return CircularProgressIndicator();
+//                      },
+//                    ),
                     SliverList(
                       delegate: SliverChildListDelegate([
                         Container(
@@ -558,6 +567,122 @@ class _ProductCategoryHomeState extends State<ProductCategoryHome> {
                   ],
                 ),
               ),
+            ),
+            Expanded(
+              flex: 0,
+              child:   Container(
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: 2,
+                      color: Color(0xffD4AF37),
+                    ),
+                    SizedBox(
+                      height:
+                      MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            'About Us',
+                            style: TextStyle(
+                                color: Color(0xfffbcc34),
+                                fontSize: 5),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Partnership',
+                            style: TextStyle(
+                                color: Color(0xfffbcc34),
+                                fontSize: 5),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Sign In',
+                            style: TextStyle(
+                                color: Color(0xfffbcc34),
+                                fontSize: 5),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            'FAQ',
+                            style: TextStyle(
+                                color: Color(0xfffbcc34),
+                                fontSize: 5),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Privacy Policy',
+                            style: TextStyle(
+                                color: Color(0xfffbcc34),
+                                fontSize: 5),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'View Cart',
+                            style: TextStyle(
+                                color: Color(0xfffbcc34),
+                                fontSize: 5),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            'Warranty',
+                            style: TextStyle(
+                                color: Color(0xfffbcc34),
+                                fontSize: 5),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Contact Us',
+                            style: TextStyle(
+                                color: Color(0xfffbcc34),
+                                fontSize: 5),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'My Wishlist',
+                            style: TextStyle(
+                                color: Color(0xfffbcc34),
+                                fontSize: 5),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height:
+                      MediaQuery.of(context).size.height * 0.01,
+                    ),
+                  ],
+                ),
+              ),
             )
           ],
         ),
@@ -565,23 +690,27 @@ class _ProductCategoryHomeState extends State<ProductCategoryHome> {
     );
   }
 
-  Widget getImages(Prodduct item) {
-    containerHeight = item.expended ? 60 : 0;
+  Widget getImages(Modelt item) {
+   // containerHeight = item.expended ? 60 : 0;
 
     return Container(
       child: Column(
+
+
+
+
         children: <Widget>[
           Expanded(
-            child: Image.asset(
-              item.image,
+            child: Image.network(
+              'https://bujishu.com/storage/uploads/images/products/ales-anti-mosq/ales-anti-mosq_1.jpg',
               fit: BoxFit.cover,
             ),
           ),
           Padding(
             padding: EdgeInsets.all(4),
-            child: Text(item.type),
+            child: Text(item.name),
           ),
-          AnimatedContainer(
+          /*AnimatedContainer(
             height: containerHeight,
             duration: Duration(seconds: 1),
             curve: Curves.fastOutSlowIn,
@@ -610,7 +739,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHome> {
                 ),
               ],
             ),
-          )
+          )*/
         ],
       ),
     );

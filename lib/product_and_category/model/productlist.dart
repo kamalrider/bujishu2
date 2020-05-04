@@ -961,36 +961,43 @@ class ProductList {
       name: 'Bedsheet',
       image: 'assets/images/bed.png',
       product: productList2,
+      APIid: '1'
     ),
     Category(
       id: 2,
       name: 'Curtain',
       image: 'assets/images/curtain.png',
       product: productList3,
+      APIid: '5'
     ),
     Category(
       id: 3,
       name: 'Lighting',
       image: 'assets/images/ligthing.png',
       product: productList1,
+      APIid: '7',
     ),
     Category(
       id: 4,
-      name: 'Wallpaper',
-      image: 'assets/images/mattress.png',
+      name: 'Renovation',
+      image: 'assets/images/renovation.png',
       product: productList1,
+      APIid: '63'
     ),
     Category(
       id: 5,
       name: 'Carpet',
       image: 'assets/images/roll.png',
       product: productList1,
+      APIid: '4'
+
     ),
     Category(
       id: 6,
       name: 'Paint',
       image: 'assets/images/paint.png',
       product: productList1,
+      APIid: '65'
     ),
   ];
 }

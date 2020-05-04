@@ -5,6 +5,7 @@ class Category {
   String name;
   String image;
   List<Prodduct> product;
+  String APIid;
 
-  Category({this.id, this.name, this.image, this.product});
+  Category({this.id, this.name, this.image, this.product, this.APIid});
 }
