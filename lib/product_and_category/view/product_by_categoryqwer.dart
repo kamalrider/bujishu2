@@ -27,7 +27,6 @@ Future<List<Modelt>> fetchAlbum() async {
       .toList();
 }
 
-
 Future<List<Modelt>> fetchimage() async {
   final response = await http.get('https://demo3.bujishu.com/api/category/2');
 
@@ -45,24 +44,20 @@ Future<List<Modelt>> fetchimage() async {
 
   return (responseJson as List)
       .map((e) => Modelt.fromJson((e as Map).map(
-        (k, e) => MapEntry(k as String, e),
-  )))
+            (k, e) => MapEntry(k as String, e),
+          )))
       .toList();
 }
 
 Future<List<Modelt>> fetchWhichAPI() async {
   String value;
   value = 'b';
-  if (value == 'a'){
+  if (value == 'a') {
     return fetchAlbum();
   } else {
     return fetchimage();
   }
 }
-
-
-
-
 
 class Modelt {
   final int id;
@@ -404,53 +399,44 @@ class _ProductCategoryHomeState extends State<ProductCategoryHome> {
                         ),
                       ]),
                     ),
-                    SliverGrid(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                        return FutureBuilder<List<Modelt>>(
-                          future: fetchWhichAPI(),
-                          builder: (context, snapshot) {
-//                            return snapshot.connectionState == ConnectionState.done? snapshot.hasData
-//                                ? Text(snapshot.data[index].name)
-//                                :  Text('Retry')
-//                                : Text('progress');
-                          if (snapshot.hasData){
-                            return Text(snapshot.data[index].name);
-                          }
-                          },
-                        );
-                      }
-//                          productlist.map((product){
-//
-//                            return MaterialButton(
-//                              onPressed: () {
-//                                setState(() {
-//                                  productlist.forEach((f) => f.expended = false);
-//
-//                                  //data.expended = !data.expended;
-//                                });
-//                              },
-//                              child: Padding(
-//                                padding: const EdgeInsets.all(8.0),
-//                                child: GestureDetector(
-//                                  child: getImages(product),
-//                                  onTap: () {
-//                                    setState(() {
-//                                      productlist
-//                                          .forEach((f) => f.expended = false);
-//
-//                                      product.expended = !product.expended;
-//                                    });
-//                                  },
-//                                ),
-//                              ),
-//                            );
-//
-//
-//                          }).toList()
-                          ),
+//                    SliverGrid(
+//                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                        crossAxisCount: 2,
+//                      ),
+//                      delegate: SliverChildBuilderDelegate(
+//                          (BuildContext context, int index) {
+//                        return FutureBuilder<List<Modelt>>(
+//                          future: fetchWhichAPI(),
+//                          builder: (context, snapshot) {
+//                            if (snapshot.hasData) {
+//                              return Text(snapshot.data[index].name);
+//                            } else {
+//                              return CircularProgressIndicator();
+//                            }
+//                          },
+//                        );
+//                      }, childCount: 3,
+//                      ),
+//                    ),
+                    FutureBuilder<List<Modelt>>(
+                      future: fetchWhichAPI(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SliverGrid(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                            ),
+                            delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                                return Text(snapshot.data[index].name);
+                              },
+                              childCount: snapshot.data.length,
+                            ),
+                          );
+                        } else
+                          return CircularProgressIndicator();
+                      },
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate([
