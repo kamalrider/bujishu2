@@ -27,6 +27,43 @@ Future<List<Modelt>> fetchAlbum() async {
       .toList();
 }
 
+
+Future<List<Modelt>> fetchimage() async {
+  final response = await http.get('https://demo3.bujishu.com/api/category/2');
+
+//  if (response.statusCode == 200) {
+////    // If the server did return a 200 OK response,
+////    // then parse the JSON.
+////    return Modelt.fromJson(json.decode(response.body));
+////  } else {
+////    // If the server did not return a 200 OK response,
+////    // then throw an exception.
+////    throw Exception('Failed to load album');
+////  }
+
+  final responseJson = json.decode(response.body);
+
+  return (responseJson as List)
+      .map((e) => Modelt.fromJson((e as Map).map(
+        (k, e) => MapEntry(k as String, e),
+  )))
+      .toList();
+}
+
+Future<List<Modelt>> fetchWhichAPI() async {
+  String value;
+  value = 'b';
+  if (value == 'a'){
+    return fetchAlbum();
+  } else {
+    return fetchimage();
+  }
+}
+
+
+
+
+
 class Modelt {
   final int id;
   final String name;
@@ -84,6 +121,18 @@ class ProductCategoryHome extends StatefulWidget {
 class _ProductCategoryHomeState extends State<ProductCategoryHome> {
   List<String> _locations = ['All CAtegories (VVIP)']; // Option 2
   String _selectedLocation; // Option 2
+
+  Future<List<Modelt>> futureAlbum;
+
+  String value;
+
+  @override
+  void initState() {
+    super.initState();
+
+    value = 'k';
+    futureAlbum = fetchAlbum();
+  }
 
 //  @override
 //  void initState() {
@@ -361,7 +410,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHome> {
                       delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
                         return FutureBuilder<List<Modelt>>(
-                          future: fetchAlbum(),
+                          future: fetchWhichAPI(),
                           builder: (context, snapshot) {
 //                            return snapshot.connectionState == ConnectionState.done? snapshot.hasData
 //                                ? Text(snapshot.data[index].name)
