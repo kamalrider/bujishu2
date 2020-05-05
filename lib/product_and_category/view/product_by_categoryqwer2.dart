@@ -120,7 +120,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
         width: 200,
         child: NavDrawer(),
       ),
-      /* appBar: AppBar(
+       appBar: AppBar(
         iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
         backgroundColor: Colors.black,
         actions: <Widget>[
@@ -177,15 +177,11 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [],
         ),
-      ),*/
-
-      appBar: AppBar(
-        title: Text('Tutorial'),
       ),
       body: Container(
         child: Column(
           children: <Widget>[
-            /*
+
             Expanded(
               flex: 1,
               child: Container(
@@ -292,17 +288,55 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                 ),
               ),
             ),
-            */
+
 
             Expanded(
               flex: 8,
               child: Container(
                 height: 500,
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverList(
-                      delegate: SliverChildListDelegate([
-                        MaterialButton(
+                child: FutureBuilder<List<Modelt>>(
+                  future: fetchAlbum(),
+                  builder: (context, snapshot){
+
+                    Widget sliverData;
+
+                    if(snapshot.hasData){
+
+
+                      sliverData = SliverGrid(
+                        gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index){
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: getImages(snapshot.data
+                                  .where((i) =>
+                              i.parentCategoryId ==
+                                  widget.value.APIid)
+                                  .toList()[index]),
+                            );
+                          },
+                          childCount: snapshot.data
+                              .where((i) =>
+                          i.parentCategoryId ==
+                              widget.value.APIid)
+                              .toList().length,
+                        ),
+                      );
+
+                    }else{
+
+                      sliverData = SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
+
+                    }
+
+                    return  CustomScrollView(
+                      slivers: <Widget>[
+                        SliverList(
+                          delegate: SliverChildListDelegate([
+                            MaterialButton(
 //                          onPressed: () {
 //                            setState(() {
 //                              productlist.forEach((f) => f.expended = false);
@@ -310,185 +344,142 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
 //                              //data.expended = !data.expended;
 //                            });
 //                          },
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  height:
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height:
                                       MediaQuery.of(context).size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffF0F1F1),
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  width: 2,
-                                                  color: Colors.grey))),
-                                      width: MediaQuery.of(context).size.width *
-                                          0.9,
-                                      child: Row(
-                                        children: <Widget>[
-                                          Container(
-                                            child: InkWell(
-                                              child: Text(
-                                                'Home',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    color: Colors.lightBlue),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: Color(0xffF0F1F1),
+                                              border: Border(
+                                                  bottom: BorderSide(
+                                                      width: 2,
+                                                      color: Colors.grey))),
+                                          width: MediaQuery.of(context).size.width *
+                                              0.9,
+                                          child: Row(
+                                            children: <Widget>[
+                                              Container(
+                                                child: InkWell(
+                                                  child: Text(
+                                                    'Home',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        color: Colors.lightBlue),
+                                                  ),
+                                                  //onTap: () {}
+                                                ),
                                               ),
-                                              //onTap: () {}
-                                            ),
-                                          ),
-                                          Text(' / ' + widget.value.name),
-                                        ],
-                                      )),
-                                ),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.02,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(left: 20),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Text(
-                                    widget.value.name,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.grey,
+                                              Text(' / ' + widget.value.name),
+                                            ],
+                                          )),
                                     ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height:
+                                    SizedBox(
+                                      height:
                                       MediaQuery.of(context).size.height * 0.02,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(left: 20),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Text(
-                                    'Featured Categories',
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.black,
                                     ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height:
+                                    Container(
+                                      padding: EdgeInsets.only(left: 20),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Text(
+                                        widget.value.name,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height:
                                       MediaQuery.of(context).size.height * 0.02,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                  child: Container(
-                                    color: Colors.grey,
-                                    height: 1,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height:
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(left: 20),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Text(
+                                        'Featured Categories',
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                      MediaQuery.of(context).size.height * 0.02,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      child: Container(
+                                        color: Colors.grey,
+                                        height: 1,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height:
                                       MediaQuery.of(context).size.height * 0.05,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ]),
-                    ),
-/*
-                    SliverGrid(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                      ),
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          return FutureBuilder<List<Modelt>>(
-                            future: fetchAlbum(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              } else {
-                                if (snapshot.hasData) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: getImages(snapshot.data
-                                        .where((i) =>
-                                            i.parentCategoryId ==
-                                            widget.value.APIid)
-                                        .toList()[index]),
-                                  );
-                                } else
-                                  return CircularProgressIndicator();
-                              }
-//                              else {
-//                                return CircularProgressIndicator();
-//                              }
-                            },
-                          );
-                        },
-                       // childCount: 4,
-                      ),
-                    ),
-*/
-
-
-                    FutureBuilder<List<Modelt>>(
-                      future: fetchAlbum(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting)
-                          return CircularProgressIndicator();
-                        else {
-                          if (snapshot.hasData) {
-                           return SliverGrid(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2),
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index){
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: getImages(snapshot.data
-                                          .where((i) =>
-                                      i.parentCategoryId ==
-                                          widget.value.APIid)
-                                          .toList()[index]),
-                                    );
-                                  },
-                                childCount: snapshot.data.length,
                               ),
-                            );
-                          } else
-                            return CircularProgressIndicator();
-                        }
-                      },
-                    )
+                            ),
+                          ]),
+                        ),
 
-//                    FutureBuilder<List<Modelt>>(
-//                      future: fetchWhichAPI(),
-//                      builder: (context, snapshot) {
-//                        if (snapshot.hasData) {
-//                          return SliverGrid(
-//                            gridDelegate:
-//                                SliverGridDelegateWithFixedCrossAxisCount(
-//                              crossAxisCount: 2,
-//                            ),
-//                            delegate: SliverChildBuilderDelegate(
-//                              (BuildContext context, int index) {
-//                                return Text(snapshot.data[index].name);
-//                              },
-//                              childCount: snapshot.data.length,
-//                            ),
+//                    SliverGrid(
+//                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                        crossAxisCount: 2,
+//                      ),
+//                      delegate: SliverChildBuilderDelegate(
+//                        (BuildContext context, int index) {
+//                          return FutureBuilder<List<Modelt>>(
+//                            future: fetchAlbum(),
+//                            builder: (context, snapshot) {
+//                              if (snapshot.connectionState ==
+//                                  ConnectionState.waiting) {
+//                                return CircularProgressIndicator();
+//                              } else {
+//                                if (snapshot.hasData) {
+//                                  return Padding(
+//                                    padding: const EdgeInsets.all(8.0),
+//                                    child: getImages(snapshot.data
+//                                        .where((i) =>
+//                                            i.parentCategoryId ==
+//                                            widget.value.APIid)
+//                                        .toList()[index]),
+//                                  );
+//                                } else
+//                                  return CircularProgressIndicator();
+//                              }
+////                              else {
+////                                return CircularProgressIndicator();
+////                              }
+//                            },
 //                          );
-//                        } else
-//                          return CircularProgressIndicator();
-//                      },
+//                        },
+//                        childCount: 4, //saya letak ni
+//                      ),
 //                    ),
-                  ],
+
+
+
+                      sliverData,
+
+
+                      ],
+                    );
+
+
+
+                  },
                 ),
               ),
             ),
