@@ -21,25 +21,20 @@ class Modelt{
 
   final int id;
   final String name;
-  final String slug;
   final int parent_category_id;
-  final String created_at;
-  final String updated_at;
 
-  Modelt({this.id,this.name,this.slug,this.parent_category_id, this.created_at, this.updated_at});
+
+  Modelt({this.id,this.name,this.parent_category_id,});
 
   factory Modelt.fromJson(Map<String, dynamic> json){
     return Modelt(
       id: json['id'],
       name: json['name'],
-      slug: json['slug'],
-      parent_category_id: json['parent_category_id'],
-      created_at: json['created_at'],
-      updated_at: json['updated_at'],
+      parent_category_id: json['parentCategoryId'],
     );
-
   }
 }
+
 
 void main() => runApp(MyApp());
 

@@ -2,7 +2,8 @@ import 'package:bujishu2/home/customer_home/nav_drawer.dart';
 import 'package:bujishu2/product_and_category/model/category.dart';
 import 'package:bujishu2/product_and_category/model/productlist.dart';
 import 'package:bujishu2/product_and_category/view/product_by_category.dart';
-import 'package:bujishu2/product_and_category/view/product_by_categoryqwer.dart';
+import 'package:bujishu2/product_and_category/view/product_by_categoryqwer2.dart';
+
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -167,6 +168,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
           ],
         ),
       ),
+
       body: Center(
         child: Container(
           color: Colors.black,
