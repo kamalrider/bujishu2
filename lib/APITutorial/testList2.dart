@@ -41,6 +41,8 @@ class ProductCat {
   });
 
   factory ProductCat.fromJson(Map<String, dynamic> json) {
+    var list = json['childCategories'] as List;
+    print(list.runtimeType);
 
     List<ChildCategories> childCatList =
         list.map((i) => ChildCategories.fromJson(i)).toList();
@@ -48,7 +50,7 @@ class ProductCat {
     return new ProductCat(
       id: json['id'],
       name: json['name'],
-      parentCategoryId: json[childCatList],
+      childCategories: childCatList,
       image: ProductImage.fromJson(json['image']),
     );
   }
@@ -141,12 +143,11 @@ class _MyAppState extends State<MyApp> {
           future: fetchAlbum(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data.childCategories[1].name);
-//              return ListView(
-//                children: snapshot.data.map((model) {
-//                  return Text();
-//                }).toList(),
-//              );
+              return ListView(
+                children: snapshot.data.childCategories.map((model) {
+                  return Text(model.image.imageUrl);
+                }).toList(),
+              );
             } else {
               return CircularProgressIndicator();
             }
