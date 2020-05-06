@@ -1,5 +1,52 @@
 import 'package:flutter/material.dart';
 
+class ProductCat {
+  int id;
+  String name;
+  int parentCategoryId;
+  ProductImage image;
+  List<ChildCategories> childCategories;
+
+  ProductCat({
+    this.id,
+    this.name,
+    this.parentCategoryId,
+    this.image,
+    this.childCategories,
+  });
+}
+
+class ProductImage {
+  String imageUrl;
+
+  ProductImage({
+    this.imageUrl,
+  });
+}
+
+class ChildCategories {
+  int id;
+  String name;
+  int parentCategoryId;
+  ChildImage image;
+
+  ChildCategories({
+    this.id,
+    this.name,
+    this.parentCategoryId,
+    this.image,
+  });
+}
+
+class ChildImage {
+  String imageUrl;
+
+  ChildImage({
+    this.imageUrl
+  });
+}
+
+
 class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,11 +67,11 @@ class NavDrawer extends StatelessWidget {
                 child: Image.asset('assets/images/bujishu_logo.png'),
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                  //fit: BoxFit.fill,
-                  image: AssetImage(
-                    'assets/images/cover.jpg',
-                  ),
-                )),
+                      //fit: BoxFit.fill,
+                      image: AssetImage(
+                        'assets/images/cover.jpg',
+                      ),
+                    )),
               )),
           Container(
             width: 30,
@@ -49,19 +96,19 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           Container(
-              height: 45,
-              width: 50,
+            height: 45,
+            width: 50,
 //              padding: EdgeInsets.only(top: 5, bottom: 5, left: 10),
-              //padding: EdgeInsets.only(top: 5, bottom: 5),
-              color: Color(0xffD4AF37),
-              child:
+            //padding: EdgeInsets.only(top: 5, bottom: 5),
+            color: Color(0xffD4AF37),
+            child:
 //              Text('Bedsheets & Mattresses')
             ListTile(
               //leading: Icon(Icons.verified_user),
               title: Text('Bedsheets & Mattresses'),
               onTap: () => {Navigator.of(context).pop()},
             ),
-              ),
+          ),
           Container(
             width: 80,
             height: 45,
@@ -103,18 +150,18 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           Container(
-              width: 80,
-              height: 45,
-              color: Color(0xffD4AF37),
+            width: 80,
+            height: 45,
+            color: Color(0xffD4AF37),
 //              padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
-              child:
+            child:
 //              Text('Curtains')
-              ListTile(
+            ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Curtains'),
               onTap: () => {Navigator.of(context).pop()},
             ),
-              ),
+          ),
           Container(
             width: 80,
             height: 45,
