@@ -1,6 +1,7 @@
 import 'package:bujishu2/home/customer_home/nav_drawer.dart';
 import 'package:bujishu2/product_and_category/model/category.dart';
 import 'package:bujishu2/product_and_category/model/product.dart';
+import 'package:bujishu2/product_and_category/view/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -120,16 +121,13 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
         width: 200,
         child: NavDrawer(),
       ),
-       appBar: AppBar(
+      appBar: AppBar(
         iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
         backgroundColor: Colors.black,
         actions: <Widget>[
           Container(
             padding: EdgeInsets.only(left: 50),
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
+            width: MediaQuery.of(context).size.width,
             child: Row(
               children: <Widget>[
                 Flexible(
@@ -181,14 +179,10 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
       body: Container(
         child: Column(
           children: <Widget>[
-
             Expanded(
               flex: 1,
               child: Container(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Colors.black,
                   border: Border(
@@ -197,10 +191,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.02,
+                      height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     Row(
                       children: <Widget>[
@@ -208,14 +199,8 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                           width: 10,
                         ),
                         Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.6,
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          height: MediaQuery.of(context).size.height * 0.05,
 
                           //color: Colors.white,
                           decoration: BoxDecoration(
@@ -225,10 +210,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                             children: <Widget>[
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.5,
+                                width: MediaQuery.of(context).size.width * 0.5,
                                 child: TextField(),
                               ),
                               Container(
@@ -288,51 +270,42 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                 ),
               ),
             ),
-
-
             Expanded(
               flex: 8,
               child: Container(
                 height: 500,
                 child: FutureBuilder<List<Modelt>>(
                   future: fetchAlbum(),
-                  builder: (context, snapshot){
-
+                  builder: (context, snapshot) {
                     Widget sliverData;
 
-                    if(snapshot.hasData){
-
-
+                    if (snapshot.hasData) {
                       sliverData = SliverGrid(
-                        gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
                         delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index){
+                          (BuildContext context, int index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: getImages(snapshot.data
                                   .where((i) =>
-                              i.parentCategoryId ==
-                                  widget.value.APIid)
+                                      i.parentCategoryId == widget.value.APIid)
                                   .toList()[index]),
                             );
                           },
                           childCount: snapshot.data
                               .where((i) =>
-                          i.parentCategoryId ==
-                              widget.value.APIid)
-                              .toList().length,
+                                  i.parentCategoryId == widget.value.APIid)
+                              .toList()
+                              .length,
                         ),
                       );
-
-                    }else{
-
-                      sliverData = SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
-
+                    } else {
+                      sliverData = SliverToBoxAdapter(
+                          child: Center(child: CircularProgressIndicator()));
                     }
 
-                    return  CustomScrollView(
+                    return CustomScrollView(
                       slivers: <Widget>[
                         SliverList(
                           delegate: SliverChildListDelegate([
@@ -350,7 +323,8 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                                   children: <Widget>[
                                     SizedBox(
                                       height:
-                                      MediaQuery.of(context).size.height * 0.01,
+                                          MediaQuery.of(context).size.height *
+                                              0.01,
                                     ),
                                     Align(
                                       alignment: Alignment.center,
@@ -362,7 +336,9 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                                                   bottom: BorderSide(
                                                       width: 2,
                                                       color: Colors.grey))),
-                                          width: MediaQuery.of(context).size.width *
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
                                               0.9,
                                           child: Row(
                                             children: <Widget>[
@@ -372,7 +348,8 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                                                     'Home',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
-                                                        color: Colors.lightBlue),
+                                                        color:
+                                                            Colors.lightBlue),
                                                   ),
                                                   //onTap: () {}
                                                 ),
@@ -383,7 +360,8 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                                     ),
                                     SizedBox(
                                       height:
-                                      MediaQuery.of(context).size.height * 0.02,
+                                          MediaQuery.of(context).size.height *
+                                              0.02,
                                     ),
                                     Container(
                                       padding: EdgeInsets.only(left: 20),
@@ -399,7 +377,8 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                                     ),
                                     SizedBox(
                                       height:
-                                      MediaQuery.of(context).size.height * 0.02,
+                                          MediaQuery.of(context).size.height *
+                                              0.02,
                                     ),
                                     Container(
                                       padding: EdgeInsets.only(left: 20),
@@ -414,10 +393,12 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                                     ),
                                     SizedBox(
                                       height:
-                                      MediaQuery.of(context).size.height * 0.02,
+                                          MediaQuery.of(context).size.height *
+                                              0.02,
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      padding:
+                                          EdgeInsets.only(left: 10, right: 10),
                                       child: Container(
                                         color: Colors.grey,
                                         height: 1,
@@ -425,7 +406,8 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                                     ),
                                     SizedBox(
                                       height:
-                                      MediaQuery.of(context).size.height * 0.05,
+                                          MediaQuery.of(context).size.height *
+                                              0.05,
                                     ),
                                   ],
                                 ),
@@ -469,16 +451,9 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
 //                      ),
 //                    ),
 
-
-
-                      sliverData,
-
-
+                        sliverData,
                       ],
                     );
-
-
-
                   },
                 ),
               ),
@@ -597,7 +572,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
   Widget getImages(Modelt item) {
     // containerHeight = item.expended ? 60 : 0;
 
-    return Container(
+    return MaterialButton(
       child: Column(
         children: <Widget>[
           Expanded(
@@ -642,6 +617,14 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
           )*/
         ],
       ),
+      onPressed: (){
+        var route = new MaterialPageRoute(
+          builder: (BuildContext context) =>
+          new ProductDetailHome(
+              value: item.id),
+        );
+        Navigator.of(context).push(route);
+      },
     );
   }
 }
