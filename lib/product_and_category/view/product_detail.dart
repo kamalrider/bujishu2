@@ -1,10 +1,11 @@
+import 'package:bujishu2/product_and_category/view/product_buy.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<DetailCategory> fetchData(String value) async {
-  final response = await http
-      .get('https://demo3.bujishu.com/api/categories/' +value+'?products=true');
+  final response = await http.get(
+      'https://demo3.bujishu.com/api/categories/' + value + '?products=true');
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -15,15 +16,6 @@ Future<DetailCategory> fetchData(String value) async {
     // then throw an exception.
     throw Exception('Failed to load album');
   }
-
-//  final responseJson = json.decode(response.body);
-//
-//  return (responseJson as List)
-//      .map((e) =>
-//      DetailCategory.fromJson((e as Map).map(
-//            (k, e) => MapEntry(k as String, e),
-//      )))
-//      .toList();
 }
 
 class DetailCategory {
@@ -62,28 +54,28 @@ class DetailProduct {
   String description;
   String quality;
 
-//  double rating;
+  int rating;
   List<Images> images;
-//  List<SoldBy> soldBy;
 
-  DetailProduct({
-    this.id,
-    this.code,
-    this.name,
-    this.details,
-    this.description,
-    this.quality,
-//    this.rating,
-    this.images,
-//    this.soldBy
-  });
+  List<SoldBy> soldBy;
+
+  DetailProduct(
+      {this.id,
+      this.code,
+      this.name,
+      this.details,
+      this.description,
+      this.quality,
+      this.rating,
+      this.images,
+      this.soldBy});
 
   factory DetailProduct.fromJson(Map<String, dynamic> json) {
     var list1 = json['images'] as List;
-//    var list2 = json['soldBy'] as List;
+    var list2 = json['soldBy'] as List;
 //
     List<Images> imageList = list1.map((i) => Images.fromJson(i)).toList();
-//    List<SoldBy> soldByList = list2.map((j) => SoldBy.fromJson(j)).toList();
+    List<SoldBy> soldByList = list2.map((j) => SoldBy.fromJson(j)).toList();
     return new DetailProduct(
       id: json['id'],
       code: json['code'],
@@ -91,9 +83,9 @@ class DetailProduct {
       details: json['details'],
       description: json['description'],
       quality: json['quality'],
-//      rating: json['rating'],
+      rating: json['rating'],
       images: imageList,
-//      soldBy: soldByList,
+      soldBy: soldByList,
     );
   }
 }
@@ -121,7 +113,7 @@ class SoldBy {
   int memberPrice;
   int deliveryFee;
   int installationFee;
-  double rating;
+  int rating;
 
   SoldBy(
       {this.id,
@@ -152,6 +144,8 @@ class SoldBy {
   }
 }
 
+enum qualityMarker { standard, moderate, premium }
+
 void main() => runApp(ProductDetail());
 
 class ProductDetail extends StatelessWidget {
@@ -168,25 +162,25 @@ class ProductDetail extends StatelessWidget {
 }
 
 class ProductDetailHome extends StatefulWidget {
-
   final int value;
 
   ProductDetailHome({Key key, this.value}) : super(key: key);
+
   @override
   ProductDetailState createState() => ProductDetailState();
 }
 
 class ProductDetailState extends State<ProductDetailHome> {
+  qualityMarker selectedMarker = qualityMarker.premium;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: new AppBar(
         title: new Text("Featured Deals / "),
         backgroundColor: Colors.black,
       ),
       body: Container(
-        height: 500,
         child: Column(
           children: <Widget>[
             Expanded(
@@ -196,7 +190,9 @@ class ProductDetailState extends State<ProductDetailHome> {
                   children: <Widget>[
                     OutlineButton(
                       onPressed: () {
-                        /*...*/
+                        setState(() {
+                          selectedMarker = qualityMarker.standard;
+                        });
                       },
                       child: Text(
                         "Standard",
@@ -204,7 +200,9 @@ class ProductDetailState extends State<ProductDetailHome> {
                     ),
                     OutlineButton(
                       onPressed: () {
-                        /*...*/
+                        setState(() {
+                          selectedMarker = qualityMarker.moderate;
+                        });
                       },
                       child: Text(
                         "Moderate",
@@ -212,7 +210,9 @@ class ProductDetailState extends State<ProductDetailHome> {
                     ),
                     OutlineButton(
                       onPressed: () {
-                        /*...*/
+                        setState(() {
+                          selectedMarker = qualityMarker.premium;
+                        });
                       },
                       child: Text(
                         "Premium",
@@ -232,7 +232,18 @@ class ProductDetailState extends State<ProductDetailHome> {
                     Widget sliverData;
 
                     if (snapshot.hasData) {
-                      klist = snapshot.data.detailProduct.toList();
+                      if (selectedMarker == qualityMarker.standard)
+                        klist = snapshot.data.detailProduct
+                            .where((i) => i.quality == 'Standard')
+                            .toList();
+                      else if (selectedMarker == qualityMarker.moderate)
+                        klist = snapshot.data.detailProduct
+                            .where((i) => i.quality == 'Moderate')
+                            .toList();
+                      else if (selectedMarker == qualityMarker.premium)
+                        klist = snapshot.data.detailProduct
+                            .where((i) => i.quality == 'Premium')
+                            .toList();
 
                       sliverData = SliverGrid(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -379,24 +390,32 @@ class ProductDetailState extends State<ProductDetailHome> {
   }
 
   Widget getText(DetailProduct product) {
-
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 100,
-              child:  Image.network(
+        padding: const EdgeInsets.all(8.0),
+        child: MaterialButton(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 100,
+                child: Image.network(
 //                  'https://demo3.bujishu.com/storage/uploads/images/products/bedsheet-premium/bedsheet-premium_1.jpg',
                   product.images.toList()[0].imageUrl,
                   fit: BoxFit.cover,
                 ),
-
-            ),
-          ],
-        ),
-      )
-    );
+              ),
+              Text(product.name),
+              Text('RM ' + product.soldBy[0].price.toString()),
+            ],
+          ),
+          onPressed: () {
+            var route = new MaterialPageRoute(
+              builder: (BuildContext context) => new ProductBuyHome(
+                value: product,
+                apiValue: widget.value.toString(),
+              ),
+            );
+            Navigator.of(context).push(route);
+          },
+        ));
   }
 }
