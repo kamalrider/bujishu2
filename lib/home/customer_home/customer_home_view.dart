@@ -3,6 +3,7 @@ import 'package:bujishu2/product_and_category/model/category.dart';
 import 'package:bujishu2/product_and_category/model/productlist.dart';
 import 'package:bujishu2/product_and_category/view/product_by_category.dart';
 import 'package:bujishu2/product_and_category/view/product_by_categoryqwer2.dart';
+import 'package:bujishu2/product_and_category/view/product_detail.dart';
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,6 +32,7 @@ class CarouselWithIndicator extends StatefulWidget {
 class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   List<String> _locations = ['All CAtegories (VVIP)']; // Option 2
   String _selectedLocation; // Option 2
+  bool nextPage = false;
 
   int _current = 0;
   List<String> imageList = [
@@ -45,7 +47,10 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    double y = MediaQuery.of(context).size.height * 0.07;
+    double y = MediaQuery
+        .of(context)
+        .size
+        .height * 0.07;
     int z = y.toInt();
 
     return Scaffold(
@@ -59,7 +64,10 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
         actions: <Widget>[
           Container(
             padding: EdgeInsets.only(left: 50),
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
             child: Row(
               children: <Widget>[
                 Flexible(
@@ -168,7 +176,6 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
           ],
         ),
       ),
-
       body: Center(
         child: Container(
           color: Colors.black,
@@ -179,11 +186,17 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                   flex: 2,
                   child: Column(children: <Widget>[
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.02,
                     ),
                     Container(
                       width: 335,
-                      height: MediaQuery.of(context).size.height * 0.05,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.05,
 
                       //color: Colors.white,
                       decoration: BoxDecoration(
@@ -258,7 +271,10 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                       color: Color(0xffD4AF37),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.01,
                     ),
                     Align(
                       alignment: Alignment.center,
@@ -266,7 +282,10 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                         color: Colors.black,
                         width: double.infinity,
                         padding: EdgeInsets.only(left: 5, right: 5),
-                        height: MediaQuery.of(context).size.height * 0.20,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.20,
 //            padding: EdgeInsets.only(left: 50,right: 50),
                         child: Carousel(
                           boxFit: BoxFit.fitWidth,
@@ -291,7 +310,10 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.01,
                     ),
                     Container(
                       height: 2,
@@ -400,47 +422,66 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                 flex: 7,
                 child: Padding(
                   padding: EdgeInsets.only(left: 10, right: 10),
-                  child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, childAspectRatio: 1.2),
-                      itemCount: ProductList.categoryList.length,
-                      itemBuilder: (context, index) {
-                        final item = ProductList.categoryList[index];
-                        return Padding(
-                          padding:
+                  child: FutureBuilder<List<Modelt>>(
+                    future: fetchAlbum(),
+                    builder: (context,snapshot){
+
+                      return GridView.builder(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, childAspectRatio: 1.2),
+                          itemCount: ProductList.categoryList.length,
+                          itemBuilder: (context, index) {
+                            final item = ProductList.categoryList[index];
+                            return Padding(
+                              padding:
                               const EdgeInsets.only(left: 8, right: 8, top: 8),
-                          child: Container(
-                            child: MaterialButton(
-                              child: Column(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Image.asset(
-                                      item.image,
-                                      fit: BoxFit.cover,
-                                    ),
+                              child: Container(
+                                child: MaterialButton(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Image.asset(
+                                          item.image,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      Text(
+                                        item.name,
+                                        style: TextStyle(
+                                            color: Color(0xffD4AF37),
+                                            fontSize: 21,
+                                            fontFamily: 'Tangerine'),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    item.name,
-                                    style: TextStyle(
-                                      color: Color(0xffD4AF37),
-                                      fontSize: 21,
-                                      fontFamily: 'Tangerine'
-                                    ),
-                                  )
-                                ],
+                                  onPressed: () {
+                                    setState(() {
+                                      if (snapshot.hasData){
+
+                                        var childRoute = new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                          new ProductCategoryHomeAPI(value: item),
+                                        );
+
+                                        var productRoute = new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                          new ProductDetailHome(value: item.APIid, pageKey: 0,),
+                                        );
+
+                                        if (snapshot.data.where((i)=> i.parentCategoryId == item.APIid).toList().length > 0 )
+                                          Navigator.of(context).push(childRoute);
+                                        else if (snapshot.data.where((i)=> i.parentCategoryId == item.APIid).toList().length == 0 )
+                                          Navigator.of(context).push(productRoute);
+                                      }
+                                    });
+                                  },
+                                ),
                               ),
-                              onPressed: () {
-                                var route = new MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      new ProductCategoryHomeAPI(
-                                          value: item),
-                                );
-                                Navigator.of(context).push(route);
-                              },
-                            ),
-                          ),
-                        );
-                      }),
+                            );
+                          });
+                    },
+
+                  ),
                 ),
 //                child: Column(
 //                  children: <Widget>[
@@ -630,7 +671,10 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                         color: Color(0xffD4AF37),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.01,
                       ),
                       Row(
                         children: <Widget>[
@@ -820,13 +864,16 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   Widget categoryIcon() {
     return GridView.builder(
         gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
         itemCount: 3,
         itemBuilder: (context, index) {
           final item = ProductList.categoryList[index];
           return Column(children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height * 0.12,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.12,
               child: Image.asset('assets/images/ligthing.png'),
             ),
             Container(

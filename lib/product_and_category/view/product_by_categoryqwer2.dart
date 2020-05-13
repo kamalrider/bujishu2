@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:bujishu2/constant.dart';
 import 'package:bujishu2/home/customer_home/nav_drawer.dart';
 import 'package:bujishu2/product_and_category/model/category.dart';
 import 'package:bujishu2/product_and_category/model/product.dart';
@@ -5,9 +8,10 @@ import 'package:bujishu2/product_and_category/view/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:bujishu2/constant.dart' as Constants;
 
 Future<List<Modelt>> fetchAlbum() async {
-  final response = await http.get('https://demo3.bujishu.com/api/categories');
+  final response = await http.get(Constants.web + 'categories');
 
 //  if (response.statusCode == 200) {
 ////    // If the server did return a 200 OK response,
@@ -26,6 +30,21 @@ Future<List<Modelt>> fetchAlbum() async {
             (k, e) => MapEntry(k as String, e),
           )))
       .toList();
+}
+
+Future<APICategory> fetchChild(String value) async {
+  final response =
+      await http.get(Constants.web + 'categories/' + value + '/childs');
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return APICategory.fromJson(json.decode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
 }
 
 class Picture {
@@ -47,12 +66,14 @@ class Modelt {
   final String name;
   final int parentCategoryId;
   final Picture image;
+  bool expended;
 
   Modelt({
     this.id,
     this.name,
     this.parentCategoryId,
     this.image,
+    this.expended = false,
   });
 
   factory Modelt.fromJson(Map<String, dynamic> json) {
@@ -61,6 +82,76 @@ class Modelt {
       name: json['name'],
       parentCategoryId: json['parentCategoryId'],
       image: Picture.fromJson(json['image']),
+    );
+  }
+}
+
+class APICategory {
+  int id;
+  String name;
+  int parentCategoryId;
+  ProductImage image;
+  List<ChildCat> childCatList;
+
+  APICategory(
+      {this.id,
+      this.name,
+      this.parentCategoryId,
+      this.image,
+      this.childCatList});
+
+  factory APICategory.fromJson(Map<String, dynamic> json) {
+    var list = json['childCategories'] as List;
+    List<ChildCat> childCatList =
+        list.map((f) => ChildCat.fromJson(f)).toList();
+    return APICategory(
+      id: json['id'],
+      name: json['name'],
+      parentCategoryId: json['parentCategoryId'],
+      image: ProductImage.fromJson(json['image']),
+      childCatList: childCatList,
+    );
+  }
+}
+
+class ProductImage {
+  String imageUrl;
+
+  ProductImage({this.imageUrl});
+
+  factory ProductImage.fromJson(Map<String, dynamic> json) {
+    return ProductImage(
+      imageUrl: json['imageUrl'],
+    );
+  }
+}
+
+class ChildCat {
+  int id;
+  String name;
+  int parentCategoryId;
+  ChildCatImage image;
+
+  ChildCat({this.id, this.name, this.parentCategoryId, this.image});
+
+  factory ChildCat.fromJson(Map<String, dynamic> json) {
+    return ChildCat(
+      id: json['id'],
+      name: json['name'],
+      parentCategoryId: json['parentCategoryId'],
+      image: ChildCatImage.fromJson(json['image']),
+    );
+  }
+}
+
+class ChildCatImage {
+  String imageUrl;
+
+  ChildCatImage({this.imageUrl});
+
+  factory ChildCatImage.fromJson(Map<String, dynamic> json) {
+    return ChildCatImage(
+      imageUrl: json['imageUrl'],
     );
   }
 }
@@ -570,857 +661,228 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
   }
 
   Widget getImages(Modelt item) {
-    // containerHeight = item.expended ? 60 : 0;
-
-    return MaterialButton(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Image.network(
-              item.image.image,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(4),
-            child: Text(item.name),
-          ),
-          /*AnimatedContainer(
-            height: containerHeight,
-            duration: Duration(seconds: 1),
-            curve: Curves.fastOutSlowIn,
+          return GestureDetector(
             child: Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Divider(
-                    height: 6,
-                    color: Colors.grey,
+                Expanded(
+                  child: Image.network(
+                    item.image.image,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                InkWell(
-                  child: Text(
-                    item.description,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  onTap: () {
+                Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Text(item.name),
+                ),
+
+/*
+//                animateContainer,
+                AnimatedContainer(
+                height: containerHeight,
+                duration: Duration(seconds: 1),
+                curve: Curves.fastOutSlowIn,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      child: Divider(
+                        height: 6,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    InkWell(
+                      child: Text(
+                        item.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      onTap: () {
 //                    var route = new MaterialPageRoute(
 //                      builder: (BuildContext context) =>
 //                          new NextPage(value: item.title),
 //                    );
 //                    Navigator.of(context).push(route);
-                  },
+                      },
+                    ),
+                  ],
                 ),
+              ) */
               ],
             ),
-          )*/
-        ],
-      ),
-      onPressed: (){
-        var route = new MaterialPageRoute(
-          builder: (BuildContext context) =>
-          new ProductDetailHome(
-              value: item.id),
-        );
-        Navigator.of(context).push(route);
-      },
-    );
-  }
-}
+            onTap: () {
 
-//enum rankMarker { all, sta, mod, pre }
-//
-//class NextPage extends StatefulWidget {
-//  final String value;
-//
-//  NextPage({Key key, this.value}) : super(key: key);
-//
-//  @override
-//  _NextPageState createState() => new _NextPageState();
-//}
-//
-//class LigthingDetail {
-//  String title;
-//  String image;
-//  String description;
-//  bool expended;
-//  String rank;
-//  double score;
-//  int rating;
-//  double customerScore;
-//  List<String> areaService;
-//  String commitment;
-//
-//  LigthingDetail(
-//      {this.title,
-//      this.image,
-//      this.description,
-//      this.rank,
-//      this.score,
-//      this.rating,
-//      this.expended = false});
-//}
-//
-//class _NextPageState extends State<NextPage> {
-//  rankMarker selectedrank = rankMarker.all;
-//
-//  List<LigthingDetail> ligthingData = [
-//    LigthingDetail(
-//      title: 'LED',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/eyeball.png',
-//      rank: 'STANDARD',
-//      score: 3,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'PEN',
-//      description: 'Eyeball\nDownlight',
-//      image: 'assets/images/officelamp.jpg',
-//      rank: 'STANDARD',
-//      score: 3,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'LED',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/eyeball.png',
-//      rank: 'MODERATE',
-//      score: 3.5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'PEN',
-//      description: 'Eyeball\nDownlight',
-//      image: 'assets/images/officelamp.jpg',
-//      rank: 'MODERATE',
-//      score: 3.5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'LED',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/eyeball.png',
-//      rank: 'PREMIUM',
-//      score: 5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'PEN',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/officelamp.jpg',
-//      rank: 'PREMIUM',
-//      score: 5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'LED',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/eyeball.png',
-//      rank: 'STANDARD',
-//      score: 3,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'PEN',
-//      description: 'Eyeball\nDownlight',
-//      image: 'assets/images/officelamp.jpg',
-//      rank: 'STANDARD',
-//      score: 3,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'LED',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/eyeball.png',
-//      rank: 'MODERATE',
-//      score: 3.5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'PEN',
-//      description: 'Eyeball\nDownlight',
-//      image: 'assets/images/officelamp.jpg',
-//      rank: 'MODERATE',
-//      score: 3.5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'LED',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/eyeball.png',
-//      rank: 'PREMIUM',
-//      score: 5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'PEN',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/officelamp.jpg',
-//      rank: 'PREMIUM',
-//      score: 5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'LED',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/eyeball.png',
-//      rank: 'STANDARD',
-//      score: 3,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'PEN',
-//      description: 'Eyeball\nDownlight',
-//      image: 'assets/images/officelamp.jpg',
-//      rank: 'STANDARD',
-//      score: 3,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'LED',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/eyeball.png',
-//      rank: 'MODERATE',
-//      score: 3.5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'PEN',
-//      description: 'Eyeball\nDownlight',
-//      image: 'assets/images/officelamp.jpg',
-//      rank: 'MODERATE',
-//      score: 3.5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'LED',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/eyeball.png',
-//      rank: 'PREMIUM',
-//      score: 5,
-//      rating: 120,
-//    ),
-//    LigthingDetail(
-//      title: 'PEN',
-//      description: 'Single Round Eyeball White Casing With GU 10001',
-//      image: 'assets/images/officelamp.jpg',
-//      rank: 'PREMIUM',
-//      score: 5,
-//      rating: 120,
-//    ),
-//  ];
-//
-//  List<LigthingDetail> datas;
-//
-//  List<LigthingDetail> datassta;
-//
-//  List<LigthingDetail> datasmod;
-//
-//  List<LigthingDetail> dataspre;
-//
-//  WidgetMarker selectedWidgetMarker = WidgetMarker.inn;
-//
-//  double containerHeight;
-//  String dTitle = "";
-//
-//  Color dColor(String rank) {
-//    if (rank == 'STANDARD') {
-//      return Colors.red;
-//    } else if (rank == 'MODERATE') {
-//      return Colors.blue;
-//    } else if (rank == 'PREMIUM') {
-//      return Colors.yellow;
-//    } else
-//      return Colors.red;
-//  }
-//
-//  @override
-//  void initState() {
-//    super.initState();
-//    dTitle = widget.value;
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    if (selectedrank == rankMarker.all)
-//      datas = ligthingData.where((i) => i.title == dTitle).toList();
-//    else if (selectedrank == rankMarker.sta)
-//      datassta = datas.where((i) => i.rank == 'STANDARD').toList();
-//    else if (selectedrank == rankMarker.mod)
-//      datasmod = datas.where((i) => i.rank == 'MODERATE').toList();
-//    else if (selectedrank == rankMarker.pre)
-//      dataspre = datas.where((i) => i.rank == 'PREMIUM').toList();
-//
-//    return new Scaffold(
-//      appBar: new AppBar(
-//        title: new Text("Featured Deals / " + dTitle),
-//        backgroundColor: Colors.black,
-//      ),
-////      body: new Text("${widget.value}"),
-//
-//      body: Column(
+                var route = new MaterialPageRoute(
+                  builder: (BuildContext context) => new ProductDetailHome(
+                    value: item.id,
+                    pageKey: 1,
+                  ),
+                );
+
+//                if (childnum == 0)
+                  Navigator.of(context).push(route);
+
+//              setState(() {
+//                item.expended = true;
+//              });
+
+            },
+          );
+  }
+
+  Widget getImagesAnimated(Modelt item) {
+    containerHeight = item.expended ? 60 : 0;
+    int childnum = 0;
+//    return MaterialButton(
+//      child: Column(
 //        children: <Widget>[
 //          Expanded(
-//            child: CustomScrollView(
-//              slivers: <Widget>[
-//                SliverList(
-//                  delegate: SliverChildListDelegate([
-//                    SizedBox(
-//                      height: 50,
-//                    ),
-//                  ]),
-//                ),
-//                getRank(),
-//              ],
+//            child: Image.network(
+//              item.image.image,
+//              fit: BoxFit.cover,
 //            ),
 //          ),
-//          Expanded(
-//            flex: 0,
-//            child: Container(
-//              child: Container(
-//                width: MediaQuery.of(context).size.width,
-//                color: Colors.black,
+//          Padding(
+//            padding: EdgeInsets.all(4),
+//            child: Text(item.name),
+//          ),
+//          Text(childnum.toString()),
+//          //animateContainer,
+//          /*AnimatedContainer(
+//                height: containerHeight,
+//                duration: Duration(seconds: 1),
+//                curve: Curves.fastOutSlowIn,
 //                child: Column(
 //                  children: <Widget>[
-//                    Container(
-//                      height: 2,
-//                      color: Color(0xffD4AF37),
+//                    Padding(
+//                      padding: const EdgeInsets.symmetric(horizontal: 50),
+//                      child: Divider(
+//                        height: 6,
+//                        color: Colors.grey,
+//                      ),
 //                    ),
-//                    SizedBox(
-//                      height: MediaQuery.of(context).size.height * 0.01,
-//                    ),
-//                    Row(
-//                      children: <Widget>[
-//                        Expanded(
-//                          child: Text(
-//                            'About Us',
-//                            style: TextStyle(
-//                                color: Color(0xfffbcc34), fontSize: 5),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                        Expanded(
-//                          child: Text(
-//                            'Partnership',
-//                            style: TextStyle(
-//                                color: Color(0xfffbcc34), fontSize: 5),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                        Expanded(
-//                          child: Text(
-//                            'Sign In',
-//                            style: TextStyle(
-//                                color: Color(0xfffbcc34), fontSize: 5),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                    Row(
-//                      children: <Widget>[
-//                        Expanded(
-//                          child: Text(
-//                            'FAQ',
-//                            style: TextStyle(
-//                                color: Color(0xfffbcc34), fontSize: 5),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                        Expanded(
-//                          child: Text(
-//                            'Privacy Policy',
-//                            style: TextStyle(
-//                                color: Color(0xfffbcc34), fontSize: 5),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                        Expanded(
-//                          child: Text(
-//                            'View Cart',
-//                            style: TextStyle(
-//                                color: Color(0xfffbcc34), fontSize: 5),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                    Row(
-//                      children: <Widget>[
-//                        Expanded(
-//                          child: Text(
-//                            'Warranty',
-//                            style: TextStyle(
-//                                color: Color(0xfffbcc34), fontSize: 5),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                        Expanded(
-//                          child: Text(
-//                            'Contact Us',
-//                            style: TextStyle(
-//                                color: Color(0xfffbcc34), fontSize: 5),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                        Expanded(
-//                          child: Text(
-//                            'My Wishlist',
-//                            style: TextStyle(
-//                                color: Color(0xfffbcc34), fontSize: 5),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                    SizedBox(
-//                      height: MediaQuery.of(context).size.height * 0.01,
+//                    InkWell(
+//                      child: Text(
+//                        item.description,
+//                        textAlign: TextAlign.center,
+//                        style: TextStyle(fontSize: 12),
+//                      ),
+//                      onTap: () {
+////                    var route = new MaterialPageRoute(
+////                      builder: (BuildContext context) =>
+////                          new NextPage(value: item.title),
+////                    );
+////                    Navigator.of(context).push(route);
+//                      },
 //                    ),
 //                  ],
 //                ),
-//              ),
-//            ),
-//          )
+//              )*/
 //        ],
 //      ),
-//      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-//      floatingActionButton: Container(
-//        margin: EdgeInsets.only(top: 50),
-//        width: MediaQuery.of(context).size.width * 0.9,
-//        child: Row(
-//          children: <Widget>[
-//            Expanded(
-//              flex: 2,
-//              child: Container(
-//                margin: EdgeInsets.only(right: 2, top: 2),
-//                decoration: BoxDecoration(
-//                  borderRadius: BorderRadius.all(Radius.circular(2)),
-//                  color: Colors.grey,
-//                ),
-//                child: MaterialButton(
-//                  child: Text(
-//                    'All',
-//                    style: TextStyle(fontSize: 12),
-//                  ),
-//                  onPressed: () {
-//                    setState(() {
-//                      selectedrank = rankMarker.all;
-//                    });
-//                  },
-//                ),
-//              ),
-//            ),
-//            Expanded(
-//              flex: 3,
-//              child: Container(
-//                margin: EdgeInsets.only(right: 2, top: 2),
-//                decoration: BoxDecoration(
-//                  borderRadius: BorderRadius.all(Radius.circular(2)),
-//                  color: Colors.red,
-//                ),
-//                child: MaterialButton(
-//                  child: Text(
-//                    'Standard',
-//                    style: TextStyle(fontSize: 12),
-//                  ),
-//                  onPressed: () {
-//                    setState(() {
-//                      selectedrank = rankMarker.sta;
-//                    });
-//                  },
-//                ),
-//              ),
-//            ),
-//            Expanded(
-//              flex: 3,
-//              child: Container(
-//                margin: EdgeInsets.only(right: 2, top: 2),
-//                decoration: BoxDecoration(
-//                  borderRadius: BorderRadius.all(Radius.circular(2)),
-//                  color: Colors.blue,
-//                ),
-//                child: MaterialButton(
-//                  child: Text(
-//                    'Moderate',
-//                    style: TextStyle(fontSize: 12),
-//                  ),
-//                  onPressed: () {
-//                    setState(() {
-//                      selectedrank = rankMarker.mod;
-//                    });
-//                  },
-//                ),
-//              ),
-//            ),
-//            Expanded(
-//              flex: 3,
-//              child: Container(
-//                margin: EdgeInsets.only(right: 2, top: 2),
-//                decoration: BoxDecoration(
-//                  borderRadius: BorderRadius.all(Radius.circular(2)),
-//                  color: Colors.yellow,
-//                ),
-//                child: MaterialButton(
-//                  child: Text(
-//                    'Premium',
-//                    style: TextStyle(fontSize: 12),
-//                  ),
-//                  onPressed: () {
-//                    setState(() {
-//                      selectedrank = rankMarker.pre;
-//                    });
-//                  },
-//                ),
-//              ),
-//            ),
-//          ],
-//        ),
-//      ),
-//    );
-//  }
+//      onPressed: () {
 //
-//  Widget getRank() {
-//    if (selectedrank == rankMarker.all)
-//      return Sliver(datas);
-//    else if (selectedrank == rankMarker.sta)
-//      return Sliver(datassta);
-//    else if (selectedrank == rankMarker.mod)
-//      return Sliver(datasmod);
-//    else if (selectedrank == rankMarker.pre)
-//      return Sliver(dataspre);
-//    else
-//      return Sliver(datas);
-//  }
-//
-//  Widget Sliver(List<LigthingDetail> datalist) {
-//    return SliverGrid(
-//      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//          crossAxisCount: 2, childAspectRatio: 0.8),
-//      delegate: SliverChildListDelegate(datalist.map((data) {
-//        return Padding(
-//          padding: const EdgeInsets.all(8.0),
-//          child: Container(
-//            height: 500,
-//            child: getImages(data),
+//        var route = new MaterialPageRoute(
+//          builder: (BuildContext context) => new ProductDetailHome(
+//            value: item.id,
+//            pageKey: 1,
 //          ),
 //        );
-//      }).toList()),
-//    );
-//  }
 //
-//  Widget getImages(LigthingDetail item) {
-//    return Container(
-//      color: Color(0xffF0F1F1),
-//      child: Banner(
-//        message: item.rank,
-//        textStyle: TextStyle(color: Colors.black, fontSize: 10),
-//        location: BannerLocation.topEnd,
-//        color: dColor(item.rank),
-//        child: MaterialButton(
-//          child: Column(
-//            children: <Widget>[
-//              Container(
-//                height: 100,
-//                child: FittedBox(
-//                  child: Image.asset(item.image),
-//                  fit: BoxFit.cover,
-//                ),
-//              ),
-//              Padding(
-//                padding: EdgeInsets.all(4),
-//                child: Text(
-//                  item.description,
-//                  style: TextStyle(fontSize: 12),
-//                ),
-//              ),
-//              FlutterRatingBarIndicator(
-//                rating: item.score,
-//                itemCount: 5,
-//                itemSize: 15.0,
-//                emptyColor: Colors.amber.withAlpha(50),
-//              ),
-//              Padding(
-//                padding: EdgeInsets.all(4),
-//                child: Text((item.rating).toString() + ' ratings'),
-//              ),
-//            ],
-//          ),
-//          onPressed: () {
-//            showDialog(
-//                context: context,
-//                builder: (BuildContext context) {
-//                  return AlertDialog(
-////                title: Text("Alert Dialog"),
-//                    backgroundColor: Colors.black,
+////                if (childnum == 0)
+//        Navigator.of(context).push(route);
 //
-//                    content: Container(
-//                        child: Column(
-//                      children: <Widget>[
-//                        Container(
-//                          width: MediaQuery.of(context).size.width * 0.69,
-//                          child: Text(
-//                            'Panels Selling - ' + item.title,
-//                            style: TextStyle(color: Colors.white),
-//                          ),
-//                        ),
-//                        SizedBox(
-//                          height: 10,
-//                        ),
-//                        Container(
-//                          height: MediaQuery.of(context).size.height * 0.69,
-//                          child: SingleChildScrollView(
-//                            child: Column(
-//                              children: <Widget>[
-//                                Container(
-//                                  width:
-//                                      MediaQuery.of(context).size.width * 0.67,
-//                                  padding: EdgeInsets.all(10),
-//                                  color: Colors.white,
-//                                  child: Column(
-//                                    children: <Widget>[
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'Bujishu Sdn Bhd',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          '120.00',
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: InkWell(
-////                                            onTap: () {
-////                                              Navigator.push(
-////                                                  context,
-////                                                  MaterialPageRoute(
-////                                                      builder: (context) =>
-////                                                          ProductDetail()));
-////                                            },
-//                                            child: Text(
-//                                              'Panel Rating',
-//                                              style: TextStyle(
-//                                                  fontWeight: FontWeight.bold),
-//                                            )),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: FlutterRatingBarIndicator(
-//                                          rating: 5,
-//                                          itemCount: 5,
-//                                          itemSize: 10.0,
-//                                          emptyColor:
-//                                              Colors.amber.withAlpha(50),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 8,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'Customer Rating',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: FlutterRatingBarIndicator(
-//                                          rating: 5,
-//                                          itemCount: 5,
-//                                          itemSize: 10.0,
-//                                          emptyColor:
-//                                              Colors.amber.withAlpha(50),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'Area of Service',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'KL, Seremban',
-//                                        ),
-//                                      ),
-//                                      SizedBox(height: 8),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'Commitment',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                            'With 15 years experience in manufacturing and serving our customers,' +
-//                                                'we can guarantee that this product will meet your needs and 100% satisfy you'),
-//                                      ),
-//                                    ],
-//                                  ),
-//                                ),
-//                                SizedBox(
-//                                  height: 20,
-//                                ),
-//                                Container(
-//                                  width:
-//                                      MediaQuery.of(context).size.width * 0.67,
-//                                  padding: EdgeInsets.all(10),
-//                                  color: Colors.white,
-//                                  child: Column(
-//                                    children: <Widget>[
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'Bujishu Sdn Bhd',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          '120.00',
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'Panel Rating',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: FlutterRatingBarIndicator(
-//                                          rating: 5,
-//                                          itemCount: 5,
-//                                          itemSize: 10.0,
-//                                          emptyColor:
-//                                              Colors.amber.withAlpha(50),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 8,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'Customer Rating',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: FlutterRatingBarIndicator(
-//                                          rating: 5,
-//                                          itemCount: 5,
-//                                          itemSize: 10.0,
-//                                          emptyColor:
-//                                              Colors.amber.withAlpha(50),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'Area of Service',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'KL, Seremban',
-//                                        ),
-//                                      ),
-//                                      SizedBox(height: 8),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                          'Commitment',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold),
-//                                        ),
-//                                      ),
-//                                      SizedBox(
-//                                        height: 5,
-//                                      ),
-//                                      Align(
-//                                        alignment: Alignment.topLeft,
-//                                        child: Text(
-//                                            'With 15 years experience in manufacturing and serving our customers,' +
-//                                                'we can guarantee that this product will meet your needs and 100% satisfy you'),
-//                                      ),
-//                                    ],
-//                                  ),
-//                                ),
-//                              ],
-//                            ),
-//                          ),
-//                        ),
-//                      ],
-//                    )),
-//                  );
-//                });
-//          },
-//        ),
-//      ),
+//      },
 //    );
-//  }
-//}
+    return GestureDetector(
+      child: FutureBuilder<APICategory>(
+        future: fetchChild(item.id.toString()),
+        builder: (context, apidata) {
+
+          return Container(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: Image.network(
+                    item.image.image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Text(item.name),
+                ),
+
+//                animateContainer,
+                AnimatedContainer(
+                  height: containerHeight,
+                  duration: Duration(seconds: 1),
+                  curve: Curves.fastOutSlowIn,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50),
+                        child: Divider(
+                          height: 6,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      InkWell(
+                        child: Text(
+                          item.name,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        onTap: () {
+//                    var route = new MaterialPageRoute(
+//                      builder: (BuildContext context) =>
+//                          new NextPage(value: item.title),
+//                    );
+//                    Navigator.of(context).push(route);
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+//            onTap: () {
+//
+//              var route = new MaterialPageRoute(
+//                builder: (BuildContext context) => new ProductDetailHome(
+//                  value: item.id,
+//                  pageKey: 1,
+//                ),
+//              );
+//
+////                if (childnum == 0)
+//              // Navigator.of(context).push(route);
+//
+//              setState(() {
+//                item.expended = false;
+//                item.expended = !item.expended;
+//              });
+//
+//            },
+          );
+        },
+      ),
+      onTap: (){
+        setState(() {
+          setState(() {
+            item.expended = true;
+          });
+        });
+      },
+    );
+  }
+
+
+
+}
+
+
+
+
+
+
+
