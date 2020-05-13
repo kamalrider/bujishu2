@@ -1,3 +1,4 @@
+import 'package:bujishu2/APITutorial/PostAPI3.dart';
 import 'package:bujishu2/home/customer_home/nav_drawer.dart';
 import 'package:bujishu2/product_and_category/model/category.dart';
 import 'package:bujishu2/product_and_category/model/productlist.dart';
@@ -8,6 +9,7 @@ import 'package:bujishu2/product_and_category/view/product_detail.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(CustomerHome1());
 
@@ -44,6 +46,21 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   List<Category> datas = ProductList.categoryList;
 
   //Map<String, int> map = {imageList:_current};
+
+  SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  checkLoginStatus() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    if(sharedPreferences.getString("token") == null) {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
