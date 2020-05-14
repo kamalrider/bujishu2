@@ -11,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../login.dart';
+
 void main() => runApp(CustomerHome1());
 
 class CustomerHome1 extends StatelessWidget {
@@ -58,7 +60,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   checkLoginStatus() async {
     sharedPreferences = await SharedPreferences.getInstance();
     if(sharedPreferences.getString("token") == null) {
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginApp()), (Route<dynamic> route) => false);
     }
   }
 
@@ -99,11 +101,19 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+//                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        width: 50,
                         height: 20,
-                        child: Image.asset(
-                          'assets/images/profile.png',
-                          fit: BoxFit.fitHeight,
+                        child: MaterialButton(
+                          onPressed: () {
+                            sharedPreferences.clear();
+                            sharedPreferences.commit();
+                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginApp()), (Route<dynamic> route) => false);
+                          },
+                          child: Image.asset(
+                            'assets/images/profile.png',
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
                       ),
                       Container(

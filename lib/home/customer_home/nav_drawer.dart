@@ -1,4 +1,6 @@
+import 'package:bujishu2/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductCat {
   int id;
@@ -41,19 +43,16 @@ class ChildCategories {
 class ChildImage {
   String imageUrl;
 
-  ChildImage({
-    this.imageUrl
-  });
+  ChildImage({this.imageUrl});
 }
 
-
 class NavDrawer extends StatelessWidget {
+  SharedPreferences sharedPreferences;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-
       child: ListView(
-
         padding: EdgeInsets.only(
           top: 1,
         ),
@@ -67,11 +66,11 @@ class NavDrawer extends StatelessWidget {
                 child: Image.asset('assets/images/bujishu_logo.png'),
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                      //fit: BoxFit.fill,
-                      image: AssetImage(
-                        'assets/images/cover.jpg',
-                      ),
-                    )),
+                  //fit: BoxFit.fill,
+                  image: AssetImage(
+                    'assets/images/cover.jpg',
+                  ),
+                )),
               )),
           Container(
             width: 30,
@@ -89,9 +88,11 @@ class NavDrawer extends StatelessWidget {
 //                  fontSize: 18
 //                ),
 //            ),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.input),
-              title: Text('Shop By Category',),
+              title: Text(
+                'Shop By Category',
+              ),
               onTap: () => {},
             ),
           ),
@@ -103,7 +104,7 @@ class NavDrawer extends StatelessWidget {
             color: Color(0xffD4AF37),
             child:
 //              Text('Bedsheets & Mattresses')
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.verified_user),
               title: Text('Bedsheets & Mattresses'),
               onTap: () => {Navigator.of(context).pop()},
@@ -117,7 +118,7 @@ class NavDrawer extends StatelessWidget {
             color: Color(0xffD4AF37),
             child:
 //            Text('Cupboards'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.settings),
               title: Text('Cupboards'),
               onTap: () => {Navigator.of(context).pop()},
@@ -130,7 +131,7 @@ class NavDrawer extends StatelessWidget {
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //            Text('Tables & Chairs'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.border_color),
               title: Text('Tables & Chairs'),
               onTap: () => {Navigator.of(context).pop()},
@@ -143,7 +144,7 @@ class NavDrawer extends StatelessWidget {
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //            Text('Carpets'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Carpets'),
               onTap: () => {Navigator.of(context).pop()},
@@ -156,7 +157,7 @@ class NavDrawer extends StatelessWidget {
 //              padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //              Text('Curtains')
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Curtains'),
               onTap: () => {Navigator.of(context).pop()},
@@ -169,7 +170,7 @@ class NavDrawer extends StatelessWidget {
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //            Text('Tiles'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Tiles'),
               onTap: () => {Navigator.of(context).pop()},
@@ -182,7 +183,7 @@ class NavDrawer extends StatelessWidget {
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //            Text('Lightings'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Lightings'),
               onTap: () => {Navigator.of(context).pop()},
@@ -195,7 +196,7 @@ class NavDrawer extends StatelessWidget {
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //            Text('Wallpapers'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Wallpapers'),
               onTap: () => {Navigator.of(context).pop()},
@@ -208,11 +209,10 @@ class NavDrawer extends StatelessWidget {
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //            Text('Roofs'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Roofs'),
               onTap: () => {Navigator.of(context).pop()},
-
             ),
           ),
           Container(
@@ -222,7 +222,7 @@ class NavDrawer extends StatelessWidget {
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //            Text('Doors'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Doors'),
               onTap: () => {Navigator.of(context).pop()},
@@ -235,7 +235,7 @@ class NavDrawer extends StatelessWidget {
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //            Text('Windows'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Windows'),
               onTap: () => {Navigator.of(context).pop()},
@@ -248,11 +248,26 @@ class NavDrawer extends StatelessWidget {
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
             child:
 //            Text('Auxiliary Prosperity Items'),
-            ListTile(
+                ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Auxiliary Prosperity Items'),
               onTap: () => {Navigator.of(context).pop()},
             ),
+          ),
+          MaterialButton(
+            height: 45,
+            color: Color(0xffD4AF37),
+//            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
+            child: Text('Logout'),
+            onPressed: () {
+              sharedPreferences.clear();
+              sharedPreferences.commit();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => LoginApp()),
+                  (Route<dynamic> route) => false);
+            },
+//            Text('Auxiliary Prosperity Items'),
           ),
         ],
       ),

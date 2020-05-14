@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-
 import 'package:bujishu2/APITutorial/homeAPI.dart';
 import 'package:bujishu2/home/customer_home/customer_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,12 +14,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
+        .copyWith(statusBarColor: Colors.transparent));
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -28,13 +28,15 @@ class _LoginPageState extends State<LoginPage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter),
         ),
-        child: _isLoading ? Center(child: CircularProgressIndicator()) : ListView(
-          children: <Widget>[
-            headerSection(),
-            textSection(),
-            buttonSection(),
-          ],
-        ),
+        child: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            : ListView(
+                children: <Widget>[
+                  headerSection(),
+                  textSection(),
+                  buttonSection(),
+                ],
+              ),
       ),
     );
   }
@@ -46,22 +48,48 @@ class _LoginPageState extends State<LoginPage> {
       'password': password,
     };
     var jsonResponse = null;
-    var response = await http.post("https://demo3.bujishu.com/api/auth/login", body: data);
-    if(response.statusCode == 200) {
+    var response =
+        await http.post("https://demo3.bujishu.com/api/auth/login", body: data);
+    if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      if(jsonResponse != null) {
+      if (jsonResponse != null) {
         setState(() {
           _isLoading = false;
         });
-        sharedPreferences.setString("token", jsonResponse['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => CustomerHome1()), (Route<dynamic> route) => false);
+//        sharedPreferences.setString("token", jsonResponse['token']);
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => CustomerHome1()),
+            (Route<dynamic> route) => false);
       }
     }
+//    else if (response.statusCode == 401){
+//      jsonResponse = json.decode(response.body);
+//      if(jsonResponse != null) {
+//        setState(() {
+//          _isLoading = false;
+//        });
+//        print(response.body);
+//        Fluttertoast.showToast(msg: jsonResponse['error'],
+//            toastLength: Toast.LENGTH_SHORT,
+//            gravity: ToastGravity.CENTER,
+//            timeInSecForIosWeb: 1
+//        );
+//      }
+//    }
     else {
+      jsonResponse = json.decode(response.body);
+
       setState(() {
         _isLoading = false;
       });
       print(response.body);
+      Fluttertoast.showToast(
+          msg: 'unauthorized',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1);
     }
   }
 
@@ -72,12 +100,14 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(horizontal: 15.0),
       margin: EdgeInsets.only(top: 15.0),
       child: RaisedButton(
-        onPressed: emailController.text == "" || passwordController.text == "" ? null : () {
-          setState(() {
-            _isLoading = true;
-          });
-          signIn(emailController.text, passwordController.text);
-        },
+        onPressed: emailController.text == "" || passwordController.text == ""
+            ? null
+            : () {
+                setState(() {
+                  _isLoading = true;
+                });
+                signIn(emailController.text, passwordController.text);
+              },
         elevation: 0.0,
         color: Colors.purple,
         child: Text("Sign In", style: TextStyle(color: Colors.white70)),
@@ -97,12 +127,12 @@ class _LoginPageState extends State<LoginPage> {
           TextFormField(
             controller: emailController,
             cursorColor: Colors.white,
-
             style: TextStyle(color: Colors.white70),
             decoration: InputDecoration(
               icon: Icon(Icons.email, color: Colors.white70),
               hintText: "Email",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.white70),
             ),
           ),
@@ -115,7 +145,8 @@ class _LoginPageState extends State<LoginPage> {
             decoration: InputDecoration(
               icon: Icon(Icons.lock, color: Colors.white70),
               hintText: "Password",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.white70),
             ),
           ),

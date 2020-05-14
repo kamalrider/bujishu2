@@ -1,46 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:bujishu2/constant.dart' as Constants;
+import 'package:shared_preferences/shared_preferences.dart';
 
-Future<User> postLogin({Map body})async{
-  return http.post(Constants.web + 'auth/login',body: body).then((http.Response response){
-    final int statusCode = response.statusCode;
+import 'home/customer_home/customer_home_view.dart';
 
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception("Error while fetching data");
-    }
-    return User.fromJson(json.decode(response.body));
-
-  });
-}
-
-class User{
-  String email;
-  String password;
-
-  User({this.email, this.password});
-
-  factory User.fromJson(Map<String, dynamic> json){
-    return User(
-      email: json['email'],
-      password: json['password'],
-    );
-  }
-}
-
-class Token{
-  String token;
-
-  Token({this.token});
-
-  factory Token.fromJson(Map<String, dynamic> json){
-    return Token(
-      token: json['token']
-    );
-  }
-}
 
 void main() => runApp(LoginApp());
 
@@ -87,6 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
   bool rememberMe = false;
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
 
   void _onRememberMeChanged(bool newValue) => setState(() {
         rememberMe = newValue;
@@ -120,26 +89,49 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool _isLoading = false;
+
+  signIn(String email, password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map data = {
+      'email': email,
+      'password': password,
+    };
+    var jsonResponse = null;
+    var response =
+    await http.post("https://demo3.bujishu.com/api/auth/login", body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse != null) {
+        setState(() {
+          _isLoading = false;
+        });
+        sharedPreferences.setString("token", jsonResponse['token']);
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => CustomerHome1()),
+                (Route<dynamic> route) => false);
+      }
+    }
+
+    else {
+      jsonResponse = json.decode(response.body);
+
+      setState(() {
+        _isLoading = false;
+      });
+      print(response.body);
+      Fluttertoast.showToast(
+          msg: 'unauthorized',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-//    final emailField = TextField(
-//      obscureText: false,
-//      style: style,
-//      decoration: InputDecoration(
-//          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-//          hintText: "Emailt",
-//          border:
-//              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-//    );
-//    final passwordField = TextField(
-//      obscureText: true,
-//      style: style,
-//      decoration: InputDecoration(
-//          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-//          hintText: "Password",
-//          border:
-//              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-//    );
 
     return Form(
         key: _formKey,
@@ -149,154 +141,295 @@ class _MyHomePageState extends State<MyHomePage> {
               width: double.infinity,
               decoration: new BoxDecoration(
                 image: new DecorationImage(
-                  image: new AssetImage("assets/images/bujishu_main_page.jpg"),
+                  image: new AssetImage("assets/images/bujishu_background.jpg"),
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 150.0,
-                      width: 150.0,
-                      child: Image.asset(
-                        "assets/images/logo.png",
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.fromLTRB(40, 10, 40, 0),
-                      child: TextFormField(
+              child: _isLoading?Center(child: CircularProgressIndicator()):
+              Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.08,
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.5,
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Image.asset(
+                              "assets/images/bujishu_logo.png",
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.08,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white70),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      child: Image.asset(
+                                        'assets/images/grey_profile_icon.png',
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 6,
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 5),
+                                      child: TextFormField(
+                                        controller: emailController,
+                                        cursorColor: Colors.black,
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            enabledBorder: InputBorder.none,
+                                            errorBorder: InputBorder.none,
+                                            disabledBorder: InputBorder.none,
+//                                      contentPadding: EdgeInsets.only(
+//                                          left: 15,
+//                                          bottom: 11,
+//                                          top: 11,
+//                                          right: 15),
+                                            hintText: 'Email'),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.015,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white70),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      child: Image.asset(
+                                        'assets/images/grey_lock_icon.png',
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 6,
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 5),
+                                      child: TextFormField(
+                                        controller: passwordController,
+                                        cursorColor: Colors.black,
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            enabledBorder: InputBorder.none,
+                                            errorBorder: InputBorder.none,
+                                            disabledBorder: InputBorder.none,
+//                                      contentPadding: EdgeInsets.only(
+//                                          left: 15,
+//                                          bottom: 11,
+//                                          top: 11,
+//                                          right: 15),
+                                            hintText: 'Password'),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+//                    Container(
+//                      padding: EdgeInsets.all(10),
+//                      margin: EdgeInsets.fromLTRB(40, 10, 40, 0),
+//                      child: TextFormField(
+//                        style: TextStyle(color: Colors.black),
+////                    controller: nameController,
+//                        validator: (value) {
+//                          if (value.isEmpty) {
+//                            return 'Please Enter your email';
+//                          }
+//                          return null;
+//                        },
+//                        decoration: InputDecoration(
+//                          errorStyle: TextStyle(color: Colors.white),
+//                          errorBorder: OutlineInputBorder(
+//                            borderRadius: BorderRadius.circular(20),
+//                            borderSide:
+//                                BorderSide(color: Colors.yellow, width: 2.0),
+//                          ),
+//                          focusedErrorBorder: OutlineInputBorder(
+//                            borderRadius: BorderRadius.circular(20),
+//                            borderSide:
+//                                BorderSide(color: Colors.yellow, width: 2.0),
+//                          ),
+//                          fillColor: Colors.white60,
+//                          filled: true,
+//                          prefixStyle: new TextStyle(color: Colors.white),
+//                          focusedBorder: OutlineInputBorder(
+//                            borderRadius: BorderRadius.circular(20),
+//                            borderSide:
+//                                BorderSide(color: Colors.yellow, width: 2.0),
+//                          ),
+//                          enabledBorder: OutlineInputBorder(
+//                              borderRadius: BorderRadius.circular(20),
+//                              borderSide:
+//                                  BorderSide(color: Colors.yellow, width: 2.0)),
+//                          labelText: 'email address',
+//                        ),
+//                      ),
+//                    ),
+//
+//                    Container(
+//                      padding: EdgeInsets.all(10),
+//                      margin: EdgeInsets.fromLTRB(40, 0, 40, 10),
+//                      child: TextFormField(
+////                    controller: nameController,
+//                        style: TextStyle(color: Colors.black),
+//                        obscureText: true,
+//                        validator: (value) {
+//                          if (value.isEmpty) {
+//                            return 'Please enter your password';
+//                          }
+//                          return null;
+//                        },
+//                        decoration: InputDecoration(
+//                          errorStyle: TextStyle(color: Colors.white),
+//                          errorBorder: OutlineInputBorder(
+//                            borderRadius: BorderRadius.circular(20),
+//                            borderSide:
+//                                BorderSide(color: Colors.yellow, width: 2.0),
+//                          ),
+//                          focusedErrorBorder: OutlineInputBorder(
+//                            borderRadius: BorderRadius.circular(20),
+//                            borderSide:
+//                                BorderSide(color: Colors.yellow, width: 2.0),
+//                          ),
+//                          fillColor: Colors.white60,
+//                          filled: true,
+//                          focusedBorder: OutlineInputBorder(
+//                            borderRadius: BorderRadius.circular(20),
+//                            borderSide:
+//                                BorderSide(color: Colors.yellow, width: 2.0),
+//                          ),
+//                          enabledBorder: OutlineInputBorder(
+//                              borderRadius: BorderRadius.circular(20),
+//                              borderSide:
+//                                  BorderSide(color: Colors.yellow, width: 2.0)),
+//                          labelText: 'password',
+//                        ),
+//                      ),
+//                    ),
 
-                        style: TextStyle(color: Colors.black),
-//                    controller: nameController,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please Enter your email';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          errorStyle: TextStyle(color: Colors.white),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                                BorderSide(color: Colors.yellow, width: 2.0),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.015,
                           ),
-
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                            BorderSide(color: Colors.yellow, width: 2.0),
-                          ),
-                          fillColor: Colors.white60,
-                          filled: true,
-                          prefixStyle: new TextStyle(color: Colors.white),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                                BorderSide(color: Colors.yellow, width: 2.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide:
-                                  BorderSide(color: Colors.yellow, width: 2.0)),
-                         labelText: 'email address',
-                        ),
-                      ),
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.fromLTRB(40, 0, 40, 10),
-                      child: TextFormField(
-//                    controller: nameController,
-                        style: TextStyle(color: Colors.black),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          errorStyle: TextStyle(color: Colors.white),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                            BorderSide(color: Colors.yellow, width: 2.0),
-                          ),
-
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                            BorderSide(color: Colors.yellow, width: 2.0),
-                          ),
-                          fillColor: Colors.white60,
-                          filled: true,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                                BorderSide(color: Colors.yellow, width: 2.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide:
-                                  BorderSide(color: Colors.yellow, width: 2.0)),
-                          labelText: 'password',
-                        ),
-                      ),
-                    ),
-                    Container(
-                        child: Padding(
-                      padding: EdgeInsets.fromLTRB(50, 5, 50, 5),
-                      child: Container(
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            padding: EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white),
+                            child: Container(
 //                        elevation: 5.0,
-//                        borderRadius: BorderRadius.circular(15.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.orange,
-                                Color(0xfffbcc34),
-                                Colors.yellowAccent,
-
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                            )),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.orange,
+                                      Color(0xfffbcc34),
+                                      Colors.yellowAccent,
+                                    ],
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                  )),
 //                        color: Color(0xfffbcc34),
 
-                        child: MaterialButton(
-                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              // If the form is valid, display a snackbar. In the real world,
-                              // you'd often call a server or save the information in a database.
-//                              navigateToHomePage(context);
-                              Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text('Processing Data')));
-                            }
-                          },
-                          child: Text(
-                            "Login",
-                            textAlign: TextAlign.center,
+                              child: MaterialButton(
+                                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                onPressed: emailController.text == "" || passwordController.text == ""
+                                    ? null
+                                    : () {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  signIn(emailController.text, passwordController.text);
+                                },
+                                child: Text(
+                                  "LOGIN",
+                                  style: TextStyle(color: Colors.black),
+                                  textAlign: TextAlign.center,
 //          style: style.copyWith(
 //              color: Colors.black87, fontWeight: FontWeight.bold)
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ))
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.015,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                InkWell(
+                                    child: Text(
+                                  'Forget Password?',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                                InkWell(
+                                    child: Text(
+                                  'New here? Sign up',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                              ],
+                            ),
+                          ),
+
+
 //                Container(
-                  ],
-                ),
+                        ],
+                      ),
+
+                    ),
+                  ),
+                  Expanded(
+                      flex: 0,
+                      child: Center(
+                          child: Column(
+                            children: <Widget>[
+                              Text('©2020 Bujishu. All Rights Reserved.', style: TextStyle(color: Colors.white),
+                              ),
+                              SizedBox(height: 10,)
+                            ],
+                          ))
+                  )
+                ],
               ),
             ),
           ),

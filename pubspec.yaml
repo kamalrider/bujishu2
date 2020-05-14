@@ -33,6 +33,7 @@ dependencies:
   flutter_rating_bar: ^1.1.1
   http: ^0.12.0+4
   shared_preferences: any
+  fluttertoast: ^4.0.0
 
 
 dev_dependencies:
