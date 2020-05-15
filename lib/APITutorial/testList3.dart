@@ -280,11 +280,11 @@ class _MyAppState extends State<MyApp> {
           future: fetchAlbum(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-//                  return ListView(
-//                    children: snapshot.data.detailProduct.map((model) {
-//                      return Text(model.id.toString());
-//                    }).toList(),
-//                  );
+                  return ListView(
+                    children: snapshot.data.detailProduct.map((model) {
+                      return Text(model.id.toString());
+                    }).toList(),
+                  );
               return Text(snapshot.data.name);
             } else {
               return CircularProgressIndicator();
