@@ -226,7 +226,7 @@ class ProductBuyState extends State<ProductBuyHome> {
         ),
       ),
       body: FutureBuilder<ProductBuyModel>(
-        future: getProductBuy('1', '1918000101'),
+        future: getProductBuy(widget.value.soldBy[0].id.toString(), widget.value.soldBy[0].panelAccountId.toString()),
         builder: (context, apidata) {
           List<ProductBuyImage> imageList;
           double price;
@@ -338,7 +338,7 @@ class ProductBuyState extends State<ProductBuyHome> {
                   child: Container(
                       width: double.infinity,
                       child: FutureBuilder<DetailCategory>(
-                          future: fetchData('7'),
+                          future: fetchData(widget.apiValue),
                           builder: (context, snapshot) {
                             List<DetailProduct> klist;
                             Widget sliverData;

@@ -1,12 +1,13 @@
 import 'package:bujishu2/product_and_category/view/product_buy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:bujishu2/constant.dart' as Constants;
 
 Future<DetailCategory> fetchData(String value) async {
   final response =
-      await http.get(Constants.web + 'categories/' + value + '?products=true');
+  await http.get(Constants.web + 'categories/' + value + '?products=true');
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -35,7 +36,6 @@ Future<DetailCategory> fetchProduct(String value) async {
 }
 
 Future<DetailCategory> fetchAPI(String value, int pageKey) async {
-
   if (pageKey == 0)
     return fetchProduct(value);
   else if (pageKey == 1)
@@ -59,7 +59,7 @@ class DetailCategory {
     var list = json['products'] as List;
     print(list.runtimeType);
     List<DetailProduct> detailCatList =
-        list.map((i) => DetailProduct.fromJson(i)).toList();
+    list.map((i) => DetailProduct.fromJson(i)).toList();
 
     return new DetailCategory(
       id: json['id'],
@@ -83,16 +83,15 @@ class DetailProduct {
 
   List<SoldBy> soldBy;
 
-  DetailProduct(
-      {this.id,
-      this.code,
-      this.name,
-      this.details,
-      this.description,
-      this.quality,
-      this.rating,
-      this.images,
-      this.soldBy});
+  DetailProduct({this.id,
+    this.code,
+    this.name,
+    this.details,
+    this.description,
+    this.quality,
+    this.rating,
+    this.images,
+    this.soldBy});
 
   factory DetailProduct.fromJson(Map<String, dynamic> json) {
     var list1 = json['images'] as List;
@@ -139,18 +138,17 @@ class SoldBy {
   int installationFee;
   int rating;
 
-  SoldBy(
-      {this.id,
-      this.panelAccountId,
-      this.description,
-      this.material,
-      this.consistency,
-      this.package,
-      this.price,
-      this.memberPrice,
-      this.deliveryFee,
-      this.installationFee,
-      this.rating});
+  SoldBy({this.id,
+    this.panelAccountId,
+    this.description,
+    this.material,
+    this.consistency,
+    this.package,
+    this.price,
+    this.memberPrice,
+    this.deliveryFee,
+    this.installationFee,
+    this.rating});
 
   factory SoldBy.fromJson(Map<String, dynamic> json) {
     return new SoldBy(
@@ -188,8 +186,9 @@ class ProductDetail extends StatelessWidget {
 class ProductDetailHome extends StatefulWidget {
   final int value;
   final int pageKey;
+  final String APIId;
 
-  ProductDetailHome({Key key, this.value, this.pageKey}) : super(key: key);
+  ProductDetailHome({Key key, this.value, this.pageKey, this.APIId}) : super(key: key);
 
   @override
   ProductDetailState createState() => ProductDetailState();
@@ -201,17 +200,160 @@ class ProductDetailState extends State<ProductDetailHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text("Featured Deals / "),
+      appBar: AppBar(
+        iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
         backgroundColor: Colors.black,
+        actions: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 50),
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  flex: 3,
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Image.asset('assets/images/logo.png'),
+                  ),
+                ),
+                Flexible(
+                  flex: 2,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        height: 20,
+                        child: Image.asset(
+                          'assets/images/profile.png',
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: Image.asset(
+                          'assets/images/heart.png',
+                          fit: BoxFit.fitHeight,
+                          height: 20,
+                        ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          height: 20,
+                          child: Image.asset(
+                            'assets/images/cart.png',
+                            fit: BoxFit.fitHeight,
+                          )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [],
+        ),
       ),
       body: Container(
         child: Column(
           children: <Widget>[
             Expanded(
-              flex: 2,
+              flex: 1,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  border: Border(
+                      bottom: BorderSide(width: 2, color: Colors.yellow)),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          height: MediaQuery.of(context).size.height * 0.05,
+
+                          //color: Colors.white,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(left: 10),
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                child: TextField(),
+                              ),
+                              Container(
+                                width: 2,
+                                color: Color(0xfffbcc34),
+                              ),
+                              Container(
+                                width: 30,
+                                padding: EdgeInsets.fromLTRB(
+                                  8,
+                                  8,
+                                  8,
+                                  8,
+                                ),
+                                child: Image.asset(
+                                  'assets/images/search.png',
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Container(
+                          width: 30,
+                          margin: EdgeInsets.only(left: 20),
+                          padding: EdgeInsets.fromLTRB(
+                            0,
+                            0,
+                            0,
+                            0,
+                          ),
+                          child: Image.asset(
+                            'assets/images/camera.png',
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                        Container(
+                          width: 30,
+                          margin: EdgeInsets.only(left: 20),
+                          padding: EdgeInsets.fromLTRB(
+                            0,
+                            0,
+                            0,
+                            0,
+                          ),
+                          child: Image.asset(
+                            'assets/images/mike.png',
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
               child: Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     OutlineButton(
                       onPressed: () {
@@ -223,6 +365,9 @@ class ProductDetailState extends State<ProductDetailHome> {
                         "Standard",
                       ),
                     ),
+                    SizedBox(
+                      width: 10,
+                    ),
                     OutlineButton(
                       onPressed: () {
                         setState(() {
@@ -232,6 +377,9 @@ class ProductDetailState extends State<ProductDetailHome> {
                       child: Text(
                         "Moderate",
                       ),
+                    ),
+                    SizedBox(
+                      width: 10,
                     ),
                     OutlineButton(
                       onPressed: () {
@@ -274,7 +422,7 @@ class ProductDetailState extends State<ProductDetailHome> {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
                         delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
+                              (BuildContext context, int index) {
                             return getText(klist[index]);
                           },
                           childCount: klist.length,
@@ -305,7 +453,10 @@ class ProductDetailState extends State<ProductDetailHome> {
               flex: 0,
               child: Container(
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   color: Colors.black,
                   child: Column(
                     children: <Widget>[
@@ -314,7 +465,10 @@ class ProductDetailState extends State<ProductDetailHome> {
                         color: Color(0xffD4AF37),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.01,
                       ),
                       Row(
                         children: <Widget>[
@@ -401,7 +555,10 @@ class ProductDetailState extends State<ProductDetailHome> {
                         ],
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.01,
                       ),
                     ],
                   ),
@@ -415,6 +572,12 @@ class ProductDetailState extends State<ProductDetailHome> {
   }
 
   Widget getText(DetailProduct product) {
+    String showPrice;
+    int number = product.soldBy
+        .toList()
+        .length;
+
+
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: MaterialButton(
@@ -434,13 +597,277 @@ class ProductDetailState extends State<ProductDetailHome> {
           ),
           onPressed: () {
             var route = new MaterialPageRoute(
-              builder: (BuildContext context) => new ProductBuyHome(
+              builder: (BuildContext context) =>
+              new ProductBuyHome(
                 value: product,
                 apiValue: widget.value.toString(),
+
               ),
             );
-            Navigator.of(context).push(route);
+
+
+            if (number == 1) {
+              Navigator.of(context).push(route);
+            } else if (number > 1) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext buildContext) {
+                    return Popup();
+                  });
+            }
           },
         ));
+  }
+
+  Widget Popup() {
+    return AlertDialog(
+//                title: Text("Alert Dialog"),
+      backgroundColor: Colors.black,
+
+      content: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.69,
+                child: Text(
+                  'Panels Selling - ' + 'item.title',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.69,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width:
+                        MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.67,
+                        padding: EdgeInsets.all(10),
+                        color: Colors.white,
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('Bujishu Sdn Bhd', style: TextStyle(
+                                  fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                '120.00',
+
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => ProductDetail()));
+                                  }
+                                  ,
+                                  child: Text('Panel Rating', style: TextStyle(
+                                      fontWeight: FontWeight.bold),)),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: FlutterRatingBarIndicator(
+                                rating: 5,
+                                itemCount: 5,
+                                itemSize: 10.0,
+                                emptyColor:
+                                Colors.amber.withAlpha(50),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('Customer Rating', style: TextStyle(
+                                  fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: FlutterRatingBarIndicator(
+                                rating: 5,
+                                itemCount: 5,
+                                itemSize: 10.0,
+                                emptyColor:
+                                Colors.amber.withAlpha(50),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('Area of Service', style: TextStyle(
+                                  fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'KL, Seremban',
+
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('Commitment', style: TextStyle(
+                                  fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                  'With 15 years experience in manufacturing and serving our customers,' +
+                                      'we can guarantee that this product will meet your needs and 100% satisfy you'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width:
+                        MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.67,
+                        padding: EdgeInsets.all(10),
+                        color: Colors.white,
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('Bujishu Sdn Bhd', style: TextStyle(
+                                  fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                '120.00',
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('Panel Rating', style: TextStyle(
+                                  fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: FlutterRatingBarIndicator(
+                                rating: 5,
+                                itemCount: 5,
+                                itemSize: 10.0,
+                                emptyColor:
+                                Colors.amber.withAlpha(50),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('Customer Rating', style: TextStyle(
+                                  fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: FlutterRatingBarIndicator(
+                                rating: 5,
+                                itemCount: 5,
+                                itemSize: 10.0,
+                                emptyColor:
+                                Colors.amber.withAlpha(50),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('Area of Service', style: TextStyle(
+                                  fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'KL, Seremban',
+
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('Commitment', style: TextStyle(
+                                  fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                  'With 15 years experience in manufacturing and serving our customers,' +
+                                      'we can guarantee that this product will meet your needs and 100% satisfy you'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )),
+    );
   }
 }
