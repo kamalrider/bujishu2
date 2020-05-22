@@ -370,7 +370,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //                        color: Color(0xfffbcc34),
 
                               child: MaterialButton(
-                                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+//                                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                                 onPressed: emailController.text == "" || passwordController.text == ""
                                     ? null
                                     : () {
