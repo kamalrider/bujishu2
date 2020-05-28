@@ -1,4 +1,5 @@
 import 'package:bujishu2/APITutorial/PostAPI3.dart';
+import 'package:bujishu2/Pay/cart.dart';
 import 'package:bujishu2/home/customer_home/nav_drawer.dart';
 import 'package:bujishu2/product_and_category/model/category.dart';
 import 'package:bujishu2/product_and_category/model/productlist.dart';
@@ -127,9 +128,14 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                       Container(
                           margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
                           height: 20,
-                          child: Image.asset(
-                            'assets/images/cart.png',
-                            fit: BoxFit.fitHeight,
+                          child: InkWell(
+                            child: Image.asset(
+                              'assets/images/cart.png',
+                              fit: BoxFit.fitHeight,
+                            ),
+                            onTap:(){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CartPageHome()));
+                            }
                           )),
                     ],
                   ),
@@ -482,25 +488,24 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    setState(() {
+                                    var childRoute = new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                      new ProductCategoryHomeAPI(value: item),
+                                    );
+
+                                    var productRoute = new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                      new ProductDetailHome(value: item.APIid, pageKey: 0,),
+                                    );
                                       if (snapshot.hasData){
-
-                                        var childRoute = new MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                          new ProductCategoryHomeAPI(value: item),
-                                        );
-
-                                        var productRoute = new MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                          new ProductDetailHome(value: item.APIid, pageKey: 0,),
-                                        );
-
                                         if (snapshot.data.where((i)=> i.parentCategoryId == item.APIid).toList().length > 0 )
                                           Navigator.of(context).push(childRoute);
                                         else if (snapshot.data.where((i)=> i.parentCategoryId == item.APIid).toList().length == 0 )
                                           Navigator.of(context).push(productRoute);
+                                      } else {
+                                        Navigator.of(context).push(childRoute);
                                       }
-                                    });
+
                                   },
                                 ),
                               ),

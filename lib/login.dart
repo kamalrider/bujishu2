@@ -6,8 +6,8 @@ import 'dart:convert';
 import 'package:bujishu2/constant.dart' as Constants;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Register/customer_register.dart';
 import 'home/customer_home/customer_home_view.dart';
-
 
 void main() => runApp(LoginApp());
 
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
     };
     var jsonResponse = null;
     var response =
-    await http.post("https://demo3.bujishu.com/api/auth/login", body: data);
+        await http.post("https://demo3.bujishu.com/api/auth/login", body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       if (jsonResponse != null) {
@@ -111,11 +111,9 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
                 builder: (BuildContext context) => CustomerHome1()),
-                (Route<dynamic> route) => false);
+            (Route<dynamic> route) => false);
       }
-    }
-
-    else {
+    } else {
       jsonResponse = json.decode(response.body);
 
       setState(() {
@@ -132,7 +130,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Form(
         key: _formKey,
         child: Scaffold(
@@ -145,123 +142,139 @@ class _MyHomePageState extends State<MyHomePage> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: _isLoading?Center(child: CircularProgressIndicator()):
-              Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.5,
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            child: Image.asset(
-                              "assets/images/bujishu_logo.png",
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.white70),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      padding: EdgeInsets.all(5),
-                                      child: Image.asset(
-                                        'assets/images/grey_profile_icon.png',
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                    ),
+              child: _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.08,
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  child: Image.asset(
+                                    "assets/images/bujishu_logo.png",
+                                    fit: BoxFit.contain,
                                   ),
-                                  Expanded(
-                                    flex: 6,
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 5),
-                                      child: TextFormField(
-                                        controller: emailController,
-                                        cursorColor: Colors.black,
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            enabledBorder: InputBorder.none,
-                                            errorBorder: InputBorder.none,
-                                            disabledBorder: InputBorder.none,
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.08,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.07,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white70),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            padding: EdgeInsets.all(5),
+                                            child: Image.asset(
+                                              'assets/images/grey_profile_icon.png',
+                                              fit: BoxFit.fitHeight,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 6,
+                                          child: Container(
+                                            margin: EdgeInsets.only(left: 5),
+                                            child: TextFormField(
+                                              controller: emailController,
+                                              cursorColor: Colors.black,
+                                              decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  focusedBorder:
+                                                      InputBorder.none,
+                                                  enabledBorder:
+                                                      InputBorder.none,
+                                                  errorBorder: InputBorder.none,
+                                                  disabledBorder:
+                                                      InputBorder.none,
 //                                      contentPadding: EdgeInsets.only(
 //                                          left: 15,
 //                                          bottom: 11,
 //                                          top: 11,
 //                                          right: 15),
-                                            hintText: 'Email'),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.015,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.white70),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      padding: EdgeInsets.all(5),
-                                      child: Image.asset(
-                                        'assets/images/grey_lock_icon.png',
-                                        fit: BoxFit.fitHeight,
-                                      ),
+                                                  hintText: 'Email'),
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  Expanded(
-                                    flex: 6,
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 5),
-                                      child: TextFormField(
-                                        controller: passwordController,
-                                        cursorColor: Colors.black,
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            enabledBorder: InputBorder.none,
-                                            errorBorder: InputBorder.none,
-                                            disabledBorder: InputBorder.none,
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.07,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white70),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            padding: EdgeInsets.all(5),
+                                            child: Image.asset(
+                                              'assets/images/grey_lock_icon.png',
+                                              fit: BoxFit.fitHeight,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 6,
+                                          child: Container(
+                                            margin: EdgeInsets.only(left: 5),
+                                            child: TextFormField(
+                                              controller: passwordController,
+                                              cursorColor: Colors.black,
+                                              decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  focusedBorder:
+                                                      InputBorder.none,
+                                                  enabledBorder:
+                                                      InputBorder.none,
+                                                  errorBorder: InputBorder.none,
+                                                  disabledBorder:
+                                                      InputBorder.none,
 //                                      contentPadding: EdgeInsets.only(
 //                                          left: 15,
 //                                          bottom: 11,
 //                                          top: 11,
 //                                          right: 15),
-                                            hintText: 'Password'),
-                                      ),
+                                                  hintText: 'Password'),
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
+                                  ),
+                                ),
 //                    Container(
 //                      padding: EdgeInsets.all(10),
 //                      margin: EdgeInsets.fromLTRB(40, 10, 40, 0),
@@ -344,93 +357,107 @@ class _MyHomePageState extends State<MyHomePage> {
 //                      ),
 //                    ),
 
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.015,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            padding: EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.white),
-                            child: Container(
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.07,
+                                  padding: EdgeInsets.all(1),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white),
+                                  child: Container(
 //                        elevation: 5.0,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.orange,
-                                      Color(0xfffbcc34),
-                                      Colors.yellowAccent,
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                  )),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.orange,
+                                            Color(0xfffbcc34),
+                                            Colors.yellowAccent,
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        )),
 //                        color: Color(0xfffbcc34),
 
-                              child: MaterialButton(
+                                    child: MaterialButton(
 //                                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                onPressed: emailController.text == "" || passwordController.text == ""
-                                    ? null
-                                    : () {
-                                  setState(() {
-                                    _isLoading = true;
-                                  });
-                                  signIn(emailController.text, passwordController.text);
-                                },
-                                child: Text(
-                                  "LOGIN",
-                                  style: TextStyle(color: Colors.black),
-                                  textAlign: TextAlign.center,
+                                      onPressed: emailController.text == "" ||
+                                              passwordController.text == ""
+                                          ? null
+                                          : () {
+                                              setState(() {
+                                                _isLoading = true;
+                                              });
+                                              signIn(emailController.text,
+                                                  passwordController.text);
+                                            },
+                                      child: Text(
+                                        "LOGIN",
+                                        style: TextStyle(color: Colors.black),
+                                        textAlign: TextAlign.center,
 //          style: style.copyWith(
 //              color: Colors.black87, fontWeight: FontWeight.bold)
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.015,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                InkWell(
-                                    child: Text(
-                                  'Forget Password?',
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                                InkWell(
-                                    child: Text(
-                                  'New here? Sign up',
-                                  style: TextStyle(color: Colors.white),
-                                )),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      InkWell(
+                                          child: Text(
+                                        'Forget Password?',
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                      InkWell(
+                                          child: Text(
+                                            'New here? Sign up',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterCustomerHome()));
+                                          }),
+                                    ],
+                                  ),
+                                ),
+
+//                Container(
                               ],
                             ),
                           ),
-
-
-//                Container(
-                        ],
-                      ),
-
+                        ),
+                        Expanded(
+                            flex: 0,
+                            child: Center(
+                                child: Column(
+                              children: <Widget>[
+                                Text(
+                                  '©2020 Bujishu. All Rights Reserved.',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                )
+                              ],
+                            )))
+                      ],
                     ),
-                  ),
-                  Expanded(
-                      flex: 0,
-                      child: Center(
-                          child: Column(
-                            children: <Widget>[
-                              Text('©2020 Bujishu. All Rights Reserved.', style: TextStyle(color: Colors.white),
-                              ),
-                              SizedBox(height: 10,)
-                            ],
-                          ))
-                  )
-                ],
-              ),
             ),
           ),
         ));

@@ -1,4 +1,5 @@
 //import 'package:flutter/widgets.dart';
+import 'package:bujishu2/home/customer_home/customer_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -58,17 +59,17 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
-//  final TextEditingController  = new TextEditingController();
+  final TextEditingController confirmPasswordController = new TextEditingController();
+  final TextEditingController fullNameController = new TextEditingController();
+  final TextEditingController ICController = new TextEditingController();
+  final TextEditingController address1Controller = new TextEditingController();
+  final TextEditingController address2Controller = new TextEditingController();
+  final TextEditingController address3Controller = new TextEditingController();
+  final TextEditingController postcodeController = new TextEditingController();
+  final TextEditingController cityController = new TextEditingController();
+  final TextEditingController stateController = new TextEditingController();
+  final TextEditingController homeContactController = new TextEditingController();
+  final TextEditingController mobileContactController = new TextEditingController();
 
   void _onRememberMeChanged(bool newValue) => setState(() {
         rememberMe = newValue;
@@ -171,7 +172,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
-                            controller: emailController,
+                            controller: passwordController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -205,7 +206,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
-                            controller: emailController,
+                            controller: confirmPasswordController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -304,7 +305,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
-                            controller: emailController,
+                            controller: fullNameController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -338,7 +339,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
-                            controller: emailController,
+                            controller: ICController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -372,7 +373,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
-                            controller: emailController,
+                            controller: address1Controller,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -406,7 +407,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
-                            controller: emailController,
+                            controller: address2Controller,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -440,7 +441,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
-                            controller: emailController,
+                            controller: address3Controller,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -479,7 +480,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 5),
                                   child: TextFormField(
-                                    controller: emailController,
+                                    controller: postcodeController,
                                     cursorColor: Colors.black,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -514,7 +515,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 5),
                                   child: TextFormField(
-                                    controller: emailController,
+                                    controller: cityController,
                                     cursorColor: Colors.black,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -552,7 +553,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
-                            controller: emailController,
+                            controller: stateController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -591,7 +592,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 5),
                                   child: TextFormField(
-                                    controller: emailController,
+                                    controller: homeContactController,
                                     cursorColor: Colors.black,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -626,7 +627,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 5),
                                   child: TextFormField(
-                                    controller: emailController,
+                                    controller: mobileContactController,
                                     cursorColor: Colors.black,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -742,6 +743,9 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
 //          style: style.copyWith(
 //              color: Colors.black87, fontWeight: FontWeight.bold)
                           ),
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerHome1()));
+                          },
                         ),
                       ),
                     ),
