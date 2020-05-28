@@ -133,6 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Form(
         key: _formKey,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Center(
             child: Container(
               width: double.infinity,
