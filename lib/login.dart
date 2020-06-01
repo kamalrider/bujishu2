@@ -197,6 +197,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                           child: Container(
                                             margin: EdgeInsets.only(left: 5),
                                             child: TextFormField(
+                                              maxLines: null,
+
+
+                                              keyboardType: TextInputType.multiline,
                                               controller: emailController,
                                               cursorColor: Colors.black,
                                               decoration: InputDecoration(

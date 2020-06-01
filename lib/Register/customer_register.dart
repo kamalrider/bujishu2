@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'package:bujishu2/constant.dart' as Constants;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../constant.dart';
+
 enum RegisterMarker { first, second }
 
 void main() => runApp(RegisterCustomer());
@@ -59,7 +61,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 
-  final TextEditingController confirmPasswordController = new TextEditingController();
+  final TextEditingController confirmPasswordController =
+      new TextEditingController();
   final TextEditingController fullNameController = new TextEditingController();
   final TextEditingController ICController = new TextEditingController();
   final TextEditingController address1Controller = new TextEditingController();
@@ -68,8 +71,83 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
   final TextEditingController postcodeController = new TextEditingController();
   final TextEditingController cityController = new TextEditingController();
   final TextEditingController stateController = new TextEditingController();
-  final TextEditingController homeContactController = new TextEditingController();
-  final TextEditingController mobileContactController = new TextEditingController();
+  final TextEditingController homeContactController =
+      new TextEditingController();
+  final TextEditingController mobileContactController =
+      new TextEditingController();
+
+  String email;
+  String password;
+  String confirmPassword;
+  String fullName;
+  String ICNo;
+  String address1;
+  String address2;
+  String address3;
+  String postcode;
+  String city;
+  String state;
+  String homeContact;
+  String mobileContact;
+
+  bool _isLoading = false;
+
+  signUp(
+      String email,
+      String password,
+      String fullname,
+      String ICNo,
+      String address1,
+      String address2,
+      String address3,
+      String postcode,
+      String city,
+      String state,
+      String contactHome,
+      String contactMobile,
+      String existingCust) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map data = {
+      'email': email,
+      'password': password,
+      'fullName': fullname,
+      'nric': ICNo,
+      'address1': address1,
+      'address2': address2,
+      'address3': address3,
+      'postcode': postcode,
+      'city': city,
+      'state': state,
+      'contactMobile': contactMobile,
+      'contactHome': contactHome,
+      'existingCustomer': existingCust,
+    };
+
+    var jsonResponse = null;
+    var response = await http.post(web + "auth/customer/register", body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if (jsonResponse != null) {
+        setState(() {
+          _isLoading = false;
+        });
+        sharedPreferences.setString("token", jsonResponse['token']);
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => CustomerHome1()),
+            (Route<dynamic> route) => false);
+      }
+    } else {
+      jsonResponse = json.decode(response.body);
+
+      setState(() {
+        _isLoading = false;
+      });
+      print(response.body);
+      Constants.generalToast('email has been used');
+    }
+  }
 
   void _onRememberMeChanged(bool newValue) => setState(() {
         rememberMe = newValue;
@@ -102,9 +180,9 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
 //  );
   final _formKey = GlobalKey<FormState>();
 
-  bool _isLoading = false;
   int selectedRadio;
-
+  bool invisible = true;
+  bool status = false;
 
   setSelectedRadio(int val) {
     setState(() {
@@ -112,8 +190,100 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
     });
   }
 
+  void _informationPart() {
+    setState(() {
+      if (emailController.text.isEmpty) {
+        Constants.generalToast('email cannot be empty');
+      } else if (passwordController.text.isEmpty) {
+        Constants.generalToast('password cannot be empty');
+      } else if (confirmPasswordController.text.isEmpty) {
+        Constants.generalToast('re-enter password cannot be empty');
+      } else if (passwordController.text.length < 8)
+        Constants.generalToast('The password must be at least 8 characters.');
+      else if (passwordController.text != confirmPasswordController.text) {
+        Constants.generalToast('both password field must be same');
+      } else if (!emailController.text.contains('@'))
+        Constants.generalToast('The email must be a valid email address');
+      else
+        numberSelected = RegisterMarker.second;
+    });
+  }
+
+  void clickSignUp() {
+    setState(() {
+      if (fullNameController.text.isEmpty)
+        Constants.generalToast('Fullname cannot be empty');
+      else if (ICController.text.isEmpty)
+        Constants.generalToast('IC must be filled');
+      else if (ICController.text.length != 12)
+        Constants.generalToast('The nric must be at least 12 characters.');
+      else if (address1Controller.text.isEmpty)
+        Constants.generalToast('Address Line 1 cannot ne empty');
+      else if (address2Controller.text.isEmpty)
+        Constants.generalToast('Address Line 2 cannot be empty');
+      else if (address3Controller.text.isEmpty)
+        Constants.generalToast('Address Line 3 cannot be empty');
+      else if (postcodeController.text.isEmpty)
+        Constants.generalToast('Postcode cannot be empty');
+      else if (postcodeController.text.length != 5)
+        Constants.generalToast('Postcode only 5 characters');
+      else if (cityController.text.isEmpty)
+        Constants.generalToast('City cannot be empty');
+      else if (stateController.text.isEmpty)
+        Constants.generalToast('State cannot be empty');
+      else if (mobileContactController.text.isEmpty)
+        Constants.generalToast('Mobile cannot be empty');
+      else if (mobileContactController.text.length < 10)
+        Constants.generalToast(
+            'The mobile contact must be at least 10 characters.');
+      else if (selectedRadio.toString().isEmpty)
+        Constants.generalToast(
+            'Please choose you are existing customer or not');
+      else
+
+        signUp(
+            emailController.text,
+            passwordController.text,
+            fullNameController.text,
+            ICController.text,
+            address1Controller.text,
+            address2Controller.text,
+            address3Controller.text,
+            postcodeController.text,
+            cityController.text,
+            "4",
+            mobileContactController.text,
+            homeContactController.text,
+            selectedRadio.toString());
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    email = '';
+    password = '';
+    confirmPassword = '';
+  }
+
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      email = emailController.text;
+      password = passwordController.text;
+      confirmPassword = confirmPasswordController.text;
+      fullName = fullNameController.text;
+      ICNo = ICController.text;
+      address1 = address1Controller.text;
+      address2 = address2Controller.text;
+      address3 = address3Controller.text;
+      postcode = postcodeController.text;
+      city = cityController.text;
+      state = stateController.text;
+      homeContact = homeContactController.text;
+      mobileContact = mobileContactController.text;
+    });
 
     Widget firstRegister() {
       return Container(
@@ -138,6 +308,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            maxLines: null,
                             controller: emailController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
@@ -172,6 +344,9 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            obscureText: invisible,
+                            maxLines: 1,
                             controller: passwordController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
@@ -206,8 +381,11 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            maxLines: 1,
                             controller: confirmPasswordController,
                             cursorColor: Colors.black,
+                            obscureText: invisible,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 focusedBorder: InputBorder.none,
@@ -259,11 +437,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
 //          style: style.copyWith(
 //              color: Colors.black87, fontWeight: FontWeight.bold)
                           ),
-                          onPressed: (){
-                            setState(() {
-                              numberSelected = RegisterMarker.second;
-                            });
-
+                          onPressed: () {
+                            _informationPart();
                           },
                         ),
                       ),
@@ -305,6 +480,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
                             controller: fullNameController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
@@ -339,6 +516,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
                             controller: ICController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
@@ -373,6 +551,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
                             controller: address1Controller,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
@@ -407,6 +587,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
                             controller: address2Controller,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
@@ -441,6 +623,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
                             controller: address3Controller,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
@@ -480,6 +664,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 5),
                                   child: TextFormField(
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(),
                                     controller: postcodeController,
                                     cursorColor: Colors.black,
                                     decoration: InputDecoration(
@@ -515,6 +701,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 5),
                                   child: TextFormField(
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: null,
                                     controller: cityController,
                                     cursorColor: Colors.black,
                                     decoration: InputDecoration(
@@ -553,6 +741,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5),
                           child: TextFormField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
                             controller: stateController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
@@ -592,6 +782,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 5),
                                   child: TextFormField(
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(),
                                     controller: homeContactController,
                                     cursorColor: Colors.black,
                                     decoration: InputDecoration(
@@ -627,6 +819,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 5),
                                   child: TextFormField(
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(),
                                     controller: mobileContactController,
                                     cursorColor: Colors.black,
                                     decoration: InputDecoration(
@@ -743,8 +937,9 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
 //          style: style.copyWith(
 //              color: Colors.black87, fontWeight: FontWeight.bold)
                           ),
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerHome1()));
+                          onPressed: () {
+                  clickSignUp();
+
                           },
                         ),
                       ),
@@ -776,6 +971,7 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
     return Form(
         key: _formKey,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Center(
             child: Container(
                 width: double.infinity,
@@ -824,7 +1020,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                     child: Container(
 //                        elevation: 5.0,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
+                                          borderRadius:
+                                              BorderRadius.circular(5.0),
                                           gradient: LinearGradient(
                                             colors: [
                                               Colors.orange,
@@ -845,9 +1042,10 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
 //          style: style.copyWith(
 //              color: Colors.black87, fontWeight: FontWeight.bold)
                                         ),
-                                        onPressed: (){
+                                        onPressed: () {
                                           setState(() {
-                                            numberSelected = RegisterMarker.first;
+                                            numberSelected =
+                                                RegisterMarker.first;
                                           });
                                         },
                                       ),
@@ -855,7 +1053,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.height * 0.02,
+                                  width:
+                                      MediaQuery.of(context).size.height * 0.02,
                                 ),
                                 Expanded(
                                   child: Container(
@@ -866,7 +1065,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                                     child: Container(
 //                        elevation: 5.0,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
+                                          borderRadius:
+                                              BorderRadius.circular(5.0),
                                           gradient: LinearGradient(
                                             colors: [
                                               Colors.orange,
@@ -887,10 +1087,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
 //          style: style.copyWith(
 //              color: Colors.black87, fontWeight: FontWeight.bold)
                                         ),
-                                        onPressed: (){
-                                          setState(() {
-                                            numberSelected = RegisterMarker.second;
-                                          });
+                                        onPressed: () {
+                                          _informationPart();
                                         },
                                       ),
                                     ),
@@ -900,10 +1098,8 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                             ),
                           ),
 
-
-
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.49,
+                            height: MediaQuery.of(context).size.height * 0.5,
                             child: CustomScrollView(
                               slivers: <Widget>[
                                 SliverList(
