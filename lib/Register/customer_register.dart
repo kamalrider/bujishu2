@@ -859,47 +859,41 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                         ),
 
                     //radiobutton
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        //yes
-                        ButtonBar(
-                          alignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Radio(
-                              value: 1,
-                              groupValue: selectedRadio,
-                              activeColor: Colors.white,
-                              onChanged: (val) {
-                                setSelectedRadio(val);
-                              },
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                          unselectedWidgetColor: Colors.white,
+                          disabledColor: Colors.white
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Expanded(
+                            child: ListTile(
+                                title: Text('Yes' , style: TextStyle(color: Colors.white,),),
+                                onTap: () => setState(() => selectedRadio = 0),
+                                leading: Radio(
+                                  value: 0,
+                                  groupValue: selectedRadio,
+                                  onChanged: (v) => setState(() => selectedRadio = v),
+                                  activeColor: Colors.white,
+                                )
                             ),
-                            Text(
-                              'Yes',
-                              style: TextStyle(color: Colors.white),
+                          ),
+                          Expanded(
+                            child: ListTile(
+                                title: Text('No' , style: TextStyle(color: Colors.white, ),),
+                                onTap: () => setState(() => selectedRadio = 0),
+                                leading: Radio(
+                                  value: 1,
+                                  groupValue: selectedRadio,
+                                  onChanged: (v) => setState(() => selectedRadio = v),
+                                  activeColor: Colors.white,
+                                )
                             ),
-                          ],
-                        ),
+                          ),
 
-                        //no
-                        ButtonBar(
-                          alignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Radio(
-                              value: 2,
-                              groupValue: selectedRadio,
-                              activeColor: Colors.white,
-                              onChanged: (val) {
-                                setSelectedRadio(val);
-                              },
-                            ),
-                            Text(
-                              'No',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.015,
