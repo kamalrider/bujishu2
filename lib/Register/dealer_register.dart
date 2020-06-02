@@ -116,6 +116,26 @@ class _RegisterDealerState extends State<RegisterDealerHome> {
   final TextEditingController companyStateController =
       new TextEditingController();
 
+  String _selectedLocation; // Option 2
+  List<String> _locations = [
+    'Johor',
+    'Kedah',
+    'Kelantan',
+    'Melaka',
+    'Negeri Sembilan',
+    'Pahang',
+    'Perlis',
+    'Perak',
+    'Pulau Pinang',
+    'Sabah',
+    'Sarawak',
+    'Selangor',
+    'Terengganu',
+    'W.P Kuala Lumpur',
+    'W.P Labuan',
+    'W.P Putrajaya',
+  ]; // Option 2
+
   String email;
   String password;
   String confirmPassword;
@@ -307,6 +327,29 @@ class _RegisterDealerState extends State<RegisterDealerHome> {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: <Widget>[
+
+                    Container(
+                        margin: EdgeInsets.only(top: 10),
+                        color: Colors.white,
+                        width: 300,
+                        height: 50,
+                        child: DropdownButton(
+                          isExpanded: true,
+                          hint: Text('Please Choose your state'),
+                          value: _selectedLocation,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedLocation = newValue;
+                            });
+                          },
+                          items: _locations.map((location) {
+                            return DropdownMenuItem(
+                              child: new Text(location),
+                              value: location,
+                            );
+                          }).toList(),
+                        )),
+
                     //email
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
