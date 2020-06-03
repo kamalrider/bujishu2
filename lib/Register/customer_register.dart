@@ -76,6 +76,26 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
   final TextEditingController mobileContactController =
       new TextEditingController();
 
+  String _selectedLocation; // Option 2
+  List<String> _locations = [
+    'Johor',
+    'Kedah',
+    'Kelantan',
+    'Melaka',
+    'Negeri Sembilan',
+    'Pahang',
+    'Perlis',
+    'Perak',
+    'Pulau Pinang',
+    'Sabah',
+    'Sarawak',
+    'Selangor',
+    'Terengganu',
+    'W.P Kuala Lumpur',
+    'W.P Labuan',
+    'W.P Putrajaya',
+  ]; // Option 2
+
   String email;
   String password;
   String confirmPassword;
@@ -229,14 +249,12 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
         Constants.generalToast('Postcode only 5 characters');
       else if (cityController.text.isEmpty)
         Constants.generalToast('City cannot be empty');
-      else if (stateController.text.isEmpty)
-        Constants.generalToast('State cannot be empty');
       else if (mobileContactController.text.isEmpty)
         Constants.generalToast('Mobile cannot be empty');
       else if (mobileContactController.text.length < 10)
         Constants.generalToast(
             'The mobile contact must be at least 10 characters.');
-      else if (selectedRadio.toString().isEmpty)
+      else if (selectedRadio.toString() == null)
         Constants.generalToast(
             'Please choose you are existing customer or not');
       else
@@ -252,11 +270,14 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
             postcodeController.text,
             cityController.text,
             "4",
-            mobileContactController.text,
             homeContactController.text,
+            mobileContactController.text,
             selectedRadio.toString());
     });
   }
+
+  double containerWidth;
+
 
   @override
   void initState() {
@@ -269,7 +290,9 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
+
+    double animatedWidth = MediaQuery.of(context).size.width * 0.6;
+        setState(() {
       email = emailController.text;
       password = passwordController.text;
       confirmPassword = confirmPasswordController.text;
@@ -730,35 +753,65 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                     ),
 
                     //State
+//                    Container(
+//                      width: MediaQuery.of(context).size.width * 0.8,
+//                      height: MediaQuery.of(context).size.height * 0.07,
+//                      decoration: BoxDecoration(
+//                          borderRadius: BorderRadius.circular(5),
+//                          color: Colors.white70),
+//                      child: Padding(
+//                        padding: const EdgeInsets.fromLTRB(15, 8, 8, 8),
+//                        child: Container(
+//                          margin: EdgeInsets.only(left: 5),
+//                          child: TextFormField(
+//                            keyboardType: TextInputType.multiline,
+//                            maxLines: null,
+//                            controller: stateController,
+//                            cursorColor: Colors.black,
+//                            decoration: InputDecoration(
+//                                border: InputBorder.none,
+//                                focusedBorder: InputBorder.none,
+//                                enabledBorder: InputBorder.none,
+//                                errorBorder: InputBorder.none,
+//                                disabledBorder: InputBorder.none,
+////                                      contentPadding: EdgeInsets.only(
+////                                          left: 15,
+////                                          bottom: 11,
+////                                          top: 11,
+////                                          right: 15),
+//                                hintText: 'State'),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       height: MediaQuery.of(context).size.height * 0.07,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white70),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 8, 8, 8),
-                        child: Container(
-                          margin: EdgeInsets.only(left: 5),
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            controller: stateController,
-                            cursorColor: Colors.black,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none,
-//                                      contentPadding: EdgeInsets.only(
-//                                          left: 15,
-//                                          bottom: 11,
-//                                          top: 11,
-//                                          right: 15),
-                                hintText: 'State'),
-                          ),
+                      child: DropdownButton(
+                        isExpanded: true,
+                        hint: Padding(
+                          padding: const EdgeInsets.only(left : 8.0),
+                          child: Text('Please Choose your state'),
                         ),
+                        value: _selectedLocation,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedLocation = newValue;
+                          });
+                        },
+                        items: _locations.map((location) {
+                          return DropdownMenuItem(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left :10.0),
+                              child: new Text(location),
+                            ),
+                            value: location,
+                          );
+                        }).toList(),
                       ),
                     ),
                     SizedBox(
@@ -962,6 +1015,89 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
       return firstRegister();
     }
 
+    Widget getFirstClickBtn(){
+
+      containerWidth = numberSelected == RegisterMarker.first ? animatedWidth: 0;
+
+      return Container(
+        child: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
+              ),
+                child: Center(child: Text('1 :', style: TextStyle(color: Colors.black),))),
+
+            AnimatedContainer(
+              height: 30,
+              width: containerWidth,
+              duration: Duration(seconds: 1),
+              curve: Curves.fastOutSlowIn,
+              child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.orange,
+                          Color(0xfffbcc34),
+                          Colors.yellowAccent,
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                      )),
+                  child: Center(child: Text ('Registration', style: TextStyle(color: Colors.black),))),
+            )
+          ],
+        ),
+      );
+
+    }
+
+    Widget getSecondClickBtn(){
+
+      containerWidth = numberSelected == RegisterMarker.second ? animatedWidth: 0;
+
+      return Container(
+        child: Row(
+          children: <Widget>[
+            Container(
+              height: 30,
+                width: 30,
+                padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
+                ),
+                child: Center(child: Text('2 :', style: TextStyle(color: Colors.black),))),
+            AnimatedContainer(
+              width: containerWidth,
+              duration: Duration(seconds: 1),
+              curve: Curves.fastOutSlowIn,
+              child: Container(
+                  height: 30,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.orange,
+                          Color(0xfffbcc34),
+                          Colors.yellowAccent,
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                      )),
+                  child: Center(child: Text ('Information', style: TextStyle(color: Colors.black),))),
+            )
+          ],
+        ),
+      );
+
+    }
+
     return Form(
         key: _formKey,
         child: Scaffold(
@@ -1005,89 +1141,108 @@ class _RegisterCustomerState extends State<RegisterCustomerHome> {
                             height: MediaQuery.of(context).size.height * 0.07,
                             child: Row(
                               children: <Widget>[
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(1),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.white),
-                                    child: Container(
-//                        elevation: 5.0,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.orange,
-                                              Color(0xfffbcc34),
-                                              Colors.yellowAccent,
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          )),
-//                        color: Color(0xfffbcc34),
-
-                                      child: MaterialButton(
-//                                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                        child: Text(
-                                          "Registration",
-                                          style: TextStyle(color: Colors.black),
-                                          textAlign: TextAlign.center,
-//          style: style.copyWith(
-//              color: Colors.black87, fontWeight: FontWeight.bold)
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            numberSelected =
-                                                RegisterMarker.first;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
+//                                Expanded(
+//                                  child: Container(
+//                                    padding: EdgeInsets.all(1),
+//                                    decoration: BoxDecoration(
+//                                        borderRadius: BorderRadius.circular(5),
+//                                        color: Colors.white),
+//                                    child: Container(
+////                        elevation: 5.0,
+//                                      decoration: BoxDecoration(
+//                                          borderRadius:
+//                                              BorderRadius.circular(5.0),
+//                                          gradient: LinearGradient(
+//                                            colors: [
+//                                              Colors.orange,
+//                                              Color(0xfffbcc34),
+//                                              Colors.yellowAccent,
+//                                            ],
+//                                            begin: Alignment.bottomCenter,
+//                                            end: Alignment.topCenter,
+//                                          )),
+////                        color: Color(0xfffbcc34),
+//
+//                                      child: MaterialButton(
+////                                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+//                                        child: Text(
+//                                          "Registration",
+//                                          style: TextStyle(color: Colors.black),
+//                                          textAlign: TextAlign.center,
+////          style: style.copyWith(
+////              color: Colors.black87, fontWeight: FontWeight.bold)
+//                                        ),
+//                                        onPressed: () {
+//                                          setState(() {
+//                                            numberSelected =
+//                                                RegisterMarker.first;
+//                                          });
+//                                        },
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+                              GestureDetector(
+                                child: getFirstClickBtn(),
+                                onTap: (){
+                                  setState(() {
+                                    numberSelected = RegisterMarker.first;
+                                  });
+                                },
+                              ),
                                 SizedBox(
                                   width:
                                       MediaQuery.of(context).size.height * 0.02,
                                 ),
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(1),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.white),
-                                    child: Container(
-//                        elevation: 5.0,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.orange,
-                                              Color(0xfffbcc34),
-                                              Colors.yellowAccent,
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          )),
-//                        color: Color(0xfffbcc34),
 
-                                      child: MaterialButton(
-//                                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                        child: Text(
-                                          "Information",
-                                          style: TextStyle(color: Colors.black),
-                                          textAlign: TextAlign.center,
-//          style: style.copyWith(
-//              color: Colors.black87, fontWeight: FontWeight.bold)
-                                        ),
-                                        onPressed: () {
-                                          _informationPart();
-                                        },
-                                      ),
-                                    ),
-                                  ),
+                                GestureDetector(
+                                  child: getSecondClickBtn(),
+                                  onTap: (){
+                                    setState(() {
+                                      numberSelected = RegisterMarker.second;
+//                                      _informationPart();
+                                    });
+                                  },
                                 ),
+//                                Expanded(
+//                                  child:
+//                                  Container(
+//                                    padding: EdgeInsets.all(1),
+//                                    decoration: BoxDecoration(
+//                                        borderRadius: BorderRadius.circular(5),
+//                                        color: Colors.white),
+//                                    child: Container(
+////                        elevation: 5.0,
+//                                      decoration: BoxDecoration(
+//                                          borderRadius:
+//                                              BorderRadius.circular(5.0),
+//                                          gradient: LinearGradient(
+//                                            colors: [
+//                                              Colors.orange,
+//                                              Color(0xfffbcc34),
+//                                              Colors.yellowAccent,
+//                                            ],
+//                                            begin: Alignment.bottomCenter,
+//                                            end: Alignment.topCenter,
+//                                          )),
+////                        color: Color(0xfffbcc34),
+//
+//                                      child: MaterialButton(
+////                                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+//                                        child: Text(
+//                                          "Information",
+//                                          style: TextStyle(color: Colors.black),
+//                                          textAlign: TextAlign.center,
+////          style: style.copyWith(
+////              color: Colors.black87, fontWeight: FontWeight.bold)
+//                                        ),
+//                                        onPressed: () {
+//                                          _informationPart();
+//                                        },
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
                               ],
                             ),
                           ),
