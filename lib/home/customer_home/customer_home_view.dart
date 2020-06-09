@@ -91,32 +91,32 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             child: Row(
               children: <Widget>[
                 Flexible(
-                  flex: 3,
+                  flex: 7,
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Image.asset('assets/images/bujishu_logo.png'),
                   ),
                 ),
                 Flexible(
-                  flex: 2,
+                  flex: 5,
                   child: Row(
                     children: <Widget>[
-                      Container(
-//                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        width: 50,
-                        height: 20,
-                        child: MaterialButton(
-                          onPressed: () {
-                            sharedPreferences.clear();
-                            sharedPreferences.commit();
-                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginApp()), (Route<dynamic> route) => false);
-                          },
-                          child: Image.asset(
-                            'assets/images/profile.png',
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ),
+//                      Container(
+////                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+//                        width: 50,
+//                        height: 20,
+//                        child: MaterialButton(
+//                          onPressed: () {
+//                            sharedPreferences.clear();
+//                            sharedPreferences.commit();
+//                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginApp()), (Route<dynamic> route) => false);
+//                          },
+//                          child: Image.asset(
+//                            'assets/images/profile.png',
+//                            fit: BoxFit.fitHeight,
+//                          ),
+//                        ),
+//                      ),
                       Container(
                         margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
                         child: Image.asset(
@@ -137,12 +137,25 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => CartPageHome()));
                             }
                           )),
+                      PopupMenuButton<String>(
+                        onSelected: choiceAction,
+                        itemBuilder: (BuildContext context){
+                          return Constants.choices.map((String choice){
+                            return PopupMenuItem<String>(
+                              value: choice,
+                              child: Text(choice),);
+                          })
+                              .toList();
+                        }
+                        ,),
                     ],
                   ),
                 ),
+
               ],
             ),
           ),
+
 
 //          Container(
 //            margin: EdgeInsets.only(right: 80),
@@ -931,11 +944,11 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   }
 
   void choiceAction(String choice) {
-    if (choice == Constants.profile) {
+    if (choice == Constants.weRBujishu) {
       print('profile');
-    } else if (choice == Constants.order) {
+    } else if (choice == Constants.contactUs) {
       print('order');
-    } else if (choice == Constants.cart) {
+    } else if (choice == Constants.cS) {
       print('cart');
     } else if (choice == Constants.SignOut) {
       print('SignOut');
@@ -944,17 +957,22 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 }
 
 class Constants {
-  static const String profile = 'Profile(vvip)';
-  static const String order = 'My Orders(vvip)';
-  static const String cart = 'My Cart(vvip)';
+  static const String weRBujishu = 'WE ARE BUJISHU';
+  static const String contactUs = 'Contact Us';
+  static const String cS = 'Customer Service';
+  static const String facebook = 'Facebook';
+  static const String insta = 'Instagram';
+
 
 //  static const String Settings = 'Settings';
   static const String SignOut = 'Sign out';
 
   static const List<String> choices = <String>[
-    profile,
-    order,
-    cart,
+    weRBujishu,
+    contactUs,
+    cS,
+    facebook,
+    insta,
     SignOut,
   ];
 }

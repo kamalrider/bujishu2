@@ -16,3 +16,4 @@ void generalToast(String toastTxt){
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1);
 }
+
