@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../login.dart';
 
-void main() => runApp(CustomerHome1());
+
 
 class CustomerHome1 extends StatelessWidget {
   @override
@@ -50,22 +50,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
   //Map<String, int> map = {imageList:_current};
 
-  SharedPreferences sharedPreferences;
 
-  @override
-  void initState() {
-    super.initState();
-    checkLoginStatus();
-  }
-
-  checkLoginStatus() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("token") == null) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => LoginApp()),
-          (Route<dynamic> route) => false);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,18 +60,19 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
 
     return Scaffold(
-      drawer: Container(
-        width: 200,
-        child: NavDrawer(),
-      ),
-      appBar: headerNav(context),
+//      drawer: Container(
+//        width: 200,
+//        child: NavDrawer(),
+//      ),
+//      appBar: headerNav(context),
       body: Center(
         child: Container(
           color: Colors.black,
           child: Column(
             children: <Widget>[
 //uncommend
-              Flexible(
+
+              /*Flexible(
                   flex: 2,
                   child: Column(children: <Widget>[
                     SizedBox(
@@ -153,7 +139,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                         ],
                       ),
                     ),
-                  ])),
+                  ])),*/
 
 //uncommend
 //              Divider(
@@ -830,7 +816,14 @@ AppBar headerNav(BuildContext context) {
   }
 
 
-  return AppBar(
+  return
+    AppBar(
+    bottom: TabBar(
+      tabs: <Widget>[
+        Tab(text: 'HOME',),
+        Tab(text: 'DASHBOARD',),
+      ],
+    ),
     iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
     backgroundColor: Colors.black,
     actions: <Widget>[
@@ -848,6 +841,7 @@ AppBar headerNav(BuildContext context) {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Image.asset('assets/images/bujishu_logo.png'),
+//              child: Icon(Icons.menu),
               ),
             ),
             Flexible(

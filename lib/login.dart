@@ -1,3 +1,4 @@
+import 'package:bujishu2/home/HomeScreen.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -110,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (BuildContext context) => CustomerHome1()),
+                builder: (BuildContext context) => HomeScreen()),
             (Route<dynamic> route) => false);
       }
     } else {
