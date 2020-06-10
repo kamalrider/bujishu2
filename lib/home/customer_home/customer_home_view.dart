@@ -60,168 +60,26 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
   checkLoginStatus() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    if(sharedPreferences.getString("token") == null) {
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginApp()), (Route<dynamic> route) => false);
+    if (sharedPreferences.getString("token") == null) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => LoginApp()),
+          (Route<dynamic> route) => false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double y = MediaQuery
-        .of(context)
-        .size
-        .height * 0.07;
+    double y = MediaQuery.of(context).size.height * 0.07;
     int z = y.toInt();
+
+
 
     return Scaffold(
       drawer: Container(
         width: 200,
         child: NavDrawer(),
       ),
-      appBar: AppBar(
-        iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
-        backgroundColor: Colors.black,
-        actions: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 50),
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  flex: 7,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset('assets/images/bujishu_logo.png'),
-                  ),
-                ),
-                Flexible(
-                  flex: 5,
-                  child: Row(
-                    children: <Widget>[
-//                      Container(
-////                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-//                        width: 50,
-//                        height: 20,
-//                        child: MaterialButton(
-//                          onPressed: () {
-//                            sharedPreferences.clear();
-//                            sharedPreferences.commit();
-//                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginApp()), (Route<dynamic> route) => false);
-//                          },
-//                          child: Image.asset(
-//                            'assets/images/profile.png',
-//                            fit: BoxFit.fitHeight,
-//                          ),
-//                        ),
-//                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        child: Image.asset(
-                          'assets/images/heart.png',
-                          fit: BoxFit.fitHeight,
-                          height: 20,
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                          height: 20,
-                          child: InkWell(
-                            child: Image.asset(
-                              'assets/images/cart.png',
-                              fit: BoxFit.fitHeight,
-                            ),
-                            onTap:(){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CartPageHome()));
-                            }
-                          )),
-                      PopupMenuButton<String>(
-                        onSelected: choiceAction,
-                        itemBuilder: (BuildContext context){
-                          return Constants.choices.map((String choice){
-                            return PopupMenuItem<String>(
-                              value: choice,
-                              child: Text(choice),);
-                          })
-                              .toList();
-                        }
-                        ,),
-                    ],
-                  ),
-                ),
-
-              ],
-            ),
-          ),
-
-
-//          Container(
-//            margin: EdgeInsets.only(right: 80),
-//          ),
-        ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-//            Align(
-//                alignment: Alignment.topLeft,
-//                child: Container(
-//                  margin: EdgeInsets.only(right: 120),
-//                  child: Image.asset(
-//                    'assets/images/bujishu_logo.png',
-//                    fit: BoxFit.contain,
-//                    height: 50,
-//                  ),
-//                ),
-//
-//            ),
-
-//            Container(
-//                padding: const EdgeInsets.all(8.0), child: Text('YourAppTitle'))
-
-            /*Container(
-              margin: EdgeInsets.only(right: 10),
-              child: Image.asset(
-                'assets/images/profile.png',
-                fit: BoxFit.contain,
-                height: 20,
-              ),
-            ),
-
-            Container(
-              margin: EdgeInsets.only(right: 10),
-              child: Image.asset(
-                'assets/images/heart.png',
-                fit: BoxFit.contain,
-                height: 20,
-              ),
-            ),
-
-            Container(
-              // margin: EdgeInsets.only(right: 10),
-                child: Image.asset(
-                  'assets/images/cart.png',
-                  fit: BoxFit.contain,
-                  height: 20,
-                )), */
-
-//            Container(
-//                margin: EdgeInsets.only(right: 20),
-//                width: 5,
-//                child: PopupMenuButton<String>(
-//                    onSelected: choiceAction,
-//                    itemBuilder: (BuildContext context) {
-//                      return Constants.choices.map((String choice) {
-//                        return PopupMenuItem<String>(
-//                          value: choice,
-//                          child: Text(choice),
-//                        );
-//                      }).toList();
-//                    }))
-          ],
-        ),
-      ),
+      appBar: headerNav(context),
       body: Center(
         child: Container(
           color: Colors.black,
@@ -232,17 +90,11 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                   flex: 2,
                   child: Column(children: <Widget>[
                     SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.02,
+                      height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     Container(
                       width: 335,
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.05,
+                      height: MediaQuery.of(context).size.height * 0.05,
 
                       //color: Colors.white,
                       decoration: BoxDecoration(
@@ -317,10 +169,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                       color: Color(0xffD4AF37),
                     ),
                     SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.01,
+                      height: MediaQuery.of(context).size.height * 0.01,
                     ),
                     Align(
                       alignment: Alignment.center,
@@ -328,10 +177,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                         color: Colors.black,
                         width: double.infinity,
                         padding: EdgeInsets.only(left: 5, right: 5),
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.20,
+                        height: MediaQuery.of(context).size.height * 0.20,
 //            padding: EdgeInsets.only(left: 50,right: 50),
                         child: Carousel(
                           boxFit: BoxFit.fitWidth,
@@ -356,10 +202,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.01,
+                      height: MediaQuery.of(context).size.height * 0.01,
                     ),
                     Container(
                       height: 2,
@@ -470,17 +313,17 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: FutureBuilder<List<Modelt>>(
                     future: fetchAlbum(),
-                    builder: (context,snapshot){
-
+                    builder: (context, snapshot) {
                       return GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3, childAspectRatio: 1.2),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3, childAspectRatio: 1.2),
                           itemCount: ProductList.categoryList.length,
                           itemBuilder: (context, index) {
                             final item = ProductList.categoryList[index];
                             return Padding(
-                              padding:
-                              const EdgeInsets.only(left: 8, right: 8, top: 8),
+                              padding: const EdgeInsets.only(
+                                  left: 8, right: 8, top: 8),
                               child: Container(
                                 child: MaterialButton(
                                   child: Column(
@@ -503,29 +346,44 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                                   onPressed: () {
                                     var childRoute = new MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                      new ProductCategoryHomeAPI(value: item),
+                                          new ProductCategoryHomeAPI(
+                                              value: item),
                                     );
 
                                     var productRoute = new MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                      new ProductDetailHome(value: item.APIid, pageKey: 0,),
+                                          new ProductDetailHome(
+                                        value: item.APIid,
+                                        pageKey: 0,
+                                      ),
                                     );
-                                      if (snapshot.hasData){
-                                        if (snapshot.data.where((i)=> i.parentCategoryId == item.APIid).toList().length > 0 )
-                                          Navigator.of(context).push(childRoute);
-                                        else if (snapshot.data.where((i)=> i.parentCategoryId == item.APIid).toList().length == 0 )
-                                          Navigator.of(context).push(productRoute);
-                                      } else {
+                                    if (snapshot.hasData) {
+                                      if (snapshot.data
+                                              .where((i) =>
+                                                  i.parentCategoryId ==
+                                                  item.APIid)
+                                              .toList()
+                                              .length >
+                                          0)
                                         Navigator.of(context).push(childRoute);
-                                      }
-
+                                      else if (snapshot.data
+                                              .where((i) =>
+                                                  i.parentCategoryId ==
+                                                  item.APIid)
+                                              .toList()
+                                              .length ==
+                                          0)
+                                        Navigator.of(context)
+                                            .push(productRoute);
+                                    } else {
+                                      Navigator.of(context).push(childRoute);
+                                    }
                                   },
                                 ),
                               ),
                             );
                           });
                     },
-
                   ),
                 ),
 //                child: Column(
@@ -716,10 +574,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                         color: Color(0xffD4AF37),
                       ),
                       SizedBox(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.01,
+                        height: MediaQuery.of(context).size.height * 0.01,
                       ),
                       Row(
                         children: <Widget>[
@@ -909,16 +764,13 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   Widget categoryIcon() {
     return GridView.builder(
         gridDelegate:
-        SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
         itemCount: 3,
         itemBuilder: (context, index) {
           final item = ProductList.categoryList[index];
           return Column(children: <Widget>[
             Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.12,
+              height: MediaQuery.of(context).size.height * 0.12,
               child: Image.asset('assets/images/ligthing.png'),
             ),
             Container(
@@ -942,18 +794,6 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
           ]);
         });
   }
-
-  void choiceAction(String choice) {
-    if (choice == Constants.weRBujishu) {
-      print('profile');
-    } else if (choice == Constants.contactUs) {
-      print('order');
-    } else if (choice == Constants.cS) {
-      print('cart');
-    } else if (choice == Constants.SignOut) {
-      print('SignOut');
-    }
-  }
 }
 
 class Constants {
@@ -962,7 +802,6 @@ class Constants {
   static const String cS = 'Customer Service';
   static const String facebook = 'Facebook';
   static const String insta = 'Instagram';
-
 
 //  static const String Settings = 'Settings';
   static const String SignOut = 'Sign out';
@@ -975,4 +814,162 @@ class Constants {
     insta,
     SignOut,
   ];
+}
+
+AppBar headerNav(BuildContext context) {
+  void choiceAction(String choice) {
+    if (choice == Constants.weRBujishu) {
+      print('profile');
+    } else if (choice == Constants.contactUs) {
+      print('order');
+    } else if (choice == Constants.cS) {
+      print('cart');
+    } else if (choice == Constants.SignOut) {
+      print('SignOut');
+    }
+  }
+
+
+  return AppBar(
+    iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
+    backgroundColor: Colors.black,
+    actions: <Widget>[
+      Container(
+        padding: EdgeInsets.only(left: 50),
+//        width: MediaQuery
+//            .of()
+//            .size
+//            .width,
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: <Widget>[
+            Flexible(
+              flex: 7,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Image.asset('assets/images/bujishu_logo.png'),
+              ),
+            ),
+            Flexible(
+              flex: 5,
+              child: Row(
+                children: <Widget>[
+//                      Container(
+////                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+//                        width: 50,
+//                        height: 20,
+//                        child: MaterialButton(
+//                          onPressed: () {
+//                            sharedPreferences.clear();
+//                            sharedPreferences.commit();
+//                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginApp()), (Route<dynamic> route) => false);
+//                          },
+//                          child: Image.asset(
+//                            'assets/images/profile.png',
+//                            fit: BoxFit.fitHeight,
+//                          ),
+//                        ),
+//                      ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: Image.asset(
+                      'assets/images/heart.png',
+                      fit: BoxFit.fitHeight,
+                      height: 20,
+                    ),
+                  ),
+                  Container(
+                      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      height: 20,
+                      child: InkWell(
+                          child: Image.asset(
+                            'assets/images/cart.png',
+                            fit: BoxFit.fitHeight,
+                          ),
+                          onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CartPageHome()));
+                          })),
+                  PopupMenuButton<String>(
+                    onSelected: choiceAction,
+                    itemBuilder: (BuildContext context) {
+                      return Constants.choices.map((String choice) {
+                        return PopupMenuItem<String>(
+                          value: choice,
+                          child: Text(choice),
+                        );
+                      }).toList();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+
+//          Container(
+//            margin: EdgeInsets.only(right: 80),
+//          ),
+    ],
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+//            Align(
+//                alignment: Alignment.topLeft,
+//                child: Container(
+//                  margin: EdgeInsets.only(right: 120),
+//                  child: Image.asset(
+//                    'assets/images/bujishu_logo.png',
+//                    fit: BoxFit.contain,
+//                    height: 50,
+//                  ),
+//                ),
+//
+//            ),
+
+//            Container(
+//                padding: const EdgeInsets.all(8.0), child: Text('YourAppTitle'))
+
+        /*Container(
+              margin: EdgeInsets.only(right: 10),
+              child: Image.asset(
+                'assets/images/profile.png',
+                fit: BoxFit.contain,
+                height: 20,
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              child: Image.asset(
+                'assets/images/heart.png',
+                fit: BoxFit.contain,
+                height: 20,
+              ),
+            ),
+
+            Container(
+              // margin: EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  'assets/images/cart.png',
+                  fit: BoxFit.contain,
+                  height: 20,
+                )), */
+
+//            Container(
+//                margin: EdgeInsets.only(right: 20),
+//                width: 5,
+//                child: PopupMenuButton<String>(
+//                    onSelected: choiceAction,
+//                    itemBuilder: (BuildContext context) {
+//                      return Constants.choices.map((String choice) {
+//                        return PopupMenuItem<String>(
+//                          value: choice,
+//                          child: Text(choice),
+//                        );
+//                      }).toList();
+//                    }))
+      ],
+    ),
+  );
 }

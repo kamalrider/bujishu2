@@ -1,3 +1,5 @@
+import 'package:bujishu2/home/customer_home/customer_home_view.dart';
+import 'package:bujishu2/home/customer_home/nav_drawer.dart';
 import 'package:bujishu2/product_and_category/view/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,61 +33,12 @@ class CartPageState extends State<CartPageHome> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
-        backgroundColor: Colors.black,
-        actions: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 50),
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  flex: 3,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset('assets/images/logo.png'),
-                  ),
-                ),
-                Flexible(
-                  flex: 2,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        height: 20,
-                        child: Image.asset(
-                          'assets/images/profile.png',
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        child: Image.asset(
-                          'assets/images/heart.png',
-                          fit: BoxFit.fitHeight,
-                          height: 20,
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                          height: 20,
-                          child: Image.asset(
-                            'assets/images/cart.png',
-                            fit: BoxFit.fitHeight,
-                          )),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [],
-        ),
+      appBar: headerNav(context),
+      drawer: Container(
+        width: 200,
+        child: NavDrawer(),
       ),
+
       body: Container(
         child: Column(
           children: <Widget>[
