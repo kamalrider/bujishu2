@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 
 import 'cart.dart';
 
-void main() => runApp(PaymentMethod());
+void main() => runApp(PaymentMethod2());
 
 enum methodFilter { debitorcredit, offline }
 
-class PaymentMethod extends StatelessWidget {
+class PaymentMethod2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,17 +18,17 @@ class PaymentMethod extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PaymentMethodHome(),
+      home: PaymentMethod2Home(),
     );
   }
 }
 
-class PaymentMethodHome extends StatefulWidget {
+class PaymentMethod2Home extends StatefulWidget {
   @override
-  PaymentMethodState createState() => PaymentMethodState();
+  PaymentMethod2State createState() => PaymentMethod2State();
 }
 
-class PaymentMethodState extends State<PaymentMethodHome> {
+class PaymentMethod2State extends State<PaymentMethod2Home> {
   bool _value1 = false;
 
   void _value1Changed(bool value) => setState(() => _value1 = value);
@@ -473,153 +473,6 @@ class PaymentMethodState extends State<PaymentMethodHome> {
     });
 
     return Scaffold(
-      drawer: Container(
-        width: 200,
-        child: NavDrawer(),
-      ),
-      appBar: AppBar(
-        iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
-        backgroundColor: Colors.black,
-        actions: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 50),
-//        width: MediaQuery
-//            .of()
-//            .size
-//            .width,
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  flex: 7,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset('assets/images/bujishu_logo.png'),
-//              child: Icon(Icons.menu),
-                  ),
-                ),
-                Flexible(
-                  flex: 5,
-                  child: Row(
-                    children: <Widget>[
-//                      Container(
-////                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-//                        width: 50,
-//                        height: 20,
-//                        child: MaterialButton(
-//                          onPressed: () {
-//                            sharedPreferences.clear();
-//                            sharedPreferences.commit();
-//                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginApp()), (Route<dynamic> route) => false);
-//                          },
-//                          child: Image.asset(
-//                            'assets/images/profile.png',
-//                            fit: BoxFit.fitHeight,
-//                          ),
-//                        ),
-//                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        child: Image.asset(
-                          'assets/images/heart.png',
-                          fit: BoxFit.fitHeight,
-                          height: 20,
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                          height: 20,
-                          child: InkWell(
-                              child: Image.asset(
-                                'assets/images/cart.png',
-                                fit: BoxFit.fitHeight,
-                              ),
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => CartPageHome()));
-                              })),
-                      PopupMenuButton<String>(
-                        onSelected: choiceAction,
-                        itemBuilder: (BuildContext context) {
-                          return Constants.choices.map((String choice) {
-                            return PopupMenuItem<String>(
-                              value: choice,
-                              child: Text(choice),
-                            );
-                          }).toList();
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-//          Container(
-//            margin: EdgeInsets.only(right: 80),
-//          ),
-        ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-//            Align(
-//                alignment: Alignment.topLeft,
-//                child: Container(
-//                  margin: EdgeInsets.only(right: 120),
-//                  child: Image.asset(
-//                    'assets/images/bujishu_logo.png',
-//                    fit: BoxFit.contain,
-//                    height: 50,
-//                  ),
-//                ),
-//
-//            ),
-
-//            Container(
-//                padding: const EdgeInsets.all(8.0), child: Text('YourAppTitle'))
-
-            /*Container(
-              margin: EdgeInsets.only(right: 10),
-              child: Image.asset(
-                'assets/images/profile.png',
-                fit: BoxFit.contain,
-                height: 20,
-              ),
-            ),
-
-            Container(
-              margin: EdgeInsets.only(right: 10),
-              child: Image.asset(
-                'assets/images/heart.png',
-                fit: BoxFit.contain,
-                height: 20,
-              ),
-            ),
-
-            Container(
-              // margin: EdgeInsets.only(right: 10),
-                child: Image.asset(
-                  'assets/images/cart.png',
-                  fit: BoxFit.contain,
-                  height: 20,
-                )), */
-
-//            Container(
-//                margin: EdgeInsets.only(right: 20),
-//                width: 5,
-//                child: PopupMenuButton<String>(
-//                    onSelected: choiceAction,
-//                    itemBuilder: (BuildContext context) {
-//                      return Constants.choices.map((String choice) {
-//                        return PopupMenuItem<String>(
-//                          value: choice,
-//                          child: Text(choice),
-//                        );
-//                      }).toList();
-//                    }))
-          ],
-        ),
-      ),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -629,7 +482,7 @@ class PaymentMethodState extends State<PaymentMethodHome> {
             ),
             Container(
               height:
-                  MediaQuery.of(context).size.height  - appBarHeight - 2 - 40,
+                  MediaQuery.of(context).size.height   - appBarHeight - 100,
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverList(

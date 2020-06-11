@@ -1,6 +1,8 @@
+import 'package:bujishu2/Pay/payment_method2.dart';
 import 'package:bujishu2/home/customer_home/nav_drawer.dart';
 import 'package:bujishu2/product_and_category/view/product_detail.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
@@ -166,65 +168,7 @@ class ProductBuyState extends State<ProductBuyHome> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      drawer: Container(
-        width: 200,
-        child: NavDrawer(),
-      ),
-      appBar: AppBar(
-        iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
-        backgroundColor: Colors.black,
-        actions: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 50),
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  flex: 3,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset('assets/images/logo.png'),
-                  ),
-                ),
-                Flexible(
-                  flex: 2,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        height: 20,
-                        child: Image.asset(
-                          'assets/images/profile.png',
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        child: Image.asset(
-                          'assets/images/heart.png',
-                          fit: BoxFit.fitHeight,
-                          height: 20,
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                          height: 20,
-                          child: Image.asset(
-                            'assets/images/cart.png',
-                            fit: BoxFit.fitHeight,
-                          )),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [],
-        ),
-      ),
+
       body: FutureBuilder<ProductBuyModel>(
         future: getProductBuy(widget.value.soldBy[0].id.toString(), widget.value.soldBy[0].panelAccountId.toString()),
         builder: (context, apidata) {
@@ -241,98 +185,6 @@ class ProductBuyState extends State<ProductBuyHome> {
           return Container(
             child: Column(
               children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      border: Border(
-                          bottom: BorderSide(width: 2, color: Colors.yellow)),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              height: MediaQuery.of(context).size.height * 0.05,
-
-                              //color: Colors.white,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.5,
-                                    child: TextField(),
-                                  ),
-                                  Container(
-                                    width: 2,
-                                    color: Color(0xfffbcc34),
-                                  ),
-                                  Container(
-                                    width: 30,
-                                    padding: EdgeInsets.fromLTRB(
-                                      8,
-                                      8,
-                                      8,
-                                      8,
-                                    ),
-                                    child: Image.asset(
-                                      'assets/images/search.png',
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 2,
-                            ),
-                            Container(
-                              width: 30,
-                              margin: EdgeInsets.only(left: 20),
-                              padding: EdgeInsets.fromLTRB(
-                                0,
-                                0,
-                                0,
-                                0,
-                              ),
-                              child: Image.asset(
-                                'assets/images/camera.png',
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                            Container(
-                              width: 30,
-                              margin: EdgeInsets.only(left: 20),
-                              padding: EdgeInsets.fromLTRB(
-                                0,
-                                0,
-                                0,
-                                0,
-                              ),
-                              child: Image.asset(
-                                'assets/images/mike.png',
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 Expanded(
                   flex: 8,
                   child: Container(
@@ -560,7 +412,7 @@ class ProductBuyState extends State<ProductBuyHome> {
                                                 border: Border.all(
                                               color: Colors.black,
                                             )),
-                                            child: Text(_counter.toString())),
+                                            child: Text(_counter.toString(), textAlign: TextAlign.center,)),
                                         MaterialButton(
                                           child: Container(
                                             child: Icon(Icons.add),
@@ -589,7 +441,7 @@ class ProductBuyState extends State<ProductBuyHome> {
                                               child: RaisedButton(
                                                   color: Colors.yellow,
                                                   onPressed: () {
-                                                    setState(() {});
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentMethod2Home()));
                                                   },
                                                   child: Text('Buy Now')),
                                             ),
@@ -600,7 +452,7 @@ class ProductBuyState extends State<ProductBuyHome> {
                                               child: RaisedButton(
                                                   color: Colors.yellow,
                                                   onPressed: () {
-                                                    setState(() {});
+                                                    Constants.generalToast('Your item have been added to CART');
                                                   },
                                                   child: Text('Add To Cart')),
                                             ),
@@ -827,110 +679,11 @@ class ProductBuyState extends State<ProductBuyHome> {
                 Expanded(
                   flex: 0,
                   child: Container(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.black,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            height: 2,
-                            color: Color(0xffD4AF37),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  'About Us',
-                                  style: TextStyle(
-                                      color: Color(0xfffbcc34), fontSize: 5),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Partnership',
-                                  style: TextStyle(
-                                      color: Color(0xfffbcc34), fontSize: 5),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Sign In',
-                                  style: TextStyle(
-                                      color: Color(0xfffbcc34), fontSize: 5),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  'FAQ',
-                                  style: TextStyle(
-                                      color: Color(0xfffbcc34), fontSize: 5),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Privacy Policy',
-                                  style: TextStyle(
-                                      color: Color(0xfffbcc34), fontSize: 5),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'View Cart',
-                                  style: TextStyle(
-                                      color: Color(0xfffbcc34), fontSize: 5),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  'Warranty',
-                                  style: TextStyle(
-                                      color: Color(0xfffbcc34), fontSize: 5),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Contact Us',
-                                  style: TextStyle(
-                                      color: Color(0xfffbcc34), fontSize: 5),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'My Wishlist',
-                                  style: TextStyle(
-                                      color: Color(0xfffbcc34), fontSize: 5),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
-                        ],
-                      ),
-                    ),
+                    margin:EdgeInsets.fromLTRB(0, 2, 0, 2),
+                    child: Text('@2020 Bujishu. All Rights Reserved', style: TextStyle(color: Colors.black, fontSize: 12),),
+
                   ),
-                ),
+                )
               ],
             ),
           );

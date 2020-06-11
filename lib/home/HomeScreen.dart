@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login.dart';
+import 'customer_dashboard.dart';
 import 'customer_home/customer_home_view.dart';
+import 'customer_home/nav_drawer.dart';
 
 void main() => runApp(HomeScreen());
 
@@ -65,9 +67,14 @@ class _HomeScreenState extends State<HomeScreenHome>{
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
+          drawer: Container(
+          width: 200,
+          child: NavDrawer(),
+        ),
           appBar:
           AppBar(
             bottom: TabBar(
+              indicatorColor: Color(0xffD4AF37),
               tabs: [
                 Tab(text: 'HOME',),
                 Tab(text: 'DASHBOARD',)
@@ -218,7 +225,7 @@ class _HomeScreenState extends State<HomeScreenHome>{
           body: TabBarView(
             children: [
               CustomerHome1(),
-              SecondScreen(),
+              CustomerDashboardHome(),
             ],
           ),
         ),

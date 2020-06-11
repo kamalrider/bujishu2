@@ -1,3 +1,5 @@
+import 'package:bujishu2/Pay/payment_method.dart';
+import 'package:bujishu2/home/HomeScreen.dart';
 import 'package:bujishu2/home/customer_home/customer_home_view.dart';
 import 'package:bujishu2/home/customer_home/nav_drawer.dart';
 import 'package:bujishu2/product_and_category/view/product_detail.dart';
@@ -29,110 +31,174 @@ class CartPageState extends State<CartPageHome> {
 
   void _value1Changed(bool value) => setState(() => _value1 = value);
 
+  void choiceAction(String choice) {
+    if (choice == Constants.weRBujishu) {
+      print('profile');
+    } else if (choice == Constants.contactUs) {
+      print('order');
+    } else if (choice == Constants.cS) {
+      print('cart');
+    } else if (choice == Constants.SignOut) {
+      print('SignOut');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: headerNav(context),
+//      appBar: headerNav(context),
       drawer: Container(
         width: 200,
         child: NavDrawer(),
+      ),
+      appBar: AppBar(
+        iconTheme: new IconThemeData(color: Color(0xfffbcc34)),
+        backgroundColor: Colors.black,
+        actions: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 50),
+//        width: MediaQuery
+//            .of()
+//            .size
+//            .width,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  flex: 7,
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Image.asset('assets/images/bujishu_logo.png'),
+//              child: Icon(Icons.menu),
+                  ),
+                ),
+                Flexible(
+                  flex: 5,
+                  child: Row(
+                    children: <Widget>[
+//                      Container(
+////                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+//                        width: 50,
+//                        height: 20,
+//                        child: MaterialButton(
+//                          onPressed: () {
+//                            sharedPreferences.clear();
+//                            sharedPreferences.commit();
+//                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginApp()), (Route<dynamic> route) => false);
+//                          },
+//                          child: Image.asset(
+//                            'assets/images/profile.png',
+//                            fit: BoxFit.fitHeight,
+//                          ),
+//                        ),
+//                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: Image.asset(
+                          'assets/images/heart.png',
+                          fit: BoxFit.fitHeight,
+                          height: 20,
+                        ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          height: 20,
+                          child: InkWell(
+                              child: Image.asset(
+                                'assets/images/cart.png',
+                                fit: BoxFit.fitHeight,
+                              ),
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => CartPageHome()));
+                              })),
+                      PopupMenuButton<String>(
+                        onSelected: choiceAction,
+                        itemBuilder: (BuildContext context) {
+                          return Constants.choices.map((String choice) {
+                            return PopupMenuItem<String>(
+                              value: choice,
+                              child: Text(choice),
+                            );
+                          }).toList();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+//          Container(
+//            margin: EdgeInsets.only(right: 80),
+//          ),
+        ],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+//            Align(
+//                alignment: Alignment.topLeft,
+//                child: Container(
+//                  margin: EdgeInsets.only(right: 120),
+//                  child: Image.asset(
+//                    'assets/images/bujishu_logo.png',
+//                    fit: BoxFit.contain,
+//                    height: 50,
+//                  ),
+//                ),
+//
+//            ),
+
+//            Container(
+//                padding: const EdgeInsets.all(8.0), child: Text('YourAppTitle'))
+
+            /*Container(
+              margin: EdgeInsets.only(right: 10),
+              child: Image.asset(
+                'assets/images/profile.png',
+                fit: BoxFit.contain,
+                height: 20,
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              child: Image.asset(
+                'assets/images/heart.png',
+                fit: BoxFit.contain,
+                height: 20,
+              ),
+            ),
+
+            Container(
+              // margin: EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  'assets/images/cart.png',
+                  fit: BoxFit.contain,
+                  height: 20,
+                )), */
+
+//            Container(
+//                margin: EdgeInsets.only(right: 20),
+//                width: 5,
+//                child: PopupMenuButton<String>(
+//                    onSelected: choiceAction,
+//                    itemBuilder: (BuildContext context) {
+//                      return Constants.choices.map((String choice) {
+//                        return PopupMenuItem<String>(
+//                          value: choice,
+//                          child: Text(choice),
+//                        );
+//                      }).toList();
+//                    }))
+          ],
+        ),
       ),
 
       body: Container(
         child: Column(
           children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  border: Border(
-                      bottom: BorderSide(width: 2, color: Colors.yellow)),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          height: MediaQuery.of(context).size.height * 0.05,
-
-                          //color: Colors.white,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: TextField(),
-                              ),
-                              Container(
-                                width: 2,
-                                color: Color(0xfffbcc34),
-                              ),
-                              Container(
-                                width: 30,
-                                padding: EdgeInsets.fromLTRB(
-                                  8,
-                                  8,
-                                  8,
-                                  8,
-                                ),
-                                child: Image.asset(
-                                  'assets/images/search.png',
-                                  fit: BoxFit.fitWidth,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Container(
-                          width: 30,
-                          margin: EdgeInsets.only(left: 20),
-                          padding: EdgeInsets.fromLTRB(
-                            0,
-                            0,
-                            0,
-                            0,
-                          ),
-                          child: Image.asset(
-                            'assets/images/camera.png',
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        Container(
-                          width: 30,
-                          margin: EdgeInsets.only(left: 20),
-                          padding: EdgeInsets.fromLTRB(
-                            0,
-                            0,
-                            0,
-                            0,
-                          ),
-                          child: Image.asset(
-                            'assets/images/mike.png',
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
             Expanded(
               flex: 6,
               child: Container(
@@ -272,7 +338,11 @@ class CartPageState extends State<CartPageHome> {
                                               end: Alignment.topCenter,
                                             )),
                                         child: MaterialButton(
-                                          child: Text('PROCEED TO CHECKOUT', style: TextStyle(color: Colors.black),),
+                                          onPressed : (){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentMethod()));
+                                          },
+                                          child: Text('PROCEED TO CHECKOUT', style: TextStyle(color: Colors.black),
+                                          ),
                                         ),
                                       ),
                                     )
@@ -291,108 +361,9 @@ class CartPageState extends State<CartPageHome> {
             Expanded(
               flex: 0,
               child: Container(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.black,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 2,
-                        color: Color(0xffD4AF37),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              'About Us',
-                              style: TextStyle(
-                                  color: Color(0xfffbcc34), fontSize: 5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Partnership',
-                              style: TextStyle(
-                                  color: Color(0xfffbcc34), fontSize: 5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Sign In',
-                              style: TextStyle(
-                                  color: Color(0xfffbcc34), fontSize: 5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              'FAQ',
-                              style: TextStyle(
-                                  color: Color(0xfffbcc34), fontSize: 5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Privacy Policy',
-                              style: TextStyle(
-                                  color: Color(0xfffbcc34), fontSize: 5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'View Cart',
-                              style: TextStyle(
-                                  color: Color(0xfffbcc34), fontSize: 5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              'Warranty',
-                              style: TextStyle(
-                                  color: Color(0xfffbcc34), fontSize: 5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Contact Us',
-                              style: TextStyle(
-                                  color: Color(0xfffbcc34), fontSize: 5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'My Wishlist',
-                              style: TextStyle(
-                                  color: Color(0xfffbcc34), fontSize: 5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
-                      ),
-                    ],
-                  ),
-                ),
+                margin:EdgeInsets.fromLTRB(0, 2, 0, 2),
+                child: Text('@2020 Bujishu. All Rights Reserved', style: TextStyle(color: Colors.black, fontSize: 12),),
+
               ),
             )
           ],
