@@ -1,6 +1,6 @@
 // main.dart
 
-import 'package:bujishu2/Tutorial/secondScreen.dart';
+import 'package:Bujishu/Tutorial/secondScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'flutterScreen.dart';

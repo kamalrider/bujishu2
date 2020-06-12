@@ -1,9 +1,9 @@
-import 'package:bujishu2/product_and_category/view/product_buy.dart';
-import 'package:bujishu2/product_and_category/view/product_detail.dart';
+import 'package:Bujishu/product_and_category/view/product_buy.dart';
+import 'package:Bujishu/product_and_category/view/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:bujishu2/constant.dart' as Constants;
+import 'package:Bujishu/constant.dart' as Constants;
 
 Future<List<DetailCategory>> fetchList() async {
   final response = await http.get(Constants.web + 'categories?products=true');

@@ -1,15 +1,16 @@
 
 import 'dart:math';
 
-import 'package:bujishu2/constant.dart';
-import 'package:bujishu2/home/customer_home/nav_drawer.dart';
-import 'package:bujishu2/product_and_category/model/category.dart';
-import 'package:bujishu2/product_and_category/model/product.dart';
-import 'package:bujishu2/product_and_category/view/product_detail.dart';
+import 'package:Bujishu/constant.dart';
+import 'package:Bujishu/home/customer_home/nav_drawer.dart';
+import 'package:Bujishu/home/general_appbar.dart';
+import 'package:Bujishu/product_and_category/model/category.dart';
+import 'package:Bujishu/product_and_category/model/product.dart';
+import 'package:Bujishu/product_and_category/view/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:bujishu2/constant.dart' as Constants;
+import 'package:Bujishu/constant.dart' as Constants;
 
 Future<List<Modelt>> fetchAlbum() async {
   final response = await http.get(Constants.web + 'categories');
@@ -180,9 +181,11 @@ class ProductCategory extends StatelessWidget {
 }
 
 class ProductCategoryHomeAPI extends StatefulWidget {
-  final Category value;
 
-  ProductCategoryHomeAPI({Key key, this.value}) : super(key: key);
+  final int valueId;
+  final int valueApi;
+
+  ProductCategoryHomeAPI({Key key, this.valueId, this.valueApi}) : super(key: key);
 
   @override
   _ProductCategoryHomeState createState() => _ProductCategoryHomeState();
@@ -232,7 +235,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
     final list = await fetchAlbum();
 
     List<Modelt> filter =
-    list.where((i) => i.parentCategoryId == widget.value.APIid).toList();
+    list.where((i) => i.parentCategoryId == widget.valueApi).toList();
 
     return filter;
   }
@@ -242,7 +245,11 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      drawer: Container(
+        width: 200,
+        child: NavDrawer(),
+      ),
+appBar: GeneralAppBar(context),
       body: Container(
         child: Column(
           children: <Widget>[
@@ -266,64 +273,64 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
                             alignment: Alignment.centerLeft,
                             child: Column(
                               children: <Widget>[
-                                SizedBox(
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffF0F1F1),
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  width: 2,
-                                                  color: Colors.grey))),
-                                      width: MediaQuery.of(context).size.width *
-                                          0.9,
-                                      child: Row(
-                                        children: <Widget>[
-                                          Container(
-                                            child: InkWell(
-                                              child: Text(
-                                                'Home',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    color: Colors.lightBlue),
-                                              ),
-                                              //onTap: () {}
-                                            ),
-                                          ),
-                                          Text(' / ' + widget.value.name),
-                                        ],
-                                      )),
-                                ),
-                                SizedBox(
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.02,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(left: 20),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Text(
-                                    widget.value.name,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
+//                                SizedBox(
+//                                  height:
+//                                  MediaQuery.of(context).size.height * 0.01,
+//                                ),
+//                                Align(
+//                                  alignment: Alignment.center,
+//                                  child: Container(
+//                                      padding: EdgeInsets.all(10),
+//                                      decoration: BoxDecoration(
+//                                          color: Color(0xffF0F1F1),
+//                                          border: Border(
+//                                              bottom: BorderSide(
+//                                                  width: 2,
+//                                                  color: Colors.grey))),
+//                                      width: MediaQuery.of(context).size.width *
+//                                          0.9,
+//                                      child: Row(
+//                                        children: <Widget>[
+//                                          Container(
+//                                            child: InkWell(
+//                                              child: Text(
+//                                                'Home',
+//                                                textAlign: TextAlign.left,
+//                                                style: TextStyle(
+//                                                    color: Colors.lightBlue),
+//                                              ),
+//                                              //onTap: () {}
+//                                            ),
+//                                          ),
+//                                          Text(' / ' + widget.value.name),
+//                                        ],
+//                                      )),
+//                                ),
                                 SizedBox(
                                   height:
                                   MediaQuery.of(context).size.height * 0.02,
                                 ),
+//                                Container(
+//                                  padding: EdgeInsets.only(left: 20),
+//                                  width: MediaQuery.of(context).size.width,
+//                                  child: Text(
+//                                    widget.value.name,
+//                                    textAlign: TextAlign.left,
+//                                    style: TextStyle(
+//                                      fontSize: 30,
+//                                      color: Colors.grey,
+//                                    ),
+//                                  ),
+//                                ),
+//                                SizedBox(
+//                                  height:
+//                                  MediaQuery.of(context).size.height * 0.02,
+//                                ),
                                 Container(
                                   padding: EdgeInsets.only(left: 20),
-                                  width: MediaQuery.of(context).size.width,
+//                                  width: MediaQuery.of(context).size.width,
                                   child: Text(
-                                    'Featured Categories',
+                                    'Multi Needs',
                                     style: TextStyle(
                                       fontSize: 25,
                                       color: Colors.black,
@@ -523,7 +530,7 @@ margin:EdgeInsets.fromLTRB(0, 2, 0, 2),
           builder: (BuildContext context) => new ProductDetailHome(
             value: item.id,
             pageKey: 1,
-            APIId: widget.value.APIid.toString(),
+            APIId: widget.valueApi.toString(),
           ),
         );
 
@@ -643,7 +650,7 @@ margin:EdgeInsets.fromLTRB(0, 2, 0, 2),
                               builder: (BuildContext context) => new ProductDetailHome(
                                 value: list.id,
                                 pageKey: 1,
-                                APIId: widget.value.APIid.toString(),
+                                APIId: widget.valueApi.toString(),
                               ),
                             );
 

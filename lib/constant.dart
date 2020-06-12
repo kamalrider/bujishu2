@@ -1,7 +1,7 @@
 
 library constants;
 
-import 'package:bujishu2/home/customer_home/customer_home_view.dart';
+import 'package:Bujishu/home/customer_home/customer_home_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 const String SUCCESS_MESSAGE=" You will be contacted by us very soon.";

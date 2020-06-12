@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "619526942529",
+    "firebase_url": "https://bujishu.firebaseio.com",
+    "project_id": "bujishu",
+    "storage_bucket": "bujishu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619526942529:android:b0e4c5dcad2d1df305fbc0",
+        "android_client_info": {
+          "package_name": "com.example.bujishu2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619526942529-a5fbq3tjqnuct84p36s4vpqnsr6mteqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJwIuO0W0dNGyyOoe61Ew-RaX0U2UIUCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619526942529-a5fbq3tjqnuct84p36s4vpqnsr6mteqv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

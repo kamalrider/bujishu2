@@ -1,5 +1,6 @@
-import 'package:bujishu2/Pay/cart.dart';
-import 'package:bujishu2/Tutorial/secondScreen.dart';
+import 'package:Bujishu/Pay/cart.dart';
+import 'package:Bujishu/Tutorial/secondScreen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,18 +31,65 @@ class HomeScreenHome extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreenHome>{
 
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  _getToken() {
+    _firebaseMessaging.getToken().then((deviceToken) {
+      print("Device Token: $deviceToken");
+    });
+  }
+
+  _configureFirebaseListeners() {
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('onMessage: $message');
+        _setMessage(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('onLaunch: $message');
+        _setMessage(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('onResume: $message');
+        _setMessage(message);
+      },
+    );
+  }
+
+  List<Message> _messages;
+
+  _setMessage(Map<String, dynamic> message) {
+    final notification = message['notification'];
+    final data = message['data'];
+    final String title = notification['title'];
+    final String body = notification['body'];
+    final String mMessage = data['message'];
+    setState(() {
+      Message m = Message(title, body, mMessage);
+      _messages.add(m);
+    });
+  }
+
   SharedPreferences sharedPreferences;
 
   void choiceAction(String choice) {
-    if (choice == Constants.weRBujishu) {
-      print('profile');
-    } else if (choice == Constants.contactUs) {
-      print('order');
-    } else if (choice == Constants.cS) {
-      print('cart');
-    } else if (choice == Constants.SignOut) {
-      print('SignOut');
-    }
+    setState(() {
+      if (choice == Constants.weRBujishu) {
+        print('profile');
+      } else if (choice == Constants.contactUs) {
+        print('order');
+      } else if (choice == Constants.cS) {
+        print('cart');
+      } else if (choice == Constants.SignOut) {
+        sharedPreferences.clear();
+        sharedPreferences.commit();
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => LoginApp()),
+                (Route<dynamic> route) => false);
+      }
+    });
+
   }
 
 
@@ -49,6 +97,9 @@ class _HomeScreenState extends State<HomeScreenHome>{
   void initState() {
     super.initState();
     checkLoginStatus();
+    _getToken();
+    _configureFirebaseListeners();
+    _messages = List<Message>();
   }
 
   checkLoginStatus() async {
@@ -224,7 +275,8 @@ class _HomeScreenState extends State<HomeScreenHome>{
           ),
           body: TabBarView(
             children: [
-              CustomerHome1(),
+              CarouselWithIndicator(),
+//            CustomerHome1(),
               CustomerDashboardHome(),
             ],
           ),

@@ -1,11 +1,13 @@
-import 'package:bujishu2/product_and_category/model/category.dart';
-import 'package:bujishu2/product_and_category/model/productlist.dart';
-import 'package:bujishu2/product_and_category/view/product_by_categoryqwer2.dart';
-import 'package:bujishu2/product_and_category/view/product_detail.dart';
-
+import 'package:Bujishu/product_and_category/model/category.dart';
+import 'package:Bujishu/product_and_category/model/productlist.dart';
+import 'package:Bujishu/product_and_category/view/product_by_categoryqwer2.dart';
+import 'package:Bujishu/product_and_category/view/product_detail.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+
 
 class CustomerHome1 extends StatelessWidget {
   @override
@@ -26,6 +28,48 @@ class CarouselWithIndicator extends StatefulWidget {
 }
 
 class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  _getToken() {
+    _firebaseMessaging.getToken().then((deviceToken) {
+      print("Device Token: $deviceToken");
+    });
+  }
+
+  _configureFirebaseListeners() {
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('onMessage: $message');
+        _setMessage(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('onLaunch: $message');
+        _setMessage(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('onResume: $message');
+        _setMessage(message);
+      },
+    );
+  }
+
+  _setMessage(Map<String, dynamic> message) {
+    final notification = message['notification'];
+    final data = message['data'];
+    final String title = notification['title'];
+    final String body = notification['body'];
+    final String mMessage = data['message'];
+    setState(() {
+      Message m = Message(title, body, mMessage);
+      _messages.add(m);
+    });
+  }
+
+
+  List<Message> _messages;
+
+
   List<String> _locations = ['All CAtegories (VVIP)']; // Option 2
   String _selectedLocation; // Option 2
   bool nextPage = false;
@@ -40,6 +84,17 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   List<Category> datas = ProductList.categoryList;
 
   //Map<String, int> map = {imageList:_current};
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _getToken();
+    _configureFirebaseListeners();
+    _messages = List<Message>();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +220,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                                     var childRoute = new MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           new ProductCategoryHomeAPI(
-                                              value: item),
+                                              valueId: item.id,
+                                            valueApi: item.APIid,
+                                          ),
                                     );
 
                                     var productRoute = new MaterialPageRoute(
@@ -259,5 +316,17 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             )
           ]);
         });
+  }
+}
+
+class Message {
+  String title;
+  String body;
+  String message;
+
+  Message(title, body, message) {
+    this.title = title;
+    this.body = body;
+    this.message = message;
   }
 }

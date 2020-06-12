@@ -1,13 +1,14 @@
-import 'package:bujishu2/Pay/payment_method2.dart';
-import 'package:bujishu2/home/customer_home/nav_drawer.dart';
-import 'package:bujishu2/product_and_category/view/product_detail.dart';
+import 'package:Bujishu/Pay/payment_method.dart';
+import 'package:Bujishu/home/customer_home/nav_drawer.dart';
+import 'package:Bujishu/home/general_appbar.dart';
+import 'package:Bujishu/product_and_category/view/product_detail.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:bujishu2/constant.dart' as Constants;
+import 'package:Bujishu/constant.dart' as Constants;
 
 Future<ProductBuyModel> getProductBuy(String id, String panelAccountId) async {
   final response =
@@ -168,9 +169,14 @@ class ProductBuyState extends State<ProductBuyHome> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-
+      drawer: Container(
+        width: 200,
+        child: NavDrawer(),
+      ),
+      appBar: GeneralAppBar(context),
       body: FutureBuilder<ProductBuyModel>(
-        future: getProductBuy(widget.value.soldBy[0].id.toString(), widget.value.soldBy[0].panelAccountId.toString()),
+        future: getProductBuy(widget.value.soldBy[0].id.toString(),
+            widget.value.soldBy[0].panelAccountId.toString()),
         builder: (context, apidata) {
           List<ProductBuyImage> imageList;
           double price;
@@ -218,6 +224,16 @@ class ProductBuyState extends State<ProductBuyHome> {
                               slivers: <Widget>[
                                 SliverList(
                                   delegate: SliverChildListDelegate([
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      color: Colors.grey,
+                                      height: 1,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Align(
                                       alignment: Alignment.center,
                                       child: Container(
@@ -412,7 +428,10 @@ class ProductBuyState extends State<ProductBuyHome> {
                                                 border: Border.all(
                                               color: Colors.black,
                                             )),
-                                            child: Text(_counter.toString(), textAlign: TextAlign.center,)),
+                                            child: Text(
+                                              _counter.toString(),
+                                              textAlign: TextAlign.center,
+                                            )),
                                         MaterialButton(
                                           child: Container(
                                             child: Icon(Icons.add),
@@ -441,7 +460,11 @@ class ProductBuyState extends State<ProductBuyHome> {
                                               child: RaisedButton(
                                                   color: Colors.yellow,
                                                   onPressed: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentMethod2Home()));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                PaymentMethodHome()));
                                                   },
                                                   child: Text('Buy Now')),
                                             ),
@@ -452,7 +475,8 @@ class ProductBuyState extends State<ProductBuyHome> {
                                               child: RaisedButton(
                                                   color: Colors.yellow,
                                                   onPressed: () {
-                                                    Constants.generalToast('Your item have been added to CART');
+                                                    Constants.generalToast(
+                                                        'Your item have been added to CART');
                                                   },
                                                   child: Text('Add To Cart')),
                                             ),
@@ -679,9 +703,11 @@ class ProductBuyState extends State<ProductBuyHome> {
                 Expanded(
                   flex: 0,
                   child: Container(
-                    margin:EdgeInsets.fromLTRB(0, 2, 0, 2),
-                    child: Text('@2020 Bujishu. All Rights Reserved', style: TextStyle(color: Colors.black, fontSize: 12),),
-
+                    margin: EdgeInsets.fromLTRB(0, 2, 0, 2),
+                    child: Text(
+                      '@2020 Bujishu. All Rights Reserved',
+                      style: TextStyle(color: Colors.black, fontSize: 12),
+                    ),
                   ),
                 )
               ],
@@ -694,22 +720,32 @@ class ProductBuyState extends State<ProductBuyHome> {
 
   Widget getText(DetailProduct product) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 100,
-                child: Image.network(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.grey)
+        ),
+        child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 120,
+                    child: Image.network(
 //                  'https://demo3.bujishu.com/storage/uploads/images/products/bedsheet-premium/bedsheet-premium_1.jpg',
-                  product.images.toList()[0].imageUrl,
-                  fit: BoxFit.cover,
-                ),
+                      product.images.toList()[0].imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(product.name,textAlign: TextAlign.center,),
+                  Text('RM ' + product.soldBy[0].price.toString()),
+                ],
               ),
-              Text(product.name),
-              Text('RM ' + product.soldBy[0].price.toString()),
-            ],
-          ),
-        ));
+            )),
+      ),
+    );
   }
 }

@@ -1,6 +1,11 @@
-import 'package:bujishu2/login.dart';
+import 'package:Bujishu/login.dart';
+import 'package:Bujishu/product_and_category/model/category.dart';
+import 'package:Bujishu/product_and_category/model/product.dart';
+import 'package:Bujishu/product_and_category/model/productlist.dart';
+import 'package:Bujishu/product_and_category/view/product_by_categoryqwer2.dart';
+import 'package:Bujishu/product_and_category/view/product_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class ProductCat {
   int id;
@@ -47,7 +52,7 @@ class ChildImage {
 }
 
 class NavDrawer extends StatelessWidget {
-  SharedPreferences sharedPreferences;
+
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +112,17 @@ class NavDrawer extends StatelessWidget {
                 ListTile(
               //leading: Icon(Icons.verified_user),
               title: Text('Bedsheets & Mattresses'),
-              onTap: () => {Navigator.of(context).pop()},
+                  onTap: () {
+                    var childRoute = new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                      new ProductCategoryHomeAPI(
+                        valueId: 1,
+                        valueApi: 1,
+                      ),
+                    );
+
+                    Navigator.push(context, childRoute);
+                  },
             ),
           ),
           Container(
@@ -147,7 +162,17 @@ class NavDrawer extends StatelessWidget {
                 ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Carpets'),
-              onTap: () => {Navigator.of(context).pop()},
+                  onTap: () {
+                    var productRoute = new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                      new ProductDetailHome(
+                        value: 4,
+                        pageKey: 0,
+                      ),
+                    );
+
+                    Navigator.push(context, productRoute);
+                  },
             ),
           ),
           Container(
@@ -160,7 +185,17 @@ class NavDrawer extends StatelessWidget {
                 ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Curtains'),
-              onTap: () => {Navigator.of(context).pop()},
+                  onTap: () {
+                    var productRoute = new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                      new ProductDetailHome(
+                        value: 5,
+                        pageKey: 0,
+                      ),
+                    );
+
+                    Navigator.push(context, productRoute);
+                  },
             ),
           ),
           Container(
@@ -181,13 +216,25 @@ class NavDrawer extends StatelessWidget {
             height: 45,
             color: Color(0xffD4AF37),
 //            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
-            child:
+
 //            Text('Lightings'),
-                ListTile(
+
+                  child: ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Lightings'),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () {
+                var childRoute = new MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                  new ProductCategoryHomeAPI(
+                    valueId: 3,
+                    valueApi: 7,
+                  ),
+                );
+
+                Navigator.push(context, childRoute);
+              },
             ),
+
           ),
           Container(
             width: 80,
@@ -253,21 +300,6 @@ class NavDrawer extends StatelessWidget {
               title: Text('Auxiliary Prosperity Items'),
               onTap: () => {Navigator.of(context).pop()},
             ),
-          ),
-          MaterialButton(
-            height: 45,
-            color: Color(0xffD4AF37),
-//            padding: EdgeInsets.only(top: 5, bottom: 5,left: 10),
-            child: Text('Logout'),
-            onPressed: () {
-              sharedPreferences.clear();
-              sharedPreferences.commit();
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => LoginApp()),
-                  (Route<dynamic> route) => false);
-            },
-//            Text('Auxiliary Prosperity Items'),
           ),
         ],
       ),

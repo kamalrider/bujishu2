@@ -1,8 +1,8 @@
 // main.dart
 
-import 'package:bujishu2/Pay/cart.dart';
-import 'package:bujishu2/Tutorial/flutterScreen.dart';
-import 'package:bujishu2/Tutorial/secondScreen.dart';
+import 'package:Bujishu/Pay/cart.dart';
+import 'package:Bujishu/Tutorial/flutterScreen.dart';
+import 'package:Bujishu/Tutorial/secondScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'customer_home/customer_home_view.dart';

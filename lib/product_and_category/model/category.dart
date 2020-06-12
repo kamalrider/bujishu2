@@ -1,4 +1,4 @@
-import 'package:bujishu2/product_and_category/model/product.dart';
+import 'package:Bujishu/product_and_category/model/product.dart';
 
 class Category {
   int id;

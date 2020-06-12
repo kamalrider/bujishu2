@@ -1,9 +1,11 @@
-import 'package:bujishu2/product_and_category/view/product_buy.dart';
+import 'package:Bujishu/home/customer_home/nav_drawer.dart';
+import 'package:Bujishu/home/general_appbar.dart';
+import 'package:Bujishu/product_and_category/view/product_buy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:bujishu2/constant.dart' as Constants;
+import 'package:Bujishu/constant.dart' as Constants;
 
 Future<DetailCategory> fetchData(String value) async {
   final response =
@@ -196,20 +198,77 @@ class ProductDetailHome extends StatefulWidget {
 
 class ProductDetailState extends State<ProductDetailHome> {
   qualityMarker selectedMarker = qualityMarker.premium;
+  Color standardBgColor;
+  Color moderateBgColor;
+  Color premiumBgColor;
+
+  Color blackColor = Colors.grey;
+  Color highlightColor = Color(0xffD4AF37);
 
   @override
   Widget build(BuildContext context) {
+
+    setState(() {
+      if (selectedMarker == qualityMarker.standard){
+        standardBgColor = highlightColor;;
+        moderateBgColor = blackColor;
+        premiumBgColor = blackColor;
+      }
+      else if (selectedMarker == qualityMarker.moderate){
+        standardBgColor = blackColor;
+        moderateBgColor = highlightColor;
+        premiumBgColor = blackColor;
+      }
+      else if (selectedMarker == qualityMarker.premium){
+        standardBgColor = blackColor;
+        moderateBgColor = blackColor;
+        premiumBgColor = highlightColor;
+      }
+    });
+
     return Scaffold(
+      drawer: Container(
+        width: 200,
+        child: NavDrawer(),
+      ),
+      appBar: GeneralAppBar(context),
       body: Container(
         child: Column(
           children: <Widget>[
+
+            Container(
+              padding: EdgeInsets.only(top: 20),
+
+              child: Text(
+                'Focus Deals',
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height:
+              MediaQuery.of(context).size.height * 0.02,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: Container(
+                color: Colors.grey,
+                height: 1,
+              ),
+            ),
+
             Expanded(
               flex: 1,
               child: Container(
+
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     OutlineButton(
+                      borderSide: BorderSide(color: standardBgColor),
                       onPressed: () {
                         setState(() {
                           selectedMarker = qualityMarker.standard;
@@ -223,6 +282,7 @@ class ProductDetailState extends State<ProductDetailHome> {
                       width: 10,
                     ),
                     OutlineButton(
+                      borderSide: BorderSide(color: moderateBgColor),
                       onPressed: () {
                         setState(() {
                           selectedMarker = qualityMarker.moderate;
@@ -236,6 +296,7 @@ class ProductDetailState extends State<ProductDetailHome> {
                       width: 10,
                     ),
                     OutlineButton(
+                      borderSide: BorderSide(color: premiumBgColor),
                       onPressed: () {
                         setState(() {
                           selectedMarker = qualityMarker.premium;
@@ -325,44 +386,54 @@ class ProductDetailState extends State<ProductDetailHome> {
 
 
     return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: MaterialButton(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 100,
-                child: Image.network(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5)
+        ),
+        child: Padding(
+            padding: const EdgeInsets.only( top: 5),
+            child: MaterialButton(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 120,
+                    child: Image.network(
 //                  'https://demo3.bujishu.com/storage/uploads/images/products/bedsheet-premium/bedsheet-premium_1.jpg',
-                  product.images.toList()[0].imageUrl,
-                  fit: BoxFit.cover,
-                ),
+                      product.images.toList()[0].imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(product.name,textAlign: TextAlign.center,),
+                  Text('RM ' + (product.soldBy[0].price/100).toStringAsFixed(2)),
+                ],
               ),
-              Text(product.name),
-              Text('RM ' + product.soldBy[0].price.toString()),
-            ],
-          ),
-          onPressed: () {
-            var route = new MaterialPageRoute(
-              builder: (BuildContext context) =>
-              new ProductBuyHome(
-                value: product,
-                apiValue: widget.value.toString(),
+              onPressed: () {
+                var route = new MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                  new ProductBuyHome(
+                    value: product,
+                    apiValue: widget.value.toString(),
 
-              ),
-            );
+                  ),
+                );
 
 
-            if (number == 1) {
-              Navigator.of(context).push(route);
-            } else if (number > 1) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext buildContext) {
-                    return Popup();
-                  });
-            }
-          },
-        ));
+                if (number == 1) {
+                  Navigator.of(context).push(route);
+                } else if (number > 1) {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext buildContext) {
+                        return Popup();
+                      });
+                }
+              },
+            )),
+      ),
+    );
   }
 
   Widget Popup() {

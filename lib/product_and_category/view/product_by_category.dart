@@ -1,6 +1,6 @@
-import 'package:bujishu2/home/customer_home/nav_drawer.dart';
-import 'package:bujishu2/product_and_category/model/category.dart';
-import 'package:bujishu2/product_and_category/model/product.dart';
+import 'package:Bujishu/home/customer_home/nav_drawer.dart';
+import 'package:Bujishu/product_and_category/model/category.dart';
+import 'package:Bujishu/product_and_category/model/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 

@@ -1,7 +1,7 @@
-import 'package:bujishu2/product_and_category/model/productlist.dart';
-import 'package:bujishu2/product_and_category/view/product_by_category.dart';
+import 'package:Bujishu/product_and_category/model/productlist.dart';
+import 'package:Bujishu/product_and_category/view/product_by_category.dart';
 
-import 'package:bujishu2/product_and_category/view/product_by_categoryt.dart';
+import 'package:Bujishu/product_and_category/view/product_by_categoryt.dart';
 import 'package:flutter/material.dart';
 
 

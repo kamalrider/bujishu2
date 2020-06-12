@@ -1,5 +1,5 @@
-import 'package:bujishu2/product_and_category/model/category.dart';
-import 'package:bujishu2/product_and_category/model/product.dart';
+import 'package:Bujishu/product_and_category/model/category.dart';
+import 'package:Bujishu/product_and_category/model/product.dart';
 
 class ProductList {
   static List<Prodduct> productList1 = [

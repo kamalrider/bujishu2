@@ -1,10 +1,10 @@
-import 'package:bujishu2/home/HomeScreen.dart';
+import 'package:Bujishu/home/HomeScreen.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:bujishu2/constant.dart' as Constants;
+import 'package:Bujishu/constant.dart' as Constants;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Register/customer_register.dart';
@@ -198,10 +198,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           child: Container(
                                             margin: EdgeInsets.only(left: 5),
                                             child: TextFormField(
-                                              maxLines: null,
 
 
-                                              keyboardType: TextInputType.multiline,
                                               controller: emailController,
                                               cursorColor: Colors.black,
                                               decoration: InputDecoration(
@@ -257,6 +255,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           child: Container(
                                             margin: EdgeInsets.only(left: 5),
                                             child: TextFormField(
+                                              obscureText: true,
                                               controller: passwordController,
                                               cursorColor: Colors.black,
                                               decoration: InputDecoration(

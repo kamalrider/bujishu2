@@ -1,10 +1,10 @@
 //import 'package:flutter/widgets.dart';
-import 'package:bujishu2/home/customer_home/customer_home_view.dart';
+import 'package:Bujishu/home/customer_home/customer_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:bujishu2/constant.dart' as Constants;
+import 'package:Bujishu/constant.dart' as Constants;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant.dart';
