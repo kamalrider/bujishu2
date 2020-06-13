@@ -3,6 +3,8 @@ import 'package:Bujishu/home/customer_home/nav_drawer.dart';
 import 'package:Bujishu/home/general_appbar.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+
 void main() => runApp(ThankYouPage());
 
 class ThankYouPage extends StatelessWidget {

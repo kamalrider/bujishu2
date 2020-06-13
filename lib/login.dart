@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Register/customer_register.dart';
 import 'home/customer_home/customer_home_view.dart';
+import 'main.dart';
 
 void main() => runApp(LoginApp());
 

@@ -8,6 +8,7 @@
 
 import 'package:Bujishu/home/HomeScreen.dart';
 import 'package:Bujishu/home/customer_home/customer_home_view.dart';
+import 'package:Bujishu/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

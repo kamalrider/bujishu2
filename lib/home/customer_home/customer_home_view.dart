@@ -7,7 +7,8 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
+import '../../template.dart';
+import '../token.dart';
 
 class CustomerHome1 extends StatelessWidget {
   @override
@@ -28,12 +29,14 @@ class CarouselWithIndicator extends StatefulWidget {
 }
 
 class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
+  String jtoken = '';
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   _getToken() {
     _firebaseMessaging.getToken().then((deviceToken) {
       print("Device Token: $deviceToken");
+      jtoken = deviceToken;
     });
   }
 
@@ -66,9 +69,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
     });
   }
 
-
   List<Message> _messages;
-
 
   List<String> _locations = ['All CAtegories (VVIP)']; // Option 2
   String _selectedLocation; // Option 2
@@ -93,7 +94,6 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
     _getToken();
     _configureFirebaseListeners();
     _messages = List<Message>();
-
   }
 
   @override
@@ -220,9 +220,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                                     var childRoute = new MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           new ProductCategoryHomeAPI(
-                                              valueId: item.id,
-                                            valueApi: item.APIid,
-                                          ),
+                                        valueId: item.id,
+                                        valueApi: item.APIid,
+                                      ),
                                     );
 
                                     var productRoute = new MaterialPageRoute(
@@ -271,9 +271,20 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
               Flexible(
                 flex: 1,
                 child: Container(
-                  child: Text(
-                    '@2020 Bujishu. All Rights Reserved',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  child: InkWell(
+                    onTap: () {
+                      var childRoute = new MaterialPageRoute(
+                        builder: (BuildContext context) => new TemplateHome(
+                          tokens: jtoken,
+                        ),
+                      );
+
+                      Navigator.push(context, childRoute);
+                    },
+                    child: Text(
+                      '@2020 Bujishu. All Rights Reserved',
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
                   ),
                 ),
               ),

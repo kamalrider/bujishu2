@@ -6,6 +6,8 @@ import 'package:Bujishu/product_and_category/view/product_by_categoryqwer2.dart'
 import 'package:Bujishu/product_and_category/view/product_detail.dart';
 import 'package:flutter/material.dart';
 
+import '../token.dart';
+
 
 class ProductCat {
   int id;
@@ -298,7 +300,16 @@ class NavDrawer extends StatelessWidget {
                 ListTile(
               //leading: Icon(Icons.exit_to_app),
               title: Text('Auxiliary Prosperity Items'),
-              onTap: () => {Navigator.of(context).pop()},
+                  onTap: () {
+                    var childRoute = new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                      new TokenPageHome2(
+
+                      ),
+                    );
+
+                    Navigator.push(context, childRoute);
+                  },
             ),
           ),
         ],
