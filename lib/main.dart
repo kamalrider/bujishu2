@@ -1,5 +1,7 @@
 import 'package:Bujishu/Pay/cart.dart';
 import 'package:Bujishu/Tutorial/secondScreen.dart';
+import 'package:Bujishu/footer/customerServiceFooter/customerService.dart';
+import 'package:Bujishu/footer/weAreBujishuFooter/weAreBujishu.dart';
 import 'package:Bujishu/template.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -80,16 +82,10 @@ class _HomeScreenState extends State<HomeScreenHome>{
   void choiceAction(String choice) {
     setState(() {
       if (choice == Constants.weRBujishu) {
-        print('profile');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => WeAreBujishuHome()));
       } else if (choice == Constants.contactUs) {
 
-          var childRoute = new MaterialPageRoute(
-            builder: (BuildContext context) => new TemplateHome(
-              tokens: jtoken,
-            ),
-          );
-
-          Navigator.push(context, childRoute);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerServiceHome()));
 
       } else if (choice == Constants.cS) {
         print('cart');
