@@ -13,6 +13,7 @@ String web = 'https://demo3.bujishu.com/api/';
 
 Color gold = Color(0xffD4AF37);
 Color black =  Colors.black;
+Color gold2 = Color(0xffffcc00);
 
 void generalToast(String toastTxt){
   Fluttertoast.showToast(

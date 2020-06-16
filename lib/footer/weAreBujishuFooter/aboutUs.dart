@@ -41,10 +41,10 @@ class _AboutUsState extends State<AboutUsHome> {
         child: Container(
           width: double.infinity,
           decoration: new BoxDecoration(
-//            image: new DecorationImage(
-//              image: new AssetImage("assets/images/bujishu_background.jpg"),
-//              fit: BoxFit.cover,
-//            ),
+            image: new DecorationImage(
+              image: new AssetImage("assets/images/aboutusbg.jpg"),
+              fit: BoxFit.cover,
+            ),
           ),
           child: Column(
             children: <Widget>[
@@ -55,7 +55,7 @@ class _AboutUsState extends State<AboutUsHome> {
                       delegate: SliverChildListDelegate([
                         Container(
                           margin : EdgeInsets.fromLTRB(0, 15, 0, 0),
-                            child: Text('ABOUT US', style: TextStyle(color: Constants.gold, fontSize: 30),textAlign: TextAlign.center,)),
+                            child: Text('ABOUT US', style: TextStyle(color: Constants.gold, fontSize: 30, fontWeight: FontWeight.bold),textAlign: TextAlign.center,)),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text('The establishment of BUJISHU in 2020 was inspired by a group of experts who committed to '

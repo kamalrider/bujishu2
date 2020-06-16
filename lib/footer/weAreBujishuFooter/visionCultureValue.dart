@@ -37,12 +37,12 @@ class _VisionCultureValueState extends State<VisionCultureValueHome> {
       body: Center(
         child: Container(
           width: double.infinity,
-//          decoration: new BoxDecoration(
-//            image: new DecorationImage(
-//              image: new AssetImage("assets/images/bujishu_background.jpg"),
-//              fit: BoxFit.cover,
-//            ),
-//          ),
+          decoration: new BoxDecoration(
+            image: new DecorationImage(
+              image: new AssetImage("assets/images/ourvisionbg.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             children: <Widget>[
               Expanded(

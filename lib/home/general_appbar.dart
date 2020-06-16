@@ -1,4 +1,5 @@
 import 'package:Bujishu/Pay/cart.dart';
+import 'package:Bujishu/footer/weAreBujishuFooter/weAreBujishu.dart';
 import 'package:Bujishu/home/HomeScreen.dart';
 import 'package:Bujishu/home/customer_home/nav_drawer.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ AppBar GeneralAppBar(BuildContext context){
   void choiceAction(String choice) {
 
       if (choice == Constants.weRBujishu) {
-        print('profile');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => WeAreBujishuHome()));
       } else if (choice == Constants.contactUs) {
         print('order');
       } else if (choice == Constants.cS) {

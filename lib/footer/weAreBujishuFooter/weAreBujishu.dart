@@ -1,3 +1,7 @@
+import 'package:Bujishu/footer/customerServiceFooter/privacyPolicy.dart';
+import 'package:Bujishu/footer/weAreBujishuFooter/aboutUs.dart';
+import 'package:Bujishu/footer/weAreBujishuFooter/visionCultureValue.dart';
+import 'package:Bujishu/footer/weAreBujishuFooter/workForce.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(WeAreBujishu());
@@ -44,7 +48,9 @@ class _WeAreBujishuState extends State<WeAreBujishuHome> {
                   ),
                   child: MaterialButton(
                     child: Text('About Us'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsHome()));
+                    },
                   ),
                 ),
               ),
@@ -56,7 +62,9 @@ class _WeAreBujishuState extends State<WeAreBujishuHome> {
                   ),
                   child: MaterialButton(
                     child: Text('Our Vision, Culture, Value'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => VisionCultureValueHome()));
+                    },
                   ),
                 ),
               ),
@@ -67,8 +75,10 @@ class _WeAreBujishuState extends State<WeAreBujishuHome> {
                     border: Border.all(color: Colors.black),
                   ),
                   child: MaterialButton(
-                    child: Text('Partner Engagement'),
-                    onPressed: () {},
+                    child: Text('Privacy Policy'),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyHome()));
+                    },
                   ),
                 ),
               ),
@@ -80,7 +90,9 @@ class _WeAreBujishuState extends State<WeAreBujishuHome> {
                   ),
                   child: MaterialButton(
                     child: Text('Workforce'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => WorkForceHome()));
+                    },
                   ),
                 ),
               ),
