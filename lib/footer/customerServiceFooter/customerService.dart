@@ -1,3 +1,4 @@
+import 'package:Bujishu/footer/customerServiceFooter/privacyPolicy.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(CustomerService());
@@ -56,7 +57,9 @@ class _CustomerServiceState extends State<CustomerServiceHome> {
                   ),
                   child: MaterialButton(
                     child: Text('Privacy Policy'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyHome()));
+                    },
                   ),
                 ),
               ),
