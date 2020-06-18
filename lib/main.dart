@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'footer/contactUs.dart';
 import 'home/customer_dashboard.dart';
 import 'home/customer_home/customer_home_view.dart';
 import 'home/customer_home/nav_drawer.dart';
@@ -85,10 +86,10 @@ class _HomeScreenState extends State<HomeScreenHome>{
         Navigator.push(context, MaterialPageRoute(builder: (context) => WeAreBujishuHome()));
       } else if (choice == Constants.contactUs) {
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerServiceHome()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsHome()));
 
       } else if (choice == Constants.cS) {
-        print('cart');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerServiceHome()));
       } else if (choice == Constants.SignOut) {
         sharedPreferences.clear();
         sharedPreferences.commit();

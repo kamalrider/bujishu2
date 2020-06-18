@@ -1,3 +1,4 @@
+import 'package:Bujishu/footer/customerServiceFooter/bujishuService.dart';
 import 'package:Bujishu/footer/customerServiceFooter/privacyPolicy.dart';
 import 'package:flutter/material.dart';
 
@@ -18,9 +19,7 @@ class CustomerService extends StatelessWidget {
 
 class CustomerServiceHome extends StatefulWidget {
 
-  String tokens;
 
-  CustomerServiceHome({Key key, this.tokens}) : super(key: key);
 
   @override
   _CustomerServiceState createState() => _CustomerServiceState();
@@ -45,7 +44,10 @@ class _CustomerServiceState extends State<CustomerServiceHome> {
                   ),
                   child: MaterialButton(
                     child: Text('Bujishu Service'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => BujishuServiceHome()));
+
+                    },
                   ),
                 ),
               ),

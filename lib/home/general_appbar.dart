@@ -1,4 +1,6 @@
 import 'package:Bujishu/Pay/cart.dart';
+import 'package:Bujishu/footer/contactUs.dart';
+import 'package:Bujishu/footer/customerServiceFooter/customerService.dart';
 import 'package:Bujishu/footer/weAreBujishuFooter/weAreBujishu.dart';
 import 'package:Bujishu/home/HomeScreen.dart';
 import 'package:Bujishu/home/customer_home/nav_drawer.dart';
@@ -19,9 +21,9 @@ AppBar GeneralAppBar(BuildContext context){
       if (choice == Constants.weRBujishu) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => WeAreBujishuHome()));
       } else if (choice == Constants.contactUs) {
-        print('order');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsHome()));
       } else if (choice == Constants.cS) {
-        print('cart');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerServiceHome()));
       } else if (choice == Constants.SignOut) {
 //        sharedPreferences.clear();
 //        sharedPreferences.commit();
@@ -58,12 +60,9 @@ AppBar GeneralAppBar(BuildContext context){
                       onTap: ()=> Navigator.of(context).pop(true),
                         child: Icon(Icons.arrow_back))),
 
-
-
             SizedBox(
               width: 10,
             ),
-
 
             Flexible(
               flex: 5,
