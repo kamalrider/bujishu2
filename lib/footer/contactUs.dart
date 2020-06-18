@@ -88,12 +88,15 @@ class _ContactUsState extends State<ContactUsHome> {
           description: "Bujishu Sdn Bhd",
         );
       } else {
-        await MapLauncher.launchMap(
-          mapType: MapType.google,
-          coords: Coords(3.156521, 101.705432),
-          title: "Menara Bangkok Bank",
-          description: "Bujishu Sdn Bhd",
-        );
+//        await MapLauncher.launchMap(
+//          mapType: MapType.google,
+//          coords: Coords(3.156521, 101.705432),
+//          title: "Menara Bangkok Bank",
+//          description: "Bujishu Sdn Bhd",
+//        );
+        const url = 'http://maps.google.com/maps?q=Menara Bangkok Bank';
+        _launchURL(url);
+
       }
     }
 
