@@ -21,14 +21,11 @@ class ContactUs extends StatelessWidget {
 }
 
 class ContactUsHome extends StatefulWidget {
-
-
   @override
   _ContactUsState createState() => _ContactUsState();
 }
 
 class _ContactUsState extends State<ContactUsHome> {
-
   Future<void> _launched;
 
   Future<void> _openUrl(String url) async {
@@ -42,16 +39,21 @@ class _ContactUsState extends State<ContactUsHome> {
   final Uri _emailLaunchUri = Uri(
       scheme: 'mailto',
       path: 'smith@example.com',
-      queryParameters: {
-        'subject': 'Example Subject & Symbols are allowed!'
-      }
-  );
+      queryParameters: {'subject': 'Example Subject & Symbols are allowed!'});
 
   final Uri _phoneLaunchUri = Uri(
-      scheme: 'tel',
-      path: '+60195726569',
-
+    scheme: 'tel',
+    path: '+60195726569',
   );
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -62,25 +64,21 @@ class _ContactUsState extends State<ContactUsHome> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
                   child: MaterialButton(
-                    child: Text('Email'),
-                    onPressed: () {
-                      setState(() {
+                      child: Text('Email'),
+                      onPressed: () {
+                        setState(() {
 //                        _launched = _openUrl('mailto: namikazekamal95@gmail.com');
-                        launch(_emailLaunchUri.toString());
-                      });
-                    }
-
-                  ),
+                          launch(_emailLaunchUri.toString());
+                        });
+                      }),
                 ),
               ),
-
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
@@ -91,34 +89,30 @@ class _ContactUsState extends State<ContactUsHome> {
                     onPressed: () {
                       setState(() {
 //                        _launched = _openUrl('tel:\${+60195726569}');
-                      launch(_phoneLaunchUri.toString());
+                        launch(_phoneLaunchUri.toString());
                       });
                     },
                   ),
                 ),
               ),
-
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
                   child: MaterialButton(
-                    child: Text('Privacy Policy'),
+                    child: Text('Location'),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (
-                          context) => PrivacyPolicyHome()));
+                      const url = 'http://maps.google.com/maps?q=Menara Bangkok Bank';
+                      _launchURL(url);
                     },
                   ),
                 ),
               ),
-
             ],
           ),
         ),
       ),
     );
   }
-
 }
-
