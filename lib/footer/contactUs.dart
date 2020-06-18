@@ -4,6 +4,7 @@ import 'package:Bujishu/footer/weAreBujishuFooter/visionCultureValue.dart';
 import 'package:Bujishu/footer/weAreBujishuFooter/workForce.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io' show Platform;
 
 void main() => runApp(ContactUs());
 
@@ -54,6 +55,29 @@ class _ContactUsState extends State<ContactUsHome> {
     }
   }
 
+  _launchMap(BuildContext context) async {
+    var url = '';
+    var urlAppleMaps = '';
+    if (Platform.isAndroid) {
+      url = "https://www.google.com/maps/search/?api=1&query=Menara Bangkok Bank";
+    } else {
+      urlAppleMaps = 'https://maps.apple.com/?q=Menara Bankkok Bank';
+      url = "comgooglemaps://?saddr=&daddr=Menara Bangkok Bank&directionsmode=driving";
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else if (await canLaunch(urlAppleMaps)) {
+      await launch(urlAppleMaps);
+    } else {
+      throw 'Could not launch $url';
+    }}
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -73,7 +97,7 @@ class _ContactUsState extends State<ContactUsHome> {
                       child: Text('Email'),
                       onPressed: () {
                         setState(() {
-//                        _launched = _openUrl('mailto: namikazekamal95@gmail.com');
+                        _launched = _openUrl('mailto: namikazekamal95@gmail.com');
                           launch(_emailLaunchUri.toString());
                         });
                       }),
@@ -103,8 +127,11 @@ class _ContactUsState extends State<ContactUsHome> {
                   child: MaterialButton(
                     child: Text('Location'),
                     onPressed: () {
-                      const url = 'http://maps.google.com/maps?q=Menara Bangkok Bank';
-                      _launchURL(url);
+//                      const url = 'http://maps.google.com/maps?q=Menara Bangkok Bank';
+//                      _launchURL(url);
+
+                      _launchMap(context);
+
                     },
                   ),
                 ),
