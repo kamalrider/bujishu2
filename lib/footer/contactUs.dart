@@ -3,6 +3,7 @@ import 'package:Bujishu/footer/weAreBujishuFooter/aboutUs.dart';
 import 'package:Bujishu/footer/weAreBujishuFooter/visionCultureValue.dart';
 import 'package:Bujishu/footer/weAreBujishuFooter/workForce.dart';
 import 'package:flutter/material.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 
@@ -55,14 +56,14 @@ class _ContactUsState extends State<ContactUsHome> {
     }
   }
 
-  _launchMap(BuildContext context) async {
+  _launchMap(BuildContext context, lat, lng) async {
     var url = '';
     var urlAppleMaps = '';
     if (Platform.isAndroid) {
-      url = "https://www.google.com/maps/search/?api=1&query=Menara Bangkok Bank";
+      url = "https://www.google.com/maps/search/?api=1&query=${lat},${lng}";
     } else {
-      urlAppleMaps = 'https://maps.apple.com/?q=Menara Bankkok Bank';
-      url = "comgooglemaps://?saddr=&daddr=Menara Bangkok Bank&directionsmode=driving";
+      urlAppleMaps = 'https://maps.apple.com/?q=$lat,$lng';
+      url = "comgooglemaps://?saddr=&daddr=$lat,$lng&directionsmode=driving";
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -77,6 +78,24 @@ class _ContactUsState extends State<ContactUsHome> {
     } else {
       throw 'Could not launch $url';
     }}
+
+    _map()async{
+      if (Platform.isIOS) {
+        await MapLauncher.launchMap(
+          mapType: MapType.apple,
+          coords: Coords(3.156521, 101.705432),
+          title: "Menara Bangkok Bank",
+          description: "Bujishu Sdn Bhd",
+        );
+      } else {
+        await MapLauncher.launchMap(
+          mapType: MapType.google,
+          coords: Coords(3.156521, 101.705432),
+          title: "Menara Bangkok Bank",
+          description: "Bujishu Sdn Bhd",
+        );
+      }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +149,10 @@ class _ContactUsState extends State<ContactUsHome> {
 //                      const url = 'http://maps.google.com/maps?q=Menara Bangkok Bank';
 //                      _launchURL(url);
 
-                      _launchMap(context);
+                    setState(() {
+//                      _launchMap(context,101,5);
+                     _map();
+                    });
 
                     },
                   ),
