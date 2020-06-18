@@ -3,7 +3,7 @@ import 'package:Bujishu/Tutorial/secondScreen.dart';
 import 'package:Bujishu/footer/customerServiceFooter/customerService.dart';
 import 'package:Bujishu/footer/weAreBujishuFooter/weAreBujishu.dart';
 import 'package:Bujishu/template.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,31 +37,31 @@ class _HomeScreenState extends State<HomeScreenHome>{
 
   String jtoken;
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-  _getToken() {
-    _firebaseMessaging.getToken().then((deviceToken) {
-      print("Device Token: $deviceToken");
-      jtoken = deviceToken;
-    });
-  }
-
-  _configureFirebaseListeners() {
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
-        _setMessage(message);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
-        _setMessage(message);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-        _setMessage(message);
-      },
-    );
-  }
+//  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+//
+//  _getToken() {
+//    _firebaseMessaging.getToken().then((deviceToken) {
+//      print("Device Token: $deviceToken");
+//      jtoken = deviceToken;
+//    });
+//  }
+//
+//  _configureFirebaseListeners() {
+//    _firebaseMessaging.configure(
+//      onMessage: (Map<String, dynamic> message) async {
+//        print('onMessage: $message');
+//        _setMessage(message);
+//      },
+//      onLaunch: (Map<String, dynamic> message) async {
+//        print('onLaunch: $message');
+//        _setMessage(message);
+//      },
+//      onResume: (Map<String, dynamic> message) async {
+//        print('onResume: $message');
+//        _setMessage(message);
+//      },
+//    );
+//  }
 
   List<Message> _messages;
 
@@ -108,8 +108,8 @@ class _HomeScreenState extends State<HomeScreenHome>{
     super.initState();
     jtoken = '';
     checkLoginStatus();
-    _getToken();
-    _configureFirebaseListeners();
+//    _getToken();
+//    _configureFirebaseListeners();
     _messages = List<Message>();
   }
 

@@ -38,6 +38,20 @@ class _ContactUsState extends State<ContactUsHome> {
       throw 'Could not launch $url';
     }
   }
+
+  final Uri _emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: 'smith@example.com',
+      queryParameters: {
+        'subject': 'Example Subject & Symbols are allowed!'
+      }
+  );
+
+  final Uri _phoneLaunchUri = Uri(
+      scheme: 'tel',
+      path: '+60195726569',
+
+  );
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -58,7 +72,8 @@ class _ContactUsState extends State<ContactUsHome> {
                     child: Text('Email'),
                     onPressed: () {
                       setState(() {
-                        _launched = _openUrl('mailto: namikazekamal95@gmail.com');
+//                        _launched = _openUrl('mailto: namikazekamal95@gmail.com');
+                        launch(_emailLaunchUri.toString());
                       });
                     }
 
@@ -75,7 +90,8 @@ class _ContactUsState extends State<ContactUsHome> {
                     child: Text('number'),
                     onPressed: () {
                       setState(() {
-                        _launched = _openUrl('tel:\${+60195726569}');
+//                        _launched = _openUrl('tel:\${+60195726569}');
+                      launch(_phoneLaunchUri.toString());
                       });
                     },
                   ),

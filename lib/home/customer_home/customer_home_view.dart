@@ -2,7 +2,7 @@ import 'package:Bujishu/product_and_category/model/category.dart';
 import 'package:Bujishu/product_and_category/model/productlist.dart';
 import 'package:Bujishu/product_and_category/view/product_by_categoryqwer2.dart';
 import 'package:Bujishu/product_and_category/view/product_detail.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,31 +31,31 @@ class CarouselWithIndicator extends StatefulWidget {
 class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   String jtoken = '';
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+//  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-  _getToken() {
-    _firebaseMessaging.getToken().then((deviceToken) {
-      print("Device Token: $deviceToken");
-      jtoken = deviceToken;
-    });
-  }
+//  _getToken() {
+//    _firebaseMessaging.getToken().then((deviceToken) {
+//      print("Device Token: $deviceToken");
+//      jtoken = deviceToken;
+//    });
+//  }
 
-  _configureFirebaseListeners() {
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
-        _setMessage(message);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
-        _setMessage(message);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-        _setMessage(message);
-      },
-    );
-  }
+//  _configureFirebaseListeners() {
+//    _firebaseMessaging.configure(
+//      onMessage: (Map<String, dynamic> message) async {
+//        print('onMessage: $message');
+//        _setMessage(message);
+//      },
+//      onLaunch: (Map<String, dynamic> message) async {
+//        print('onLaunch: $message');
+//        _setMessage(message);
+//      },
+//      onResume: (Map<String, dynamic> message) async {
+//        print('onResume: $message');
+//        _setMessage(message);
+//      },
+//    );
+//  }
 
   _setMessage(Map<String, dynamic> message) {
     final notification = message['notification'];
@@ -91,8 +91,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
     // TODO: implement initState
     super.initState();
 
-    _getToken();
-    _configureFirebaseListeners();
+//    _getToken();
+//    _configureFirebaseListeners();
     _messages = List<Message>();
   }
 
