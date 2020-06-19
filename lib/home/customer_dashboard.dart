@@ -1,3 +1,4 @@
+import 'package:Bujishu/dashboard/valueRecords.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(CustomerDashboard());
@@ -34,6 +35,12 @@ class _CustomerDashboardState extends State<CustomerDashboardHome>{
             children: <Widget>[
               Expanded(
                 child: MaterialButton(
+                  onPressed: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ValueRecordsHome()));
+                  },
                   child:  Container(child: Image.asset('assets/images/value_records_dashboard.png')),
                 ),
               ),
