@@ -723,9 +723,8 @@ class ProductBuyState extends State<ProductBuyHome> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: Colors.grey)
-        ),
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Colors.grey)),
         child: Padding(
             padding: const EdgeInsets.all(5.0),
             child: Container(
@@ -740,7 +739,10 @@ class ProductBuyState extends State<ProductBuyHome> {
                     ),
                   ),
                   SizedBox(height: 5),
-                  Text(product.name,textAlign: TextAlign.center,),
+                  Text(
+                    product.name,
+                    textAlign: TextAlign.center,
+                  ),
                   Text('RM ' + product.soldBy[0].price.toString()),
                 ],
               ),
