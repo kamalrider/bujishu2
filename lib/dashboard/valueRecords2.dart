@@ -5,6 +5,9 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:Bujishu/constant.dart' as Constants;
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import '../constant.dart';
 import '../constant.dart';
@@ -12,14 +15,22 @@ import '../constant.dart';
 class ValueRecordOrder {
   String invoice;
   List<String> images;
+  String pdfUrl;
 
   ValueRecordOrder({
     this.invoice,
     this.images,
+    this.pdfUrl,
   });
 }
 
-void main() => runApp(ValueRecords2());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(new ValueRecords2());
+  });
+}
 
 class ValueRecords2 extends StatelessWidget {
   @override
@@ -89,36 +100,78 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
     ValueRecordOrder(
       invoice: 'BJN20200000036',
       images: image1,
+      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000038',
       images: image2,
+      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000557',
       images: image3,
+      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000563',
       images: image4,
+      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000994',
       images: image5,
+      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
     ),
   ];
 
   int _current = 0;
 
-  double vHeight ;
+  double vHeight;
+
+  String valOrder;
+
+  List orderType = [
+    "All Orders",
+    "Open Orders",
+    "Order Status",
+    "Pending Star Ratings",
+  ];
+
+  String _valGender;
+  String _valFriends;
+  List _listGender = [ "All Orders",
+    "Open Orders",
+    "Order Status",
+    "Pending Star Ratings",
+  ];
+  List _myFriends = [
+    "2020",
+    "2019",
+    "2018",
+    "2017",
+  ];
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  final ScrollController controller = ScrollController();
+  void goTop(int i){
+    controller.animateTo(0, duration:Duration(microseconds: 500), curve:Curves.easeInOut);
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     vHeight = 400;
+    _valFriends = _myFriends[0];
+    _valGender = _listGender[2];
   }
-
 
 
   @override
@@ -136,31 +189,103 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
           width: double.infinity,
           child: Column(
             children: <Widget>[
+
+
               Expanded(
                 child: CustomScrollView(
                   slivers: <Widget>[
                     SliverList(
                         delegate: SliverChildListDelegate([
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                                Constants.gold2,
-                                Colors.white,
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            'VALUE RECORDS',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    Constants.gold2,
+                                    Colors.white,
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'VALUE RECORDS',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ])),
+                          SizedBox(height: 20,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.white,
+                                      Constants.gold2,
+                                      Colors.white,
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,),
+                                ),
+                                child: DropdownButton(
+                                  hint: Text("Select The Year"),
+                                  value: _valFriends,
+                                  items: _myFriends.map((value) {
+                                    return DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(value),
+                                      ),
+                                      value: value,
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _valFriends = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: 20,),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.white,
+                                      Constants.gold2,
+                                      Colors.white,
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,),
+                                ),
+                                child: DropdownButton(
+                                  hint: Text("Select The Order"),
+                                  value: _valGender,
+                                  items: _listGender.map((value) {
+                                    return DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(value),
+                                      ),
+                                      value: value,
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _valGender = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ])),
                     SliverPadding(
                       padding: const EdgeInsets.all(16.0),
                       sliver: SliverGrid(
@@ -189,7 +314,21 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          setState(() {
+            onTap();
+          });
+
+        },
+        child: Icon(Icons.navigation),
+        backgroundColor: gold2,
+      ),
     );
+  }
+
+  void onTap(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ValueRecords2Home()));
   }
 
   Widget getCorosel1(ValueRecordOrder data) {
@@ -197,7 +336,10 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
       child: Align(
         alignment: Alignment.center,
         child: Container(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
           height: 400,
           child: FractionallySizedBox(
 //                                color: Colors.black,
@@ -240,8 +382,10 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-                  Text('PURCHASE #:', style: TextStyle(fontWeight: FontWeight.bold),),
-                  Text(data.invoice, style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text('PURCHASE #:',
+                    style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(data.invoice,
+                    style: TextStyle(fontWeight: FontWeight.bold),),
                 ],
               ),
             ),
@@ -250,7 +394,10 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
               child: Container(
 //                                color: Colors.black,
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height *0.28,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.28,
 //            padding: EdgeInsets.only(left: 50,right: 50),
                 child: CarouselSlider(
 //            boxFit: BoxFit.fitHeight,
@@ -263,7 +410,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 generalToast('go to Product Page');
                               },
                               child: Image.network(
@@ -332,21 +479,28 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
               children: <Widget>[
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(4,8,4,8),
+                    padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
                     child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _launchURL(data.pdfUrl);
+                        });
+                      },
                       child: Container(
-                        height: 30,
+                          height: 30,
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Center(child: Text('Invoice', style: TextStyle(fontSize: 15),textAlign: TextAlign.center,))),
+                          child: Center(child: Text('Invoice',
+                            style: TextStyle(fontSize: 15),
+                            textAlign: TextAlign.center,))),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(4,8,4,8),
+                    padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
                     child: GestureDetector(
                       child: Container(
                           height: 30,
@@ -354,13 +508,15 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Center(child: Text('Receipt', style: TextStyle(fontSize: 15),textAlign: TextAlign.center,))),
+                          child: Center(child: Text('Receipt',
+                            style: TextStyle(fontSize: 15),
+                            textAlign: TextAlign.center,))),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(4,8,4,8),
+                    padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
                     child: GestureDetector(
                       child: Container(
                           height: 30,
@@ -369,7 +525,9 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                             borderRadius: BorderRadius.circular(5),
                             color: Constants.gold2,
                           ),
-                          child: Center(child: Text('Buy It Again', style: TextStyle(fontSize: 15),textAlign: TextAlign.center,))),
+                          child: Center(child: Text('Buy It Again',
+                            style: TextStyle(fontSize: 15),
+                            textAlign: TextAlign.center,))),
                     ),
                   ),
                 ),

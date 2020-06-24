@@ -273,13 +273,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                 child: Container(
                   child: InkWell(
                     onTap: () {
-                      var childRoute = new MaterialPageRoute(
-                        builder: (BuildContext context) => new TemplateHome(
-                          tokens: jtoken,
-                        ),
-                      );
 
-                      Navigator.push(context, childRoute);
                     },
                     child: Text(
                       '@2020 Bujishu. All Rights Reserved',

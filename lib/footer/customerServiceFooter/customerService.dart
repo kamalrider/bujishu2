@@ -1,5 +1,6 @@
 import 'package:Bujishu/constant.dart';
 import 'package:Bujishu/dashboard/valueRecords.dart';
+import 'package:Bujishu/dashboard/valueRecords2.dart';
 import 'package:Bujishu/footer/customerServiceFooter/bujishuService.dart';
 import 'package:Bujishu/footer/customerServiceFooter/privacyPolicy.dart';
 import 'package:Bujishu/footer/weAreBujishuFooter/aboutUs.dart';
@@ -138,7 +139,7 @@ class _CustomerServiceState extends State<CustomerServiceHome> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ValueRecordsHome()));
+                                      builder: (context) => ValueRecords2Home()));
                             },
                             child: Text(
                               'Track and Order',

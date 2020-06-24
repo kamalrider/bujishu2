@@ -1,4 +1,5 @@
 import 'package:Bujishu/dashboard/valueRecords.dart';
+import 'package:Bujishu/dashboard/valueRecords2.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(CustomerDashboard());
@@ -39,7 +40,7 @@ class _CustomerDashboardState extends State<CustomerDashboardHome>{
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ValueRecordsHome()));
+                            builder: (context) => ValueRecords2Home()));
                   },
                   child:  Container(child: Image.asset('assets/images/value_records_dashboard.png')),
                 ),
