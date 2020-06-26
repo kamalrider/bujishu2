@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreenHome>{
   void initState() {
     super.initState();
     jtoken = '';
-    checkLoginStatus();
+//    checkLoginStatus();
 //    _getToken();
 //    _configureFirebaseListeners();
     _messages = List<Message>();

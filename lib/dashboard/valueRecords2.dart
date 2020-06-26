@@ -126,6 +126,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
 
   int _current = 0;
 
+
   double vHeight;
 
   String valOrder;
@@ -163,6 +164,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
   void goTop(int i){
     controller.animateTo(0, duration:Duration(microseconds: 500), curve:Curves.easeInOut);
   }
+  String test;
 
   @override
   void initState() {
@@ -171,6 +173,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
     vHeight = 400;
     _valFriends = _myFriends[0];
     _valGender = _listGender[2];
+
   }
 
 
@@ -291,7 +294,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                       sliver: SliverGrid(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 1,
-                          childAspectRatio: 1.1,
+                          childAspectRatio: 1.05,
                         ),
                         delegate: SliverChildListDelegate(order.map((data) {
                           return getCorosel2(data);
@@ -386,6 +389,42 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                     style: TextStyle(fontWeight: FontWeight.bold),),
                   Text(data.invoice,
                     style: TextStyle(fontWeight: FontWeight.bold),),
+                  SizedBox(width: 20,),
+
+                ],
+              ),
+            ),
+
+
+
+            Container(
+
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  InkWell(
+                    onTap:(){
+                      generalToast('Go to cart page');
+                    },
+                      child: Icon(Icons.shopping_cart, color: gold2,)),
+                  Container(height: 2, width: 30, color: gold2,),
+                  InkWell(
+                      onTap:(){
+                        generalToast('Go to ship page');
+                      },
+                      child: Icon(Icons.local_shipping,  color: Colors.grey,)),
+                  Container(height: 2, width: 30, color: Colors.grey,),
+                  InkWell(
+                      onTap:(){
+                        generalToast('Go to receive page');
+                      },
+                      child: Icon(Icons.archive,  color: Colors.grey,)),
+                  Container(height: 2, width: 30, color: Colors.grey,),
+                  InkWell(
+                      onTap:(){
+                        generalToast('Go to complete page');
+                      },
+                      child: Icon(Icons.check_circle,  color: Colors.grey,))
                 ],
               ),
             ),
@@ -411,7 +450,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
                               onTap: () {
-                                generalToast('go to Product Page');
+                                generalToast('go to Product Page $i');
                               },
                               child: Image.network(
                                 i,
@@ -439,8 +478,10 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
 
                   initialPage: _current,
                   onPageChanged: (index) {
+
                     setState(() {
-                      _current = index;
+
+                      test = data.images[index];
 //                vHeight = 600;
 //                return Transform.scale(
 //                  scale: index == _current ? 1 : 0.8,
@@ -459,7 +500,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                     });
                   },
 
-                  aspectRatio: 16 / 9,
+                  aspectRatio: 16/9,
                   viewportFraction: 0.7,
                   enableInfiniteScroll: true,
                   reverse: true,
@@ -518,6 +559,9 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
                     child: GestureDetector(
+                      onTap: (){
+                        generalToast('go to page $test');
+                      },
                       child: Container(
                           height: 30,
                           decoration: BoxDecoration(
