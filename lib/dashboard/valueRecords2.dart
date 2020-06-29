@@ -441,7 +441,8 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                 child: CarouselSlider(
 //            boxFit: BoxFit.fitHeight,
 
-                  items: data.images.map((String i) {
+                  items: data.images.map((
+                      i) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Container(
