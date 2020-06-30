@@ -204,7 +204,10 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                               gradient: LinearGradient(
                                   colors: [
                                     Constants.gold2,
+                                    Colors.white,Colors.white,
                                     Colors.white,
+                                    Constants.gold2,
+
                                   ],
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight),
@@ -223,67 +226,119 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.white,
-                                      Constants.gold2,
-                                      Colors.white,
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,),
-                                ),
-                                child: DropdownButton(
-                                  hint: Text("Select The Year"),
-                                  value: _valFriends,
-                                  items: _myFriends.map((value) {
-                                    return DropdownMenuItem(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(value),
-                                      ),
-                                      value: value,
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _valFriends = value;
-                                    });
-                                  },
+                              Theme(
+                                data:  Theme.of(context).copyWith(
+                            canvasColor: gold2,
+                          ),
+                                child: Container(
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xffded9d6),
+                                        Color(0xff8b878d),
+                                        Color(0xfff3f4f4),
+                                        Color(0xff807b80),
+                                        Color(0xffa7a9ac),
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,),
+                                  ),
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: Container(
+
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      gradient: LinearGradient(
+                                        colors: [
+//                                          Colors.white,
+                                          Color(0xffFFE700),
+                                          Constants.gold2,
+                                          Constants.gold2,
+                                          Constants.gold2,
+                                          Color(0xffFFE700),
+
+//                                          Colors.white,
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,),
+                                    ),
+                                    child: DropdownButton(
+                                      hint: Text("Select The Year"),
+                                      value: _valFriends,
+                                      items: _myFriends.map((value) {
+                                        return DropdownMenuItem(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(value),
+                                          ),
+                                          value: value,
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _valFriends = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 20,),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.white,
-                                      Constants.gold2,
-                                      Colors.white,
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,),
+                              Theme(
+                                data:  Theme.of(context).copyWith(
+                                  canvasColor: gold2,
                                 ),
-                                child: DropdownButton(
-                                  hint: Text("Select The Order"),
-                                  value: _valGender,
-                                  items: _listGender.map((value) {
-                                    return DropdownMenuItem(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(value),
-                                      ),
-                                      value: value,
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _valGender = value;
-                                    });
-                                  },
+                                child: Container(
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xffded9d6),
+                                        Color(0xff8b878d),
+                                        Color(0xfff3f4f4),
+                                        Color(0xff807b80),
+                                        Color(0xffa7a9ac),
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,),
+                                  ),
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xffFFE700),
+                                          Constants.gold2,
+                                          Constants.gold2,
+                                          Constants.gold2,
+                                          Color(0xffFFE700),
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,),
+                                    ),
+                                    child: DropdownButton(
+                                      hint: Text("Select The Order"),
+                                      value: _valGender,
+                                      items: _listGender.map((value) {
+                                        return DropdownMenuItem(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(value),
+                                          ),
+                                          value: value,
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _valGender = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
