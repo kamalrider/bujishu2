@@ -16,11 +16,23 @@ class ValueRecordOrder {
   String invoice;
   List<String> images;
   String pdfUrl;
+  List<TestImage> img;
 
   ValueRecordOrder({
     this.invoice,
     this.images,
     this.pdfUrl,
+    this.img,
+  });
+}
+
+class TestImage {
+  String img;
+  bool frameimg;
+
+  TestImage({
+    this.img,
+    this.frameimg = false,
   });
 }
 
@@ -52,40 +64,40 @@ class ValueRecords2Home extends StatefulWidget {
 
 class _ValueRecords2State extends State<ValueRecords2Home> {
   static List<String> image1 = [
-    'https://demo3.bujishu.com/storage/uploads/images/categories/bedsheets-and-mattresses/bedsheets-and-mattresses.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/cupboards/cupboards.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/tables-and-chairs/tables-and-chairs.jpg'
+    'https://staging.bujishu.com/storage/uploads/images/categories/39/table-lamps.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/43/main-doors.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/45/back-doors.jpg',
   ];
 
   static List<String> image2 = [
-    'https://demo3.bujishu.com/storage/uploads/images/categories/carpets/carpets.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/curtains/curtains.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/tiles/tiles.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/lightings/lightings.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/roofs/roofs.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/47/wooden-doors.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/52/single-hung.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/51/door-handles.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/54/arched.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/55/awning.jpg'
   ];
 
   static List<String> image3 = [
-    'https://demo3.bujishu.com/storage/uploads/images/categories/carpets/carpets.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/curtains/curtains.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/tiles/tiles.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/lightings/lightings.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/roofs/roofs.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/bedsheets-and-mattresses/bedsheets-and-mattresses.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/cupboards/cupboards.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/tables-and-chairs/tables-and-chairs.jpg'
+    'https://staging.bujishu.com/storage/uploads/images/categories/39/table-lamps.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/43/main-doors.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/45/back-doors.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/47/wooden-doors.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/52/single-hung.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/51/door-handles.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/54/arched.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/55/awning.jpg'
   ];
 
   static List<String> image4 = [
-    'https://demo3.bujishu.com/storage/uploads/images/categories/cupboards/cupboards.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/54/arched.jpg',
   ];
 
   static List<String> image5 = [
-    'https://demo3.bujishu.com/storage/uploads/images/categories/carpets/carpets.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/curtains/curtains.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/tiles/tiles.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/lightings/lightings.jpg',
-    'https://demo3.bujishu.com/storage/uploads/images/categories/roofs/roofs.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/45/back-doors.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/47/wooden-doors.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/52/single-hung.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/51/door-handles.jpg',
+    'https://staging.bujishu.com/storage/uploads/images/categories/54/arched.jpg',
   ];
 
   static List<String> image6 = [
@@ -101,26 +113,45 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
       invoice: 'BJN20200000036',
       images: image1,
       pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      img: imgs,
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000038',
       images: image2,
       pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      img: imgs,
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000557',
       images: image3,
       pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      img: imgs,
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000563',
       images: image4,
       pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      img: imgs,
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000994',
       images: image5,
       pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      img: imgs,
+    ),
+  ];
+
+  static List<TestImage> imgs = [
+    TestImage(
+      img: 'https://staging.bujishu.com/storage/uploads/images/categories/45/back-doors.jpg',
+    ),
+
+    TestImage(
+      img: 'https://staging.bujishu.com/storage/uploads/images/categories/47/wooden-doors.jpg',
+    ),
+
+    TestImage(
+      img: 'https://staging.bujishu.com/storage/uploads/images/categories/55/awning.jpg',
     ),
   ];
 
@@ -138,14 +169,14 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
     "Pending Star Ratings",
   ];
 
-  String _valGender;
-  String _valFriends;
-  List _listGender = [ "All Orders",
+  String _valOrder;
+  String _valYear;
+  List _listOrder = [ "All Orders",
     "Open Orders",
     "Order Status",
     "Pending Star Ratings",
   ];
-  List _myFriends = [
+  List _listYear = [
     "2020",
     "2019",
     "2018",
@@ -161,19 +192,32 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
   }
 
   final ScrollController controller = ScrollController();
-  void goTop(int i){
-    controller.animateTo(0, duration:Duration(microseconds: 500), curve:Curves.easeInOut);
+
+  void goTop(int i) {
+    controller.animateTo(
+        0, duration: Duration(microseconds: 500), curve: Curves.easeInOut);
   }
+
   String test;
+  bool frame = false;
+  Color frameBorder;
+
+  void centreFunction(int index) {
+    setState(() {
+      if (index == 0) {
+
+      }
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     vHeight = 400;
-    _valFriends = _myFriends[0];
-    _valGender = _listGender[2];
-
+    _valYear = _listYear[0];
+    _valOrder = _listOrder[2];
+    frameBorder = Colors.white;
   }
 
 
@@ -204,7 +248,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                               gradient: LinearGradient(
                                   colors: [
                                     Constants.gold2,
-                                    Colors.white,Colors.white,
+                                    Colors.white, Colors.white,
                                     Colors.white,
                                     Constants.gold2,
 
@@ -227,9 +271,9 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Theme(
-                                data:  Theme.of(context).copyWith(
-                            canvasColor: gold2,
-                          ),
+                                data: Theme.of(context).copyWith(
+                                  canvasColor: gold2,
+                                ),
                                 child: Container(
                                   height: 35,
                                   decoration: BoxDecoration(
@@ -266,8 +310,8 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                                     ),
                                     child: DropdownButton(
                                       hint: Text("Select The Year"),
-                                      value: _valFriends,
-                                      items: _myFriends.map((value) {
+                                      value: _valYear,
+                                      items: _listYear.map((value) {
                                         return DropdownMenuItem(
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -278,7 +322,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                                       }).toList(),
                                       onChanged: (value) {
                                         setState(() {
-                                          _valFriends = value;
+                                          _valYear = value;
                                         });
                                       },
                                     ),
@@ -287,7 +331,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                               ),
                               SizedBox(width: 20,),
                               Theme(
-                                data:  Theme.of(context).copyWith(
+                                data: Theme.of(context).copyWith(
                                   canvasColor: gold2,
                                 ),
                                 child: Container(
@@ -322,19 +366,19 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                                     ),
                                     child: DropdownButton(
                                       hint: Text("Select The Order"),
-                                      value: _valGender,
-                                      items: _listGender.map((value) {
+                                      value: _valOrder,
+                                      items: _listOrder.map((value) {
                                         return DropdownMenuItem(
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text(value),
+                                            child: Container(child: Text(value)),
                                           ),
                                           value: value,
                                         );
                                       }).toList(),
                                       onChanged: (value) {
                                         setState(() {
-                                          _valGender = value;
+                                          _valOrder = value;
                                         });
                                       },
                                     ),
@@ -373,11 +417,10 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           setState(() {
             onTap();
           });
-
         },
         child: Icon(Icons.navigation),
         backgroundColor: gold2,
@@ -385,8 +428,9 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
     );
   }
 
-  void onTap(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ValueRecords2Home()));
+  void onTap() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ValueRecords2Home()));
   }
 
   Widget getCorosel1(ValueRecordOrder data) {
@@ -427,6 +471,8 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
   }
 
   Widget getCorosel2(ValueRecordOrder data) {
+
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -451,35 +497,34 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
             ),
 
 
-
             Container(
 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   InkWell(
-                    onTap:(){
-                      generalToast('Go to cart page');
-                    },
+                      onTap: () {
+                        generalToast('Go to cart page');
+                      },
                       child: Icon(Icons.shopping_cart, color: gold2,)),
                   Container(height: 2, width: 30, color: gold2,),
                   InkWell(
-                      onTap:(){
+                      onTap: () {
                         generalToast('Go to ship page');
                       },
-                      child: Icon(Icons.local_shipping,  color: Colors.grey,)),
+                      child: Icon(Icons.local_shipping, color: Colors.grey,)),
                   Container(height: 2, width: 30, color: Colors.grey,),
                   InkWell(
-                      onTap:(){
+                      onTap: () {
                         generalToast('Go to receive page');
                       },
-                      child: Icon(Icons.archive,  color: Colors.grey,)),
+                      child: Icon(Icons.archive, color: Colors.grey,)),
                   Container(height: 2, width: 30, color: Colors.grey,),
                   InkWell(
-                      onTap:(){
+                      onTap: () {
                         generalToast('Go to complete page');
                       },
-                      child: Icon(Icons.check_circle,  color: Colors.grey,))
+                      child: Icon(Icons.check_circle, color: Colors.grey,))
                 ],
               ),
             ),
@@ -496,8 +541,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                 child: CarouselSlider(
 //            boxFit: BoxFit.fitHeight,
 
-                  items: data.images.map((
-                      i) {
+                  items: data.img.map((i) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Container(
@@ -508,9 +552,15 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                               onTap: () {
                                 generalToast('go to Product Page $i');
                               },
-                              child: Image.network(
-                                i,
-                                fit: BoxFit.fitHeight,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: frameBorder, width: 2),
+                                ),
+                                child: Image.network(
+                                  i.img,
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
                             ),
                           ),
@@ -534,10 +584,21 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
 
                   initialPage: _current,
                   onPageChanged: (index) {
-
+                    frameBorder = data.img[index].frameimg ? gold2 : Colors.white;
                     setState(() {
+                      test = data.img[index].img;
 
-                      test = data.images[index];
+
+                      data.img.forEach((f) => f.frameimg = false);
+
+                      data.img[index].frameimg = !data.img[index].frameimg;
+                      frameBorder = data.img[index].frameimg ? gold2 : Colors.white;
+
+//                      if (index == 0)
+//                        frame = true;
+
+
+
 //                vHeight = 600;
 //                return Transform.scale(
 //                  scale: index == _current ? 1 : 0.8,
@@ -556,7 +617,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                     });
                   },
 
-                  aspectRatio: 16/9,
+                  aspectRatio: 16 / 9,
                   viewportFraction: 0.7,
                   enableInfiniteScroll: true,
                   reverse: true,
@@ -615,7 +676,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         generalToast('go to page $test');
                       },
                       child: Container(
