@@ -273,6 +273,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                               Theme(
                                 data: Theme.of(context).copyWith(
                                   canvasColor: gold2,
+
                                 ),
                                 child: Container(
                                   height: 35,
@@ -330,61 +331,103 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                                 ),
                               ),
                               SizedBox(width: 20,),
-                              Theme(
-                                data: Theme.of(context).copyWith(
-                                  canvasColor: gold2,
-                                ),
-                                child: Container(
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xffded9d6),
-                                        Color(0xff8b878d),
-                                        Color(0xfff3f4f4),
-                                        Color(0xff807b80),
-                                        Color(0xffa7a9ac),
-                                      ],
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,),
-                                  ),
-                                  padding: const EdgeInsets.all(1.0),
-                                  child: Container(
+                               Theme(
+                                 data: ThemeData(
+                                   canvasColor: Colors.transparent,
+                                 ),
+                                 child: Container(
+                                    height: 35,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       gradient: LinearGradient(
                                         colors: [
-                                          Color(0xffFFE700),
-                                          Constants.gold2,
-                                          Constants.gold2,
-                                          Constants.gold2,
-                                          Color(0xffFFE700),
+                                          Color(0xffded9d6),
+                                          Color(0xff8b878d),
+                                          Color(0xfff3f4f4),
+                                          Color(0xff807b80),
+                                          Color(0xffa7a9ac),
                                         ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,),
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,),
                                     ),
-                                    child: DropdownButton(
-                                      hint: Text("Select The Order"),
-                                      value: _valOrder,
-                                      items: _listOrder.map((value) {
-                                        return DropdownMenuItem(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(child: Text(value)),
-                                          ),
-                                          value: value,
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _valOrder = value;
-                                        });
-                                      },
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color(0xffFFE700),
+                                            Constants.gold2,
+                                            Constants.gold2,
+                                            Constants.gold2,
+                                            Color(0xffFFE700),
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,),
+                                      ),
+                                      child: DropdownButton(
+                                        hint: Text("Select The Order"),
+                                        value: _valOrder,
+                                        items: _listOrder.map((value) {
+
+                                          Widget droplist(){
+
+                                            if (value == _listOrder[0]){
+                                              return Container(
+                                                width: 150,
+                                                padding: EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                  color: gold2,
+                                                  borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(20),
+                                                    topRight: Radius.circular(20),
+                                                  ),
+                                                ),
+                                                child: Text(value, style: TextStyle(fontSize: 12),),
+                                              );
+                                            }
+                                            else if (value == _listOrder.last){
+                                              return Container(
+                                                padding: EdgeInsets.all(8),
+                                                width: 150,
+                                                decoration: BoxDecoration(
+                                                  color: gold2,
+                                                  borderRadius: BorderRadius.only(
+                                                    bottomLeft: Radius.circular(20),
+                                                    bottomRight: Radius.circular(20),
+                                                  ),
+                                                ),
+                                                child: Text(value, style: TextStyle(fontSize: 12),),
+                                              );
+                                            }
+                                            else {
+                                              return Container(
+                                                padding: EdgeInsets.all(8),
+                                                width: 150,
+
+                                                color: gold2,
+                                                child: Text(value, style: TextStyle(fontSize: 12),),
+                                              );
+                                            }
+
+                                          }
+
+
+                                          return DropdownMenuItem(
+                                              child: droplist(),
+                                            value: value,
+                                          );
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _valOrder = value;
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
+                               ),
+
                             ],
                           ),
                         ])),
