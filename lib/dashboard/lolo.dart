@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(Template());
+void main() => runApp(Lolo());
 
-class Template extends StatelessWidget {
+class Lolo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,30 +10,27 @@ class Template extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TemplateHome(),
+      home: LoloHome(h: 2,),
     );
   }
 }
 
-class TemplateHome extends StatefulWidget {
+class LoloHome extends StatefulWidget {
+  int h;
 
-
+  LoloHome({this.h});
   @override
-  _TemplateState createState() => _TemplateState();
+  _LoloState createState() => _LoloState();
 }
 
-class _TemplateState extends State<TemplateHome> {
-
-
+class _LoloState extends State<LoloHome> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       body: Center(
-
+        child: Text(widget.h.toString()),
       ),
     );
   }
-
 }
-

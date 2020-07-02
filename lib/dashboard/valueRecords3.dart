@@ -210,6 +210,8 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
     });
   }
 
+  bool visibleTest = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -234,220 +236,305 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
       body: Center(
         child: Container(
           width: double.infinity,
-          child: Column(
+          child: Stack(
             children: <Widget>[
-
-
-              Expanded(
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverList(
-                        delegate: SliverChildListDelegate([
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Constants.gold2,
-                                    Colors.white, Colors.white,
-                                    Colors.white,
-                                    Constants.gold2,
-
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                'VALUE RECORDS',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Theme(
-                                data: Theme.of(context).copyWith(
-                                  canvasColor: gold2,
-
-                                ),
-                                child: Container(
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    gradient: LinearGradient(
+              Column(
+                children: <Widget>[
+                  Expanded(
+                    child: CustomScrollView(
+                      slivers: <Widget>[
+                        SliverList(
+                            delegate: SliverChildListDelegate([
+                              Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
                                       colors: [
-                                        Color(0xffded9d6),
-                                        Color(0xff8b878d),
-                                        Color(0xfff3f4f4),
-                                        Color(0xff807b80),
-                                        Color(0xffa7a9ac),
+                                        Constants.gold2,
+                                        Colors.white, Colors.white,
+                                        Colors.white,
+                                        Constants.gold2,
+
                                       ],
                                       begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,),
-                                  ),
-                                  padding: const EdgeInsets.all(1.0),
-                                  child: Container(
-
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      gradient: LinearGradient(
-                                        colors: [
-//                                          Colors.white,
-                                          Color(0xffFFE700),
-                                          Constants.gold2,
-                                          Constants.gold2,
-                                          Constants.gold2,
-                                          Color(0xffFFE700),
-
-//                                          Colors.white,
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,),
-                                    ),
-                                    child: DropdownButton(
-                                      hint: Text("Select The Year"),
-                                      value: _valYear,
-                                      items: _listYear.map((value) {
-                                        return DropdownMenuItem(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(value),
-                                          ),
-                                          value: value,
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _valYear = value;
-                                        });
-                                      },
-                                    ),
+                                      end: Alignment.centerRight),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(
+                                    'VALUE RECORDS',
+                                    style: TextStyle(
+                                        fontSize: 20, fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 20,),
-                               Theme(
-                                 data: ThemeData(
+                              SizedBox(height: 20,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+//                              Theme(
+//                                data: Theme.of(context).copyWith(
+//                                  canvasColor: gold2,
+//
+//                                ),
+//                                child: Container(
+//                                  height: 35,
+//                                  decoration: BoxDecoration(
+//                                    borderRadius: BorderRadius.circular(10),
+//                                    gradient: LinearGradient(
+//                                      colors: [
+//                                        Color(0xffded9d6),
+//                                        Color(0xff8b878d),
+//                                        Color(0xfff3f4f4),
+//                                        Color(0xff807b80),
+//                                        Color(0xffa7a9ac),
+//                                      ],
+//                                      begin: Alignment.centerLeft,
+//                                      end: Alignment.centerRight,),
+//                                  ),
+//                                  padding: const EdgeInsets.all(1.0),
+//                                  child: Container(
+//
+//                                    decoration: BoxDecoration(
+//                                      borderRadius: BorderRadius.circular(10),
+//                                      gradient: LinearGradient(
+//                                        colors: [
+////                                          Colors.white,
+//                                          Color(0xffFFE700),
+//                                          Constants.gold2,
+//                                          Constants.gold2,
+//                                          Constants.gold2,
+//                                          Color(0xffFFE700),
+//
+////                                          Colors.white,
+//                                        ],
+//                                        begin: Alignment.topCenter,
+//                                        end: Alignment.bottomCenter,),
+//                                    ),
+//                                    child: DropdownButton(
+//                                      hint: Text("Select The Year"),
+//                                      value: _valYear,
+//                                      items: _listYear.map((value) {
+//                                        return DropdownMenuItem(
+//                                          child: Padding(
+//                                            padding: const EdgeInsets.all(8.0),
+//                                            child: Text(value),
+//                                          ),
+//                                          value: value,
+//                                        );
+//                                      }).toList(),
+//                                      onChanged: (value) {
+//                                        setState(() {
+//                                          _valYear = value;
+//                                        });
+//                                      },
+//                                    ),
+//                                  ),
+//                                ),
+//                              ),
+                                  Theme(
+                                    data: Theme.of(context).copyWith(
+                                      canvasColor: gold2,
 
-                                   canvasColor: Colors.transparent,
-                                 ),
-                                 child: Container(
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Color(0xffded9d6),
-                                          Color(0xff8b878d),
-                                          Color(0xfff3f4f4),
-                                          Color(0xff807b80),
-                                          Color(0xffa7a9ac),
-                                        ],
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,),
                                     ),
-                                    padding: const EdgeInsets.all(1.0),
                                     child: Container(
+                                      height: 35,
+                                      width: 50,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         gradient: LinearGradient(
                                           colors: [
-                                            Color(0xffFFE700),
-                                            Constants.gold2,
-                                            Constants.gold2,
-                                            Constants.gold2,
-                                            Color(0xffFFE700),
+                                            Color(0xffded9d6),
+                                            Color(0xff8b878d),
+                                            Color(0xfff3f4f4),
+                                            Color(0xff807b80),
+                                            Color(0xffa7a9ac),
                                           ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,),
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,),
                                       ),
-                                      child: DropdownButton(
-                                        hint: Text("Select The Order"),
-                                        value: _valOrder,
-                                        items: _listOrder.map((value) {
+                                      padding: const EdgeInsets.all(1.0),
+                                      child: Container(
 
-                                          Widget droplist(){
-                                            if (value == _listOrder[0]){
-                                              return Container(
-                                                width: 150,
-                                                padding: EdgeInsets.all(8),
-                                                decoration: BoxDecoration(
-                                                  color: gold2,
-                                                  borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(20),
-                                                    topRight: Radius.circular(20),
-                                                  ),
-                                                ),
-                                                child: Text(value, style: TextStyle(fontSize: 12),),
-                                              );
-                                            }
-                                            else if (value == _listOrder.last){
-                                              return Container(
-                                                padding: EdgeInsets.all(8),
-                                                width: 150,
-                                                decoration: BoxDecoration(
-                                                  color: gold2,
-                                                  borderRadius: BorderRadius.only(
-                                                    bottomLeft: Radius.circular(20),
-                                                    bottomRight: Radius.circular(20),
-                                                  ),
-                                                ),
-                                                child: Text(value, style: TextStyle(fontSize: 12),),
-                                              );
-                                            }
-                                            else {
-                                              return Container(
-                                                padding: EdgeInsets.all(8),
-                                                width: 150,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          gradient: LinearGradient(
+                                            colors: [
+//                                          Colors.white,
+                                              Color(0xffFFE700),
+                                              Constants.gold2,
+                                              Constants.gold2,
+                                              Constants.gold2,
+                                              Color(0xffFFE700),
 
-                                                color: gold2,
-                                                child: Text(value, style: TextStyle(fontSize: 12),),
-                                              );
-                                            }
-                                          }
-                                          return DropdownMenuItem(
-                                              child: droplist(),
-                                            value: value,);
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _valOrder = value;});},),
+//                                          Colors.white,
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,),
+                                        ),
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              visibleTest = !visibleTest;
+                                            });
+                                          },
+                                            child: Text('Test')),
+//                                    DropdownButton(
+//                                      hint: Text("Select The Year"),
+//                                      value: _valYear,
+//                                      items: _listYear.map((value) {
+//                                        return DropdownMenuItem(
+//                                          child: Padding(
+//                                            padding: const EdgeInsets.all(8.0),
+//                                            child: Text(value),
+//                                          ),
+//                                          value: value,
+//                                        );
+//                                      }).toList(),
+//                                      onChanged: (value) {
+//                                        setState(() {
+//                                          _valYear = value;
+//                                        });
+//                                      },
+//                                    ),
+                                      ),
                                     ),
                                   ),
-                               ),
+                                  SizedBox(width: 20,),
+//                            Container(
+//                                  height: 35,
+//                                  decoration: BoxDecoration(
+//                                    borderRadius: BorderRadius.circular(10),
+//                                    gradient: LinearGradient(
+//                                      colors: [
+//                                        Color(0xffded9d6),
+//                                        Color(0xff8b878d),
+//                                        Color(0xfff3f4f4),
+//                                        Color(0xff807b80),
+//                                        Color(0xffa7a9ac),
+//                                      ],
+//                                      begin: Alignment.centerLeft,
+//                                      end: Alignment.centerRight,),
+//                                  ),
+//                                  padding: const EdgeInsets.all(1.0),
+//                                  child:
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xffFFE700),
+                                              Constants.gold2,
+                                              Constants.gold2,
+                                              Constants.gold2,
+                                              Color(0xffFFE700),
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,),
+                                        ),
+                                        child: DropdownButton(
+                                          hint: Text("Select The Order"),
+                                          value: _valOrder,
+                                          items: _listOrder.map((value) {
 
-                            ],
+                                            Widget droplist(){
+                                              if (value == _listOrder[0]){
+                                                return Container(
+                                                  width: 150,
+                                                  padding: EdgeInsets.all(8),
+                                                  decoration: BoxDecoration(
+                                                    color: gold2,
+                                                    borderRadius: BorderRadius.only(
+                                                      topLeft: Radius.circular(20),
+                                                      topRight: Radius.circular(20),
+                                                    ),
+                                                  ),
+                                                  child: Text(value, style: TextStyle(fontSize: 12),),
+                                                );
+                                              }
+                                              else if (value == _listOrder.last){
+                                                return Container(
+                                                  padding: EdgeInsets.all(8),
+                                                  width: 150,
+                                                  decoration: BoxDecoration(
+                                                    color: gold2,
+                                                    borderRadius: BorderRadius.only(
+                                                      bottomLeft: Radius.circular(20),
+                                                      bottomRight: Radius.circular(20),
+                                                    ),
+                                                  ),
+                                                  child: Text(value, style: TextStyle(fontSize: 12),),
+                                                );
+                                              }
+                                              else {
+                                                return Container(
+                                                  padding: EdgeInsets.all(8),
+                                                  width: 150,
+
+                                                  color: gold2,
+                                                  child: Text(value, style: TextStyle(fontSize: 12),),
+                                                );
+                                              }
+                                            }
+                                            return DropdownMenuItem(
+                                              child: droplist(),
+                                              value: value,);
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _valOrder = value;});},),
+                                      ),
+//                                ),
+
+
+                                ],
+                              ),
+                            ])),
+                        SliverPadding(
+                          padding: const EdgeInsets.all(16.0),
+                          sliver: SliverGrid(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              childAspectRatio: 1.05,
+                            ),
+                            delegate: SliverChildListDelegate(order.map((data) {
+                              return getCorosel2(data);
+                            }).toList()),
                           ),
-                        ])),
-                    SliverPadding(
-                      padding: const EdgeInsets.all(16.0),
-                      sliver: SliverGrid(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          childAspectRatio: 1.05,
                         ),
-                        delegate: SliverChildListDelegate(order.map((data) {
-                          return getCorosel2(data);
-                        }).toList()),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex: 0,
+                    child: Container(
+                      child: Text(
+                        '@2020 Bujishu. All Rights Reserved',
+                        style: TextStyle(color: Colors.black, fontSize: 12),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Flexible(
-                flex: 0,
+              visibleTest ? Positioned(
+                left: 30.0,
+                top: 120.0,
                 child: Container(
-                  child: Text(
-                    '@2020 Bujishu. All Rights Reserved',
-                    style: TextStyle(color: Colors.black, fontSize: 12),
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: gold2,
+                  ),
+                  child: Column(
+                    children: _listYear.map((value){
+                      return Expanded(
+                        child: Text(value),
+                      );
+                    }).toList(),
                   ),
                 ),
-              ),
+              ) : Container(),
             ],
           ),
         ),
