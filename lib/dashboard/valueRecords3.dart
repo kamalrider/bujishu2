@@ -3,11 +3,11 @@ import 'package:Bujishu/home/customer_home/nav_drawer.dart';
 import 'package:Bujishu/home/general_appbar.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Bujishu/constant.dart' as Constants;
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 import '../constant.dart';
 import '../constant.dart';
@@ -33,6 +33,26 @@ class TestImage {
   TestImage({
     this.img,
     this.frameimg = false,
+  });
+}
+
+class YearClass {
+  String year;
+  bool yearColor;
+
+  YearClass({
+    this.year,
+    this.yearColor = false,
+  });
+}
+
+class OrderClass {
+  String order;
+  bool orderColor;
+
+  OrderClass({
+    this.order,
+    this.orderColor = false,
   });
 }
 
@@ -112,51 +132,56 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
     ValueRecordOrder(
       invoice: 'BJN20200000036',
       images: image1,
-      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      pdfUrl:
+          "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
       img: imgs,
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000038',
       images: image2,
-      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      pdfUrl:
+          "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
       img: imgs,
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000557',
       images: image3,
-      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      pdfUrl:
+          "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
       img: imgs,
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000563',
       images: image4,
-      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      pdfUrl:
+          "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
       img: imgs,
     ),
     ValueRecordOrder(
       invoice: 'BJN20200000994',
       images: image5,
-      pdfUrl: "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
+      pdfUrl:
+          "https://demo3.bujishu.com/storage/documents/invoice/BJN20200001267/BJN20200001267.pdf",
       img: imgs,
     ),
   ];
 
   static List<TestImage> imgs = [
     TestImage(
-      img: 'https://staging.bujishu.com/storage/uploads/images/categories/45/back-doors.jpg',
+      img:
+          'https://staging.bujishu.com/storage/uploads/images/categories/45/back-doors.jpg',
     ),
-
     TestImage(
-      img: 'https://staging.bujishu.com/storage/uploads/images/categories/47/wooden-doors.jpg',
+      img:
+          'https://staging.bujishu.com/storage/uploads/images/categories/47/wooden-doors.jpg',
     ),
-
     TestImage(
-      img: 'https://staging.bujishu.com/storage/uploads/images/categories/55/awning.jpg',
+      img:
+          'https://staging.bujishu.com/storage/uploads/images/categories/55/awning.jpg',
     ),
   ];
 
   int _current = 0;
-
 
   double vHeight;
 
@@ -171,16 +196,47 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
 
   String _valOrder;
   String _valYear;
-  List _listOrder = [ "All Orders",
+  List _listOrder = [
+    "All Orders",
     "Open Orders",
     "Order Status",
     "Pending Star Ratings",
+  ];
+
+  List<OrderClass> orderlist = [
+    OrderClass(
+      order: "All Orders",
+    ),
+    OrderClass(
+      order: "Open Orders",
+    ),
+    OrderClass(
+      order: "Order Status",
+    ),
+    OrderClass(
+      order: "Pending Star Ratings",
+    ),
   ];
   List _listYear = [
     "2020",
     "2019",
     "2018",
     "2017",
+  ];
+
+  List<YearClass> yearlist = [
+    YearClass(
+      year: "2020",
+    ),
+    YearClass(
+      year: "2019",
+    ),
+    YearClass(
+      year: "2018",
+    ),
+    YearClass(
+      year: "2017",
+    ),
   ];
 
   _launchURL(String url) async {
@@ -194,23 +250,24 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
   final ScrollController controller = ScrollController();
 
   void goTop(int i) {
-    controller.animateTo(
-        0, duration: Duration(microseconds: 500), curve: Curves.easeInOut);
+    controller.animateTo(0,
+        duration: Duration(microseconds: 500), curve: Curves.easeInOut);
   }
 
-  String test;
+  String test = '';
+  String year = '';
+  String orders = '';
   bool frame = false;
   Color frameBorder;
 
   void centreFunction(int index) {
     setState(() {
-      if (index == 0) {
-
-      }
+      if (index == 0) {}
     });
   }
 
-  bool visibleTest = false;
+  bool visibleYear = false;
+  bool visibleOrder = false;
 
   @override
   void initState() {
@@ -220,8 +277,12 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
     _valYear = _listYear[0];
     _valOrder = _listOrder[2];
     frameBorder = Colors.white;
+    year = 'Select the year';
+    orders = 'Select the order';
   }
 
+  Color fieldColor1;
+  Color fieldColor2;
 
   @override
   Widget build(BuildContext context) {
@@ -245,33 +306,35 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                       slivers: <Widget>[
                         SliverList(
                             delegate: SliverChildListDelegate([
-                              Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Constants.gold2,
-                                        Colors.white, Colors.white,
-                                        Colors.white,
-                                        Constants.gold2,
-
-                                      ],
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Text(
-                                    'VALUE RECORDS',
-                                    style: TextStyle(
-                                        fontSize: 20, fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    Constants.gold2,
+                                    Colors.white,
+                                    Colors.white,
+                                    Colors.white,
+                                    Constants.gold2,
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'VALUE RECORDS',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 20,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
 //                              Theme(
 //                                data: Theme.of(context).copyWith(
 //                                  canvasColor: gold2,
@@ -332,53 +395,74 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
 //                                  ),
 //                                ),
 //                              ),
-                                  Theme(
-                                    data: Theme.of(context).copyWith(
-                                      canvasColor: gold2,
-
+                              Theme(
+                                data: Theme.of(context).copyWith(
+                                  canvasColor: gold2,
+                                ),
+                                child: Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xffded9d6),
+                                        Color(0xff8b878d),
+                                        Color(0xfff3f4f4),
+                                        Color(0xff807b80),
+                                        Color(0xffa7a9ac),
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
                                     ),
-                                    child: Container(
-                                      height: 35,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Color(0xffded9d6),
-                                            Color(0xff8b878d),
-                                            Color(0xfff3f4f4),
-                                            Color(0xff807b80),
-                                            Color(0xffa7a9ac),
-                                          ],
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,),
+                                  ),
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      gradient: LinearGradient(
+                                        colors: [
+//                                          Colors.white,
+                                          Color(0xffFFE700),
+                                          Constants.gold2,
+                                          Constants.gold2,
+                                          Constants.gold2,
+                                          Color(0xffFFE700),
+
+//                                          Colors.white,
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
                                       ),
-                                      padding: const EdgeInsets.all(1.0),
-                                      child: Container(
-
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          gradient: LinearGradient(
-                                            colors: [
-//                                          Colors.white,
-                                              Color(0xffFFE700),
-                                              Constants.gold2,
-                                              Constants.gold2,
-                                              Constants.gold2,
-                                              Color(0xffFFE700),
-
-//                                          Colors.white,
-                                            ],
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,),
-                                        ),
-                                        child: GestureDetector(
-                                          onTap: (){
-                                            setState(() {
-                                              visibleTest = !visibleTest;
-                                            });
-                                          },
-                                            child: Text('Test')),
+                                    ),
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            visibleYear = !visibleYear;
+                                          });
+                                        },
+                                        child: Center(
+                                          child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 0, 0, 0),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                    flex: 3,
+                                                    child: Container(
+                                                        child: Text(
+                                                      year,
+                                                      textAlign: TextAlign.left,
+                                                    ))),
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                        child: Icon(Icons
+                                                            .arrow_drop_down))),
+                                              ],
+                                            ),
+                                          ),
+                                        )),
 //                                    DropdownButton(
 //                                      hint: Text("Select The Year"),
 //                                      value: _valYear,
@@ -397,10 +481,101 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
 //                                        });
 //                                      },
 //                                    ),
-                                      ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Theme(
+                                data: Theme.of(context).copyWith(
+                                  canvasColor: gold2,
+                                ),
+                                child: Container(
+                                  height: 35,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xffded9d6),
+                                        Color(0xff8b878d),
+                                        Color(0xfff3f4f4),
+                                        Color(0xff807b80),
+                                        Color(0xffa7a9ac),
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
                                     ),
                                   ),
-                                  SizedBox(width: 20,),
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      gradient: LinearGradient(
+                                        colors: [
+//                                          Colors.white,
+                                          Color(0xffFFE700),
+                                          Constants.gold2,
+                                          Constants.gold2,
+                                          Constants.gold2,
+                                          Color(0xffFFE700),
+
+//                                          Colors.white,
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                    ),
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            visibleOrder = !visibleOrder;
+                                          });
+                                        },
+                                        child: Center(
+                                          child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 0, 0, 0),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                    flex: 3,
+                                                    child: Container(
+                                                        child: Text(
+                                                      orders,
+                                                      textAlign: TextAlign.left,
+                                                    ))),
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                        child: Icon(Icons
+                                                            .arrow_drop_down))),
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+//                                    DropdownButton(
+//                                      hint: Text("Select The Year"),
+//                                      value: _valYear,
+//                                      items: _listYear.map((value) {
+//                                        return DropdownMenuItem(
+//                                          child: Padding(
+//                                            padding: const EdgeInsets.all(8.0),
+//                                            child: Text(value),
+//                                          ),
+//                                          value: value,
+//                                        );
+//                                      }).toList(),
+//                                      onChanged: (value) {
+//                                        setState(() {
+//                                          _valYear = value;
+//                                        });
+//                                      },
+//                                    ),
+                                  ),
+                                ),
+                              ),
 //                            Container(
 //                                  height: 35,
 //                                  decoration: BoxDecoration(
@@ -418,82 +593,94 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
 //                                  ),
 //                                  padding: const EdgeInsets.all(1.0),
 //                                  child:
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Color(0xffFFE700),
-                                              Constants.gold2,
-                                              Constants.gold2,
-                                              Constants.gold2,
-                                              Color(0xffFFE700),
-                                            ],
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,),
-                                        ),
-                                        child: DropdownButton(
-                                          hint: Text("Select The Order"),
-                                          value: _valOrder,
-                                          items: _listOrder.map((value) {
-
-                                            Widget droplist(){
-                                              if (value == _listOrder[0]){
-                                                return Container(
-                                                  width: 150,
-                                                  padding: EdgeInsets.all(8),
-                                                  decoration: BoxDecoration(
-                                                    color: gold2,
-                                                    borderRadius: BorderRadius.only(
-                                                      topLeft: Radius.circular(20),
-                                                      topRight: Radius.circular(20),
-                                                    ),
-                                                  ),
-                                                  child: Text(value, style: TextStyle(fontSize: 12),),
-                                                );
-                                              }
-                                              else if (value == _listOrder.last){
-                                                return Container(
-                                                  padding: EdgeInsets.all(8),
-                                                  width: 150,
-                                                  decoration: BoxDecoration(
-                                                    color: gold2,
-                                                    borderRadius: BorderRadius.only(
-                                                      bottomLeft: Radius.circular(20),
-                                                      bottomRight: Radius.circular(20),
-                                                    ),
-                                                  ),
-                                                  child: Text(value, style: TextStyle(fontSize: 12),),
-                                                );
-                                              }
-                                              else {
-                                                return Container(
-                                                  padding: EdgeInsets.all(8),
-                                                  width: 150,
-
-                                                  color: gold2,
-                                                  child: Text(value, style: TextStyle(fontSize: 12),),
-                                                );
-                                              }
-                                            }
-                                            return DropdownMenuItem(
-                                              child: droplist(),
-                                              value: value,);
-                                          }).toList(),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _valOrder = value;});},),
-                                      ),
+//                              Container(
+//                                decoration: BoxDecoration(
+//                                  borderRadius: BorderRadius.circular(10),
+//                                  gradient: LinearGradient(
+//                                    colors: [
+//                                      Color(0xffFFE700),
+//                                      Constants.gold2,
+//                                      Constants.gold2,
+//                                      Constants.gold2,
+//                                      Color(0xffFFE700),
+//                                    ],
+//                                    begin: Alignment.topCenter,
+//                                    end: Alignment.bottomCenter,
+//                                  ),
 //                                ),
-
-
-                                ],
-                              ),
-                            ])),
+//                                child: DropdownButton(
+//                                  hint: Text("Select The Order"),
+//                                  value: _valOrder,
+//                                  items: _listOrder.map((value) {
+//                                    Widget droplist() {
+//                                      if (value == _listOrder[0]) {
+//                                        return Center(
+//                                          child: Container(
+//                                            width: 150,
+//                                            padding: EdgeInsets.all(8),
+//                                            decoration: BoxDecoration(
+//                                              color: gold2,
+//                                              borderRadius: BorderRadius.only(
+//                                                topLeft: Radius.circular(20),
+//                                                topRight: Radius.circular(20),
+//                                              ),
+//                                            ),
+//                                            child: Text(
+//                                              value,
+//                                              style: TextStyle(fontSize: 12),
+//                                            ),
+//                                          ),
+//                                        );
+//                                      } else if (value == _listOrder.last) {
+//                                        return Container(
+//                                          padding: EdgeInsets.all(8),
+//                                          width: 150,
+//                                          decoration: BoxDecoration(
+//                                            color: gold2,
+//                                            borderRadius: BorderRadius.only(
+//                                              bottomLeft: Radius.circular(20),
+//                                              bottomRight: Radius.circular(20),
+//                                            ),
+//                                          ),
+//                                          child: Text(
+//                                            value,
+//                                            style: TextStyle(fontSize: 12),
+//                                          ),
+//                                        );
+//                                      } else {
+//                                        return Container(
+//                                          padding: EdgeInsets.all(8),
+//                                          width: 150,
+//                                          color: gold2,
+//                                          child: Text(
+//                                            value,
+//                                            style: TextStyle(fontSize: 12),
+//                                          ),
+//                                        );
+//                                      }
+//                                    }
+//
+//                                    return DropdownMenuItem(
+//                                      child: droplist(),
+//                                      value: value,
+//                                    );
+//                                  }).toList(),
+//                                  onChanged: (value) {
+//                                    setState(() {
+//                                      _valOrder = value;
+//                                    });
+//                                  },
+//                                ),
+//                              ),
+//                                ),
+                            ],
+                          ),
+                        ])),
                         SliverPadding(
                           padding: const EdgeInsets.all(16.0),
                           sliver: SliverGrid(
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 1,
                               childAspectRatio: 1.05,
                             ),
@@ -516,25 +703,223 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                   ),
                 ],
               ),
-              visibleTest ? Positioned(
-                left: 30.0,
-                top: 120.0,
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: gold2,
-                  ),
-                  child: Column(
-                    children: _listYear.map((value){
-                      return Expanded(
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ) : Container(),
+              visibleYear
+                  ? Positioned(
+                      left: 30.0,
+                      top: 120.0,
+                      child: Container(
+                        width: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: gold2,
+                          border: Border.all(color: Colors.grey)
+                        ),
+                        child: Column(
+                          children: yearlist.map((value) {
+
+                            fieldColor2 =
+                            value.yearColor ? Colors.white : gold2;
+
+                            Widget yearDropdown(String value) {
+                              if (value == yearlist[0].year) {
+
+                                return Container(
+                                    height: 30,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                      ),
+                                      color: fieldColor2,
+                                    ),
+//                                child: Center(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        value,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+//                                ),
+                                    );
+                              } else if (value == yearlist.last.year) {
+                                return Container(
+                                    height: 30,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                      color: fieldColor2,
+                                    ),
+//                                child: Center(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        value,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+//                                ),
+                                    );
+                              } else {
+                                return Container(
+                                    height: 30,
+                                    width: 150,
+                                    color: fieldColor2,
+//                                child: Center(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        value,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+//                                ),
+                                    );
+                              }
+                            }
+
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  year = value.year;
+                                  visibleYear = !visibleYear;
+
+
+                                  yearlist
+                                      .forEach((f) => f.yearColor = false);
+
+                                  value.yearColor = !value.yearColor;
+                                });
+                              },
+//                              child: Expanded(
+
+//                                child: GestureDetector(
+//                                    onTap: () {
+//                                      setState(() {
+//                                        year = value;
+//                                        visibleTest = !visibleTest;
+//                                      });
+//                                    },
+                              child: yearDropdown(value.year),
+//                                ),
+//                                  ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              visibleOrder
+                  ? Positioned(
+                      right: 30.0,
+                      top: 120.0,
+                      child: Container(
+                        width: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: gold2,
+                          border: Border.all(color: Colors.grey)
+                        ),
+                        child: Column(
+                          children: orderlist.map((value) {
+                            fieldColor2 =
+                                value.orderColor ? Colors.white : gold2;
+
+                            Widget yearDropdown(String value) {
+                              if (value == orderlist[0].order) {
+                                return Container(
+                                    height: 30,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                      ),
+                                      color: fieldColor2,
+                                    ),
+//                                child: Center(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        value,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+//                                ),
+                                    );
+                              } else if (value == orderlist.last.order) {
+                                return Container(
+                                    height: 30,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                      color: fieldColor2,
+                                    ),
+//                                child: Center(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        value,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+//                                ),
+                                    );
+                              } else {
+                                return Container(
+                                    height: 30,
+                                    width: 150,
+                                    color: fieldColor2,
+//                                child: Center(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        value,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+//                                ),
+                                    );
+                              }
+                            }
+
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  orders = value.order;
+                                  visibleOrder = !visibleOrder;
+
+                                  orderlist
+                                      .forEach((f) => f.orderColor = false);
+
+                                  value.orderColor = !value.orderColor;
+                                });
+                              },
+//                              child: Expanded(
+
+//                                child: GestureDetector(
+//                                    onTap: () {
+//                                      setState(() {
+//                                        year = value;
+//                                        visibleTest = !visibleTest;
+//                                      });
+//                                    },
+                              child: yearDropdown(value.order),
+//                                ),
+//                                  ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ),
@@ -561,10 +946,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
       child: Align(
         alignment: Alignment.center,
         child: Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
+          width: MediaQuery.of(context).size.width,
           height: 400,
           child: FractionallySizedBox(
 //                                color: Colors.black,
@@ -594,8 +976,6 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
   }
 
   Widget getCorosel2(ValueRecordOrder data) {
-
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -609,19 +989,21 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-                  Text('PURCHASE #:',
-                    style: TextStyle(fontWeight: FontWeight.bold),),
-                  Text(data.invoice,
-                    style: TextStyle(fontWeight: FontWeight.bold),),
-                  SizedBox(width: 20,),
-
+                  Text(
+                    'PURCHASE #:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    data.invoice,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
                 ],
               ),
             ),
-
-
             Container(
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -629,25 +1011,49 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                       onTap: () {
                         generalToast('Go to cart page');
                       },
-                      child: Icon(Icons.shopping_cart, color: gold2,)),
-                  Container(height: 2, width: 30, color: gold2,),
+                      child: Icon(
+                        Icons.shopping_cart,
+                        color: gold2,
+                      )),
+                  Container(
+                    height: 2,
+                    width: 30,
+                    color: gold2,
+                  ),
                   InkWell(
                       onTap: () {
                         generalToast('Go to ship page');
                       },
-                      child: Icon(Icons.local_shipping, color: Colors.grey,)),
-                  Container(height: 2, width: 30, color: Colors.grey,),
+                      child: Icon(
+                        Icons.local_shipping,
+                        color: Colors.grey,
+                      )),
+                  Container(
+                    height: 2,
+                    width: 30,
+                    color: Colors.grey,
+                  ),
                   InkWell(
                       onTap: () {
                         generalToast('Go to receive page');
                       },
-                      child: Icon(Icons.archive, color: Colors.grey,)),
-                  Container(height: 2, width: 30, color: Colors.grey,),
+                      child: Icon(
+                        Icons.archive,
+                        color: Colors.grey,
+                      )),
+                  Container(
+                    height: 2,
+                    width: 30,
+                    color: Colors.grey,
+                  ),
                   InkWell(
                       onTap: () {
                         generalToast('Go to complete page');
                       },
-                      child: Icon(Icons.check_circle, color: Colors.grey,))
+                      child: Icon(
+                        Icons.check_circle,
+                        color: Colors.grey,
+                      ))
                 ],
               ),
             ),
@@ -656,10 +1062,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
               child: Container(
 //                                color: Colors.black,
                 width: double.infinity,
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.28,
+                height: MediaQuery.of(context).size.height * 0.28,
 //            padding: EdgeInsets.only(left: 50,right: 50),
                 child: CarouselSlider(
 //            boxFit: BoxFit.fitHeight,
@@ -679,7 +1082,7 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                                 decoration: BoxDecoration(
 //                                  border: Border.all(
 //                                      color: frameBorder, width: 2),
-                                ),
+                                    ),
                                 child: Image.network(
                                   i.img,
                                   fit: BoxFit.fitHeight,
@@ -691,7 +1094,6 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                       },
                     );
                   }).toList(),
-
 
 //            data.images.map((String i) => NetworkImage(i)).toList(),
 //            animationCurve: Curves.easeInToLinear,
@@ -707,20 +1109,19 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
 
                   initialPage: _current,
                   onPageChanged: (index) {
-                    frameBorder = data.img[index].frameimg ? gold2 : Colors.white;
+                    frameBorder =
+                        data.img[index].frameimg ? gold2 : Colors.white;
                     setState(() {
                       test = data.img[index].img;
-
 
                       data.img.forEach((f) => f.frameimg = false);
 
                       data.img[index].frameimg = !data.img[index].frameimg;
-                      frameBorder = data.img[index].frameimg ? gold2 : Colors.white;
+                      frameBorder =
+                          data.img[index].frameimg ? gold2 : Colors.white;
 
 //                      if (index == 0)
 //                        frame = true;
-
-
 
 //                vHeight = 600;
 //                return Transform.scale(
@@ -755,7 +1156,6 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                 ),
               ),
             ),
-
             Row(
               children: <Widget>[
                 Expanded(
@@ -773,9 +1173,12 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Center(child: Text('Invoice',
+                          child: Center(
+                              child: Text(
+                            'Invoice',
                             style: TextStyle(fontSize: 15),
-                            textAlign: TextAlign.center,))),
+                            textAlign: TextAlign.center,
+                          ))),
                     ),
                   ),
                 ),
@@ -789,9 +1192,12 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Center(child: Text('Receipt',
+                          child: Center(
+                              child: Text(
+                            'Receipt',
                             style: TextStyle(fontSize: 15),
-                            textAlign: TextAlign.center,))),
+                            textAlign: TextAlign.center,
+                          ))),
                     ),
                   ),
                 ),
@@ -809,9 +1215,12 @@ class _ValueRecords2State extends State<ValueRecords2Home> {
                             borderRadius: BorderRadius.circular(5),
                             color: Constants.gold2,
                           ),
-                          child: Center(child: Text('Buy It Again',
+                          child: Center(
+                              child: Text(
+                            'Buy It Again',
                             style: TextStyle(fontSize: 15),
-                            textAlign: TextAlign.center,))),
+                            textAlign: TextAlign.center,
+                          ))),
                     ),
                   ),
                 ),
