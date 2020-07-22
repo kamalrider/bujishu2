@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:Bujishu/constant.dart';
@@ -29,14 +28,14 @@ Future<List<Modelt>> fetchAlbum() async {
 
   return (responseJson as List)
       .map((e) => Modelt.fromJson((e as Map).map(
-        (k, e) => MapEntry(k as String, e),
-  )))
+            (k, e) => MapEntry(k as String, e),
+          )))
       .toList();
 }
 
 Future<APICategory> fetchChild(String value) async {
   final response =
-  await http.get(Constants.web + 'categories/' + value + '/childs');
+      await http.get(Constants.web + 'categories/' + value + '/childs');
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -109,7 +108,7 @@ class APICategory {
     var list = json['childCategories'] as List;
 
     List<ChildCat> childCatList =
-    list.map((f) => ChildCat.fromJson(f)).toList();
+        list.map((f) => ChildCat.fromJson(f)).toList();
 
     return APICategory(
       id: json['id'],
@@ -181,11 +180,11 @@ class ProductCategory extends StatelessWidget {
 }
 
 class ProductCategoryHomeAPI extends StatefulWidget {
-
   final int valueId;
   final int valueApi;
 
-  ProductCategoryHomeAPI({Key key, this.valueId, this.valueApi}) : super(key: key);
+  ProductCategoryHomeAPI({Key key, this.valueId, this.valueApi})
+      : super(key: key);
 
   @override
   _ProductCategoryHomeState createState() => _ProductCategoryHomeState();
@@ -207,9 +206,6 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
 
   var listChild = List<APICategory>();
 
-
-
-
   getFetchDataApi() async {
     final listChildLocal = List<APICategory>();
     final filterData = await getListFilter();
@@ -225,7 +221,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
       if (count == filterData.length) {
         setState(() {
           listChild = listChildLocal;
-          listChild.sort((a,b) => a.id.compareTo(b.id));
+          listChild.sort((a, b) => a.id.compareTo(b.id));
         });
       }
     });
@@ -235,7 +231,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
     final list = await fetchAlbum();
 
     List<Modelt> filter =
-    list.where((i) => i.parentCategoryId == widget.valueApi).toList();
+        list.where((i) => i.parentCategoryId == widget.valueApi).toList();
 
     return filter;
   }
@@ -249,7 +245,7 @@ class _ProductCategoryHomeState extends State<ProductCategoryHomeAPI> {
         width: 200,
         child: NavDrawer(),
       ),
-appBar: GeneralAppBar(context),
+      appBar: GeneralAppBar(context),
       body: Container(
         child: Column(
           children: <Widget>[
@@ -308,7 +304,7 @@ appBar: GeneralAppBar(context),
 //                                ),
                                 SizedBox(
                                   height:
-                                  MediaQuery.of(context).size.height * 0.02,
+                                      MediaQuery.of(context).size.height * 0.02,
                                 ),
 //                                Container(
 //                                  padding: EdgeInsets.only(left: 20),
@@ -339,7 +335,7 @@ appBar: GeneralAppBar(context),
                                 ),
                                 SizedBox(
                                   height:
-                                  MediaQuery.of(context).size.height * 0.02,
+                                      MediaQuery.of(context).size.height * 0.02,
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 10, right: 10),
@@ -350,7 +346,7 @@ appBar: GeneralAppBar(context),
                                 ),
                                 SizedBox(
                                   height:
-                                  MediaQuery.of(context).size.height * 0.05,
+                                      MediaQuery.of(context).size.height * 0.05,
                                 ),
                               ],
                             ),
@@ -396,25 +392,25 @@ appBar: GeneralAppBar(context),
 
                     listChild.length > 0
                         ? SliverGrid(
-                      gridDelegate:
-                      SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                          return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: listChild[index]
-                                  .childCatList
-                                  .length >
-                                  1
-                                  ? getImagesAnimated(listChild[index])
-                                  : getImages(listChild[index]));
-                        },
-                        childCount: listChild.length,
-                      ),
-                    )
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                                return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: listChild[index]
+                                                .childCatList
+                                                .length >
+                                            1
+                                        ? getImagesAnimated(listChild[index])
+                                        : getImages(listChild[index]));
+                              },
+                              childCount: listChild.length,
+                            ),
+                          )
                         : SliverToBoxAdapter(
-                        child: Center(child: CircularProgressIndicator()))
+                            child: Center(child: CircularProgressIndicator()))
                   ],
                 ),
                 onPressed: () {
@@ -423,7 +419,6 @@ appBar: GeneralAppBar(context),
                       listChild.forEach((f) {
                         f.expended = false;
                       });
-
                     });
                   });
                 },
@@ -462,9 +457,11 @@ appBar: GeneralAppBar(context),
             Expanded(
               flex: 0,
               child: Container(
-margin:EdgeInsets.fromLTRB(0, 2, 0, 2),
-                child: Text('@2020 Bujishu. All Rights Reserved', style: TextStyle(color: Colors.black, fontSize: 12),),
-
+                margin: EdgeInsets.fromLTRB(0, 2, 0, 2),
+                child: Text(
+                  '@2020 Bujishu. All Rights Reserved',
+                  style: TextStyle(color: Colors.black, fontSize: 12),
+                ),
               ),
             )
           ],
@@ -611,61 +608,61 @@ margin:EdgeInsets.fromLTRB(0, 2, 0, 2),
     return GestureDetector(
       child: Container(
           child: Column(
-            children: <Widget>[
-              Expanded(
-                child: Image.network(
-                  item.image.imageUrl,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(4),
-                child: Text(item.name),
-              ),
+        children: <Widget>[
+          Expanded(
+            child: Image.network(
+              item.image.imageUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(4),
+            child: Text(item.name),
+          ),
 
 //                animateContainer,
-              AnimatedContainer(
-                height: containerHeight,
-                duration: Duration(seconds: 1),
-                curve: Curves.fastOutSlowIn,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Divider(
-                        height: 6,
-                        color: Colors.grey,
+          AnimatedContainer(
+            height: containerHeight,
+            duration: Duration(seconds: 1),
+            curve: Curves.fastOutSlowIn,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: Divider(
+                    height: 6,
+                    color: Colors.grey,
+                  ),
+                ),
+                Column(
+                  children: item.childCatList.map((list) {
+                    return InkWell(
+                      child: Text(
+                        list.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12),
                       ),
-                    ),
-                    Column(
-                      children: item.childCatList.map((list) {
-                        return InkWell(
-                          child: Text(
-                            list.name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 12),
+                      onTap: () {
+                        var route = new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new ProductDetailHome(
+                            value: list.id,
+                            pageKey: 1,
+                            APIId: widget.valueApi.toString(),
                           ),
-                          onTap: () {
-                            var route = new MaterialPageRoute(
-                              builder: (BuildContext context) => new ProductDetailHome(
-                                value: list.id,
-                                pageKey: 1,
-                                APIId: widget.valueApi.toString(),
-                              ),
-                            );
+                        );
 
 //                if (childnum == 0)
-                            Navigator.of(context).push(route);
-
-                          },
-                        );
-                      }).toList(),
-                    )
-                  ],
-                ),
-              )
-            ],
-          )),
+                        Navigator.of(context).push(route);
+                      },
+                    );
+                  }).toList(),
+                )
+              ],
+            ),
+          )
+        ],
+      )),
       onTap: () {
         setState(() {
           setState(() {
