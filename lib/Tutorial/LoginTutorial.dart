@@ -110,7 +110,7 @@ class _MyHomePageState extends State<LoginTutorialPage> {
         });
         sharedPreferences.setString("token", jsonResponse['token']);
 
-        insertUser(jsonResponse['token'], jsonResponse['email'], /*jsonResponse['userId']*/ jsonResponse['name']);
+        insertUser(jsonResponse['token'], jsonResponse['email'], jsonResponse['userId'], jsonResponse['name']);
 
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
@@ -472,9 +472,9 @@ class _MyHomePageState extends State<LoginTutorialPage> {
   }
 }
 
-void insertUser(String token, String user_email,/*int user_nicename,*/ String user_display_name ){
+void insertUser(String token, String user_email,int user_nicename, String user_display_name ){
   DbUserManager dbUserManager = DbUserManager();
-  User users = User( token: token, user_email: user_email, /*user_nicename: user_nicename, */user_display_name: user_display_name);
+  User users = User( token: token, user_email: user_email, user_nicename: user_nicename, user_display_name: user_display_name);
   dbUserManager.insertUser(users).then((value) => {
     print('success to' + value.toString(),)
   });
