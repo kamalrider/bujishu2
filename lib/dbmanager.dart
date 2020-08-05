@@ -39,7 +39,7 @@ class User {
   int id;
   String token;
   String user_email;
-  String user_nicename;
+  int user_nicename;
   String user_display_name;
 
   User({

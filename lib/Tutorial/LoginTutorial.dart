@@ -472,7 +472,7 @@ class _MyHomePageState extends State<LoginTutorialPage> {
   }
 }
 
-void insertUser(String token, String user_email, String user_nicename, String user_display_name ){
+void insertUser(String token, String user_email, int user_nicename, String user_display_name ){
   DbUserManager dbUserManager = DbUserManager();
   User users = User(id:1, token: token, user_email: user_email, user_nicename: user_nicename, user_display_name: user_display_name);
   dbUserManager.insertUser(users);
