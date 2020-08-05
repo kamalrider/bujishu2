@@ -1,3 +1,4 @@
+import 'package:Bujishu/dbmanager.dart';
 import 'package:Bujishu/product_and_category/model/category.dart';
 import 'package:Bujishu/product_and_category/model/productlist.dart';
 import 'package:Bujishu/product_and_category/view/product_by_categoryqwer2.dart';
@@ -86,6 +87,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
   //Map<String, int> map = {imageList:_current};
 
+  final DbUserManager dbUserManager = DbUserManager();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -108,6 +111,19 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             children: <Widget>[
               SizedBox(
                 height: 2,
+              ),
+
+              Flexible(
+                flex: 2,
+                child: FutureBuilder<List<User>>(
+                  future: dbUserManager.getUser(),
+                  builder: (context, snapshot){
+                    String t = snapshot.data[0].user_display_name;
+                    int u = t.length;
+
+                    return Text(t, style: TextStyle(color: Colors.white),);
+                  },
+                ),
               ),
 
               Flexible(

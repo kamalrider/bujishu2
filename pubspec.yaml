@@ -38,6 +38,8 @@ dependencies:
   url_launcher: ^5.4.0
   map_launcher: ^0.5.0
   file_picker: ^1.4.2
+  sqflite:
+  path:
 
 
 
